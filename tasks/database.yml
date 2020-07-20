@@ -1,11 +1,32 @@
 ---
 # tasks file for iptv_analyzer
 
+# Add system user for MariaDB
+- name: Create daemon group for MariaDB
+  group:
+    name: "{{ iptv_analyzer_database_system_user.name }}"
+    gid: "{{ iptv_analyzer_database_system_user.gid }}"
+    system: true
+    state: present
+
+
+- name: Create daemon user for MariaDB
+  user:
+    name: "{{ iptv_analyzer_database_system_user.name }}"
+    uid: "{{ iptv_analyzer_database_system_user.uid }}"
+    system: true
+    group: "{{ iptv_analyzer_database_system_user.name }}"
+    comment: "{{ iptv_analyzer_database_system_user.comment }}"
+    home: "{{ iptv_analyzer_database_system_user.home }}"
+    create_home: false
+    shell: "{{ iptv_analyzer_database_system_user.shell }}"
+
 
 # Install mariadb and client
 - name: Update repositories cache and install database packages
   apt:
     name: "{{ iptv_analyzer_database_install_packages }}"
+    state: installed
     update_cache: yes
   become: true
 
