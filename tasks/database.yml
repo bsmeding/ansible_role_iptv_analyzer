@@ -210,6 +210,8 @@
     state: present
   no_log: true
   with_items: "{{ iptv_analyzer_collectors }}"
+  loop_var:
+    label: "{{ item.hostname }}"
 
 ### END ADD USERS
 
