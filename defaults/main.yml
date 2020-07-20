@@ -27,9 +27,9 @@ iptv_analyzer_database_install_packages:
   - mariadb-client
   - python3-pymysql
 iptv_analyzer_database_mariadb_socket: /var/run/mysqld/mysqld.sock
-iptv_analyzer_database_user: 'tvprobe'
-iptv_analyzer_database_password: 'tvprobepasswd'
-iptv_analyzer_database_bind_address: '127.0.0.1'     # Defaults install to localhost 127.0.0.1.
+iptv_analyzer_database_user: 'tvprobe'              # default user Min 6 characters!, please use seperate accounts, see iptv_analyzer_collectors.
+iptv_analyzer_database_password: 'tvprobepasswd'    # default user Min 6 characters!, please use seperate accounts, see iptv_analyzer_collectors
+iptv_analyzer_database_bind_address: '127.0.0.1'    # Defaults install to localhost 127.0.0.1.
 iptv_analyzer_database_name: 'tvprobe'
 iptv_analyzer_database_init_script: 'database-schema-latest.sql'
 
@@ -52,4 +52,17 @@ iptv_analyzer_collector_install_packages:
   - mariadb-client
 iptv_analyzer_collector_interface: 'eth0'
 iptv_analyzer_collectors:
-  - name:
+  - hostname: 'localhost'
+    description: 'localhost test device'
+    ip_address: '127.0.0.1'
+    location: 'local machine'
+    shortloc: 'local'
+    address: 'test street 1'
+    distance: 2
+    switch: 'testswitch1'
+    switchport: 'e1/2'
+    switchtype: 'Genexis'
+    hidden: no
+    interface: eth0       # used for rpbe: input rule_in_eth0 and input_dev and procfile
+    db_user: probe1
+    db_password: password1
