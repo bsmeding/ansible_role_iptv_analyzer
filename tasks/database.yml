@@ -69,7 +69,7 @@
 
 - name: Check for previously set unix_socket in plugin column
   command: >
-    mysql -N -s -S {{ iptv_analyzer_database_mariadb_socket }} -u root -e
+    mysql -N -s -S {{ iptv_analyzer_database_mariadb_socket }} -u root -p{{ iptv_analyzer_database_root_password }} -e
     "SELECT plugin from mysql.user WHERE user = 'root'"
   register: plugin_root_result
   changed_when: plugin_root_result.stdout is search('unix_socket')
