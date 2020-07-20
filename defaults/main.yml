@@ -25,7 +25,7 @@ iptv_analyzer_database_install_local_web_portal: false  # When true, node and a 
 iptv_analyzer_database_install_packages:
   - mariadb-server
   - mariadb-client
-  - python3-PyMySQL
+  - python3-pymysql
 iptv_analyzer_database_mariadb_socket: /var/run/mysqld/mysqld.sock
 iptv_analyzer_database_user: 'tvprobe'
 iptv_analyzer_database_password: 'tvprobepasswd'
