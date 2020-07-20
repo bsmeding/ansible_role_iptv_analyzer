@@ -164,7 +164,7 @@
 - name: Clone repo to temp dir
   git:
     repo: "{{ iptv_analyzer_git_repo }}"
-    dest: /tmp/
+    dest: /tmp/iptv_analyzer
 
 - name: Copy database init scripts
   template:  # noqa 503
