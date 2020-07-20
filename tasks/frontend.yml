@@ -26,15 +26,23 @@
     update_cache: yes
   become: true
 
+
+## TODO Add user, group and clone to seperate user home dir
+
 - name: Clone repo to temp dir
   git:
     repo: "{{ iptv_analyzer_git_repo }}"
     dest: /tmp/iptv_analyzer
     update: yes
 
-
-
-
 - name: Install NodeJS Webfrontend
   npm:
     path: /tmp/iptv_analyzer/nodejs/
+
+- name: Check if config file exist
+  stat: path=/tmp/iptv_anlyzer/config.js
+  register: frontend_config_stat
+
+- name: Copy config file sample to config
+  command: cp /tmp/iptv_anlyzer/config.js.sample /tmp/iptv_anlyzer/config.js
+  when: not frontend_config_stat.stat.exists
