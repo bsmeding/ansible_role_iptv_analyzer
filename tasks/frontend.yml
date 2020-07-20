@@ -66,15 +66,18 @@
     path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
     regexp: '^config.http_port ='
     line: "config.http_port = {{ iptv_analyzer_database_frontend_port }};"
+  become: true
 
 - name: Set username starting frontend
   lineinfile:
     path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
     regexp: '^config.linux_user ='
     line: "config.linux_user = {{ iptv_analyzer_database_frontend_username }};"
+  become: true
 
 - name: Set listening port of frontend
   lineinfile:
     path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
     regexp: '^config.linux_group ='
     line: "config.linux_group = {{ iptv_analyzer_database_frontend_username }};"
+  become: true
