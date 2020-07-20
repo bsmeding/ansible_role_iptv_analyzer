@@ -13,7 +13,7 @@
     dest: /tmp/node_12_source.sh
 
 - name: Execute node source script
-  shell: node_12_source.sh
+  shell: ./node_12_source.sh
   args:
     chdir: /tmp
   become: true
