@@ -165,6 +165,7 @@
   git:
     repo: "{{ iptv_analyzer_git_repo }}"
     dest: /tmp/iptv_analyzer
+    update: yes
 
 - name: Copy database init scripts
   template:  # noqa 503
@@ -179,7 +180,7 @@
   mysql_db:  # noqa 503
     name: "{{ iptv_analyzer_database_name }}"
     state: import
-    target: "/tmp/{{ iptv_analyzer_database_init_script|basename }}"
+    target: "/tmp/iptv_analyzer/database/{{ iptv_analyzer_database_init_script|basename }}"
     login_user: root
     login_password: "{{ iptv_analyzer_database_root_password }}"
     login_unix_socket: "{{ iptv_analyzer_database_mariadb_socket }}"
