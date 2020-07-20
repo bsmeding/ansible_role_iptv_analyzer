@@ -55,6 +55,26 @@
   register: frontend_config_stat
 
 - name: Copy config file sample to config
-  command: "cp /home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js.sample /home/{{ iptv_analyzer_database_frondend_username }}/iptv_analyzer/nodejs/config.js"
+  command: "cp /home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js.sample /home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
   when: not frontend_config_stat.stat.exists
   become: true
+
+## Change config
+
+- name: Set listening port of frontend
+  lineinfile:
+    path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
+    regexp: '^config.http_port ='
+    line: "config.http_port = {{ iptv_analyzer_database_frontend_port }};"
+
+- name: Set username starting frontend
+  lineinfile:
+    path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
+    regexp: '^config.linux_user ='
+    line: "config.linux_user = {{ iptv_analyzer_database_frontend_username }};"
+
+- name: Set listening port of frontend
+  lineinfile:
+    path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
+    regexp: '^config.linux_group ='
+    line: "config.linux_group = {{ iptv_analyzer_database_frontend_username }};"
