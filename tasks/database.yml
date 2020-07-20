@@ -28,7 +28,7 @@
 - name: Update repositories cache and install database packages
   apt:
     name: "{{ iptv_analyzer_database_install_packages }}"
-    state: installed
+    state: present
     update_cache: yes
   become: true
 
