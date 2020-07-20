@@ -127,8 +127,8 @@
   mysql_db:
     name: test
     login_user: root
-    login_password: "{{ mariadb_root_password }}"
-    login_unix_socket: "{{ mariadb_socket }}"
+    login_password: "{{ iptv_analyzer_database_root_password }}"
+    login_unix_socket: "{{ iptv_analyzer_database_mariadb_socket }}"
     state: absent
 
 
