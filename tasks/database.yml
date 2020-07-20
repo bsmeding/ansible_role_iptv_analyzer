@@ -8,7 +8,7 @@
     gid: "{{ iptv_analyzer_database_system_user.gid }}"
     system: true
     state: present
-  failed_when: false    # Is already exist, do not fail
+  
 
 - name: Create daemon user for MariaDB
   user:
