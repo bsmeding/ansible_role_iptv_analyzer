@@ -60,10 +60,22 @@
 # Repeat runs with the same password can continue idempotently, otherwise fail.
 - name: Check if the specified root password is already set
   shell: >
-    mysqladmin -u root -p{{ iptv_analyzer_database_root_password }} status
+    mysqladmin -u root -p {{ iptv_analyzer_database_root_password }} status
   changed_when: false
+  ignore_errors: true
   no_log: true
+  register: root_pwd_check2
   when: root_pwd_check.rc != 0
+
+- name: Check if empty root password is set
+  shell: >
+    mysqladmin -u root status
+  changed_when: false
+  ignore_errors: true
+  no_log: true
+  register: root_pwd_check2
+  when: root_pwd_check2.rc != 0
+
 
 - name: Check for previously set unix_socket in plugin column
   command: >
