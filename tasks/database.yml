@@ -166,15 +166,7 @@
     repo: "{{ iptv_analyzer_git_repo }}"
     dest: /tmp/iptv_analyzer
     update: yes
-
-- name: Copy database init scripts
-  template:  # noqa 503
-    src: "{{ iptv_analyzer_database_init_script }}"
-    dest: "/tmp/{{ iptv_analyzer_database_init_script|basename }}"
-    mode: '0600'
-  with_items: "{{ db_creation.results }}"
   when: item.changed and iptv_analyzer_database_init_script is defined and iptv_analyzer_database_init_script|length>2
-
 
 - name: Initialise databases
   mysql_db:  # noqa 503
@@ -186,12 +178,12 @@
     login_unix_socket: "{{ iptv_analyzer_database_mariadb_socket }}"
   when: item.changed and iptv_analyzer_database_init_script is defined and iptv_analyzer_database_init_script|length>2
 
-- name: Delete init scripts from the server
-  file:  # noqa 503
-    name: "/tmp/{{ item.item.init_script|basename }}"
-    state: absent
-  with_items: "{{ db_creation.results }}"
-  when: item.changed and item.item.init_script is defined
+# - name: Delete init scripts from the server
+#   file:  # noqa 503
+#     name: "/tmp/{{ item.item.init_script|basename }}"
+#     state: absent
+#   with_items: "{{ db_creation.results }}"
+#   when: item.changed and item.item.init_script is defined
 
 ### ADD USERS
 - name: Create the users
