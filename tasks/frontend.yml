@@ -1,5 +1,13 @@
 ---
-- name: Add user "{{ iptv_analyzer_database_frondend_username }}"
+
+- name: Create daemon group for Frontend
+  group:
+    name: "{{ iptv_analyzer_database_frondend_username }}"
+    system: true
+    state: present
+  become: true
+
+- name: Create daemon  user "{{ iptv_analyzer_database_frondend_username }}"
   user:
     name: "{{ iptv_analyzer_database_frondend_username }}"
     groups: "{{ iptv_analyzer_database_frondend_username }}"
