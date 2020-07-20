@@ -131,7 +131,7 @@
     login_unix_socket: "{{ iptv_analyzer_database_mariadb_socket }}"
     state: absent
 
-- name: DEBUG: Delete user defined databases
+- name: DEBUG Delete user defined databases
   mysql_db:
     name: "{{ iptv_analyzer_database_name }}"
     login_user: root
