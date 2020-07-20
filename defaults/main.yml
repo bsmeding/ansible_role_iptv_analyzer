@@ -20,8 +20,8 @@ iptv_analyzer_database_install_packages:
   - mariadb-server
   - mariadb-client
 iptv_analyzer_database_user: 'tvprobe'
-iptv_analyzer_database_password: ''
-iptv_analyzer_database_bind_address: '0.0.0.0'     # Defaults install to 127.0.0.1.
+iptv_analyzer_database_password: 'tvprobepasswd'
+iptv_analyzer_database_bind_address: '127.0.0.1'     # Defaults install to localhost 127.0.0.1.
 
 
 #Collector
