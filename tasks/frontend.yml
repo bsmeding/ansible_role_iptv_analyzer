@@ -75,9 +75,25 @@
     line: "config.linux_user = {{ iptv_analyzer_database_frontend_username }};"
   become: true
 
-- name: Set listening port of frontend
+- name: Set user group  of frontend
   lineinfile:
     path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
     regexp: '^config.linux_group ='
     line: "config.linux_group = {{ iptv_analyzer_database_frontend_username }};"
   become: true
+
+- name: Set db username starting frontend
+  lineinfile:
+    path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
+    regexp: '^config.db_user ='
+    line: "config.db_user = {{ iptv_analyzer_database_user }};"
+  become: true
+
+- name: Set db password starting frontend
+  lineinfile:
+    path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
+    regexp: '^config.db_user ='
+    line: "config.db_user = {{ iptv_analyzer_database_password }};"
+  become: true
+
+  
