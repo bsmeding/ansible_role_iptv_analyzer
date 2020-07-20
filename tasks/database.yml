@@ -208,10 +208,10 @@
     login_password: "{{ iptv_analyzer_database_root_password }}"
     login_unix_socket: "{{ iptv_analyzer_database_mariadb_socket }}"
     state: present
-  no_log: true
+#  no_log: true
   with_items: "{{ iptv_analyzer_collectors }}"
   loop_control:
-    label: "{{ item.hostname }}"
+    label: "{{ item.hostname }} - {{ item.db_user }}"
 
 ### END ADD USERS
 
