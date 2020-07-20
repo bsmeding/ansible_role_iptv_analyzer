@@ -13,7 +13,7 @@ cmd_kerel_version: `uname -r`       # command to get kernel version of Linux, sa
 kernel_package: linux-headers-{{ kernel_version }}
 
 # Database
-iptv_analyzer_database_server_hostname: localhost    # When matches with inventory_hostname the database will be installed and this will be used in config files (of not overwritten with database IP)
+iptv_analyzer_install_database: false    # When matches with inventory_hostname the database will be installed and this will be used in config files (of not overwritten with database IP)
 iptv_analyzer_database_server_ip: ''  # when given, the IP address will be used in config files. Can be used if FQDN cannot be resolved or mysql cluster is used
 iptv_analyzer_database_install_local_web_portal: false  # When true, node and a node web server will be installed on the database server. default false as we use grafana as frontend
 iptv_analyzer_database_install_packages:
