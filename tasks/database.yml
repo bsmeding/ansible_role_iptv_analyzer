@@ -161,7 +161,7 @@
 - name: Clone repo to temp dir
   git:
     repo: "{{ iptv_analyzer_git_repo }}"
-    dest: /opt/iptv_analyzer
+    dest: /tmp/iptv_analyzer
     update: yes
   when: db_creation.changed and iptv_analyzer_database_init_script is defined and iptv_analyzer_database_init_script|length>2
 
@@ -169,7 +169,7 @@
   mysql_db:  # noqa 503
     name: "{{ iptv_analyzer_database_name }}"
     state: import
-    target: "/opt/iptv_analyzer/database/{{ iptv_analyzer_database_init_script|basename }}"
+    target: "/tmp/iptv_analyzer/database/{{ iptv_analyzer_database_init_script|basename }}"
     login_user: root
     login_password: "{{ iptv_analyzer_database_root_password }}"
     login_unix_socket: "{{ iptv_analyzer_database_mariadb_socket }}"

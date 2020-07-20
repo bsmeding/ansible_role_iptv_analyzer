@@ -29,11 +29,12 @@
 - name: Clone repo to temp dir
   git:
     repo: "{{ iptv_analyzer_git_repo }}"
-    dest: /opt/iptv_analyzer
+    dest: /tmp/iptv_analyzer
     update: yes
+
 
 
 
 - name: Install NodeJS Webfrontend
   npm:
-    path: /opt/iptv_analyzer/nodejs/
+    path: /tmp/iptv_analyzer/nodejs/
