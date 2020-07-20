@@ -64,22 +64,9 @@
   changed_when: false
   ignore_errors: true
   no_log: true
-  register: root_pwd_check2
   when: root_pwd_check.rc != 0
-
-- name: Check if empty root password is set from root user
-  shell: >
-    mysqladmin -u root status
-  changed_when: false
-  ignore_errors: true
-  no_log: true
-  register: root_pwd_check_root_user
   become: true
-  when: root_pwd_check2.rc != 0
 
-- debug:
-    var: root_pwd_check_root_user
-    
 - name: Check for previously set unix_socket in plugin column
   command: >
     mysql -N -s -S {{ iptv_analyzer_database_mariadb_socket }} -u root -e
@@ -87,6 +74,7 @@
   register: plugin_root_result
   changed_when: plugin_root_result.stdout is search('unix_socket')
   when: root_pwd_check.rc == 0
+  become: true
 
 - name: Set MariaDB root password for the first time (root@localhost)
   mysql_user:
@@ -96,6 +84,7 @@
     login_unix_socket: "{{ iptv_analyzer_database_mariadb_socket }}"
     state: present
   when: root_pwd_check.rc != 0
+  become: true
 
 - name: Remove unix_socket plugin if previously set
   command: >
@@ -104,6 +93,7 @@
   when:
     - root_pwd_check.rc == 0
     - plugin_root_result.stdout is search('unix_socket')
+  become: true
 
 - name: Set MariaDB root password for 127.0.0.1, ::1, FQDN
   mysql_user:
@@ -119,7 +109,7 @@
     - 127.0.0.1
     - "{{ ansible_fqdn }}"
   when: root_pwd_check.rc == 0
-
+  become: true
 ### END ROOT USER SETTINGS
 
 ### REMOVE ANONYMOUS USER
