@@ -30,7 +30,7 @@ iptv_analyzer_database_mariadb_socket: /var/run/mysqld/mysqld.sock
 iptv_analyzer_database_user: 'tvprobe'
 iptv_analyzer_database_password: 'tvprobepasswd'
 iptv_analyzer_database_bind_address: '127.0.0.1'     # Defaults install to localhost 127.0.0.1.
-
+iptv_analyzer_database_name: 'tvprobe'
 
 #Collector
 iptv_analyzer_collector_cmd_kerel_version: 'uname -r'      # command to get kernel version of Linux, saved as 'kernel_version' variable
@@ -50,3 +50,5 @@ iptv_analyzer_collector_install_packages:
   - liblog-dispatch-perl
   - mariadb-client
 iptv_analyzer_collector_interface: 'eth0'
+iptv_analyzer_collectors:
+  - name:
