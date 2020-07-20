@@ -2,12 +2,14 @@
 # tasks file for iptv_analyzer
 
 # Install database
-- name: Incluse database tasks
+- name: Include database tasks
   include_tasks: database.yml
   when: iptv_analyzer_install_database|bool
 
 # install frontend
-
+- name: Include local database frontend tasks
+  include_tasks: frontend.yml
+  when: iptv_analyzer_database_install_frontend|bool
 
 
 # install collector
