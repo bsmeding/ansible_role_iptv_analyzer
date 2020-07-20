@@ -31,6 +31,7 @@ iptv_analyzer_database_user: 'tvprobe'
 iptv_analyzer_database_password: 'tvprobepasswd'
 iptv_analyzer_database_bind_address: '127.0.0.1'     # Defaults install to localhost 127.0.0.1.
 iptv_analyzer_database_name: 'tvprobe'
+iptv_analyzer_database_init_script: ''
 
 #Collector
 iptv_analyzer_collector_cmd_kerel_version: 'uname -r'      # command to get kernel version of Linux, saved as 'kernel_version' variable
