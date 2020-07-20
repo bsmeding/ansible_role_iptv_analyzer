@@ -9,7 +9,7 @@ grafana_server_install_dashboard: true   # Install IPTV dashboard on grafana ser
 grafana_server_dashboard_path: ''
 
 
-cmd_kerel_version: `uname -r`       # command to get kernel version of Linux, saved as 'kernel_version' variable
+cmd_kerel_version: 'uname -r'      # command to get kernel version of Linux, saved as 'kernel_version' variable
 kernel_package: linux-headers-{{ kernel_version }}
 
 # Database
