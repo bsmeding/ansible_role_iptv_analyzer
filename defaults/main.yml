@@ -1,0 +1,42 @@
+---
+# defaults file for iptv_analyzer
+
+iptv_analyzer_git_repo: 'https://github.com/bsmeding/IPTV-Analyzer'     # Repo of IPTV analyzer to install and build. Also used on database server to import schema
+
+# Please install Grafana on forehand example: ansible-galaxy install cloudalchemy.grafana
+grafana_server: ''    # Grafana server
+grafana_server_install_dashboard: true   # Install IPTV dashboard on grafana server
+grafana_server_dashboard_path: ''
+
+
+cmd_kerel_version: `uname -r`       # command to get kernel version of Linux, saved as 'kernel_version' variable
+kernel_package: linux-headers-{{ kernel_version }}
+
+# Database
+iptv_analyzer_database_server_hostname: localhost    # When matches with inventory_hostname the database will be installed and this will be used in config files (of not overwritten with database IP)
+iptv_analyzer_database_server_ip: ''  # when given, the IP address will be used in config files. Can be used if FQDN cannot be resolved or mysql cluster is used
+iptv_analyzer_database_install_local_web_portal: false  # When true, node and a node web server will be installed on the database server. default false as we use grafana as frontend
+iptv_analyzer_database_install_packages:
+  - mariadb-server
+  - mariadb-client
+iptv_analyzer_database_user: 'tvprobe'
+iptv_analyzer_database_password: ''
+iptv_analyzer_database_bind_address: '0.0.0.0'     # Defaults install to 127.0.0.1.
+
+
+#Collector
+iptv_analyzer_collector_install_packages:
+  - autoconf
+  - git
+  - gcc
+  - make
+  - libxtables-dev
+  - libproc-daemon-perl
+  - libproc-pid-file-perl
+  - libconfig-file-perl
+  - libdata-compare-perl
+  - liblog-log4perl-perl
+  - libnet-snmp-perl
+  - liblog-dispatch-perl
+  - mariadb-client
+iptv_analyzer_collector_interface: 'eth0'

@@ -1,0 +1,5 @@
+src: cloudalchemy.grafana
+
+collections:
+  - name: community.grafana
+    version: v0.1.0
