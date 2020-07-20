@@ -41,7 +41,7 @@
       - iptv_analyzer_database_root_password != None
       - iptv_analyzer_database_root_password|length >6
     fail_msg: >
-      Warning!! the MariaDB root password was left empty. Please set a custom
+      Warning!! the MariaDB root password was left empty or <6 characters. Please set a custom
       password with role variable iptv_analyzer_database_root_password to secure your database
       server!
 
@@ -74,7 +74,7 @@
   register: plugin_root_result
   changed_when: plugin_root_result.stdout is search('unix_socket')
   when: root_pwd_check.rc == 0
-  become: true
+  #become: true
 
 - name: Set MariaDB root password for the first time (root@localhost)
   mysql_user:
