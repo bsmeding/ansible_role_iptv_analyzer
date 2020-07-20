@@ -40,7 +40,7 @@
     path: /tmp/iptv_analyzer/nodejs/
 
 - name: Check if config file exist
-  stat: path=/tmp/iptv_analyzer/nodejs/config.js.sample
+  stat: path=/tmp/iptv_analyzer/nodejs/config.js
   register: frontend_config_stat
 
 - name: Copy config file sample to config
