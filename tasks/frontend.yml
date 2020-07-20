@@ -57,3 +57,4 @@
 - name: Copy config file sample to config
   command: "cp /home/{{ iptv_analyzer_database_frondend_username }}/iptv_analyzer/nodejs/config.js.sample /home/{{ iptv_analyzer_database_frondend_username }}/iptv_analyzer/nodejs/config.js"
   when: not frontend_config_stat.stat.exists
+  become: true
