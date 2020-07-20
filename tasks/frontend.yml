@@ -2,15 +2,15 @@
 
 - name: Create daemon group for Frontend
   group:
-    name: "{{ iptv_analyzer_database_frondend_username }}"
+    name: "{{ iptv_analyzer_database_frontend_username }}"
     system: true
     state: present
   become: true
 
-- name: Create daemon  user "{{ iptv_analyzer_database_frondend_username }}"
+- name: Create daemon  user "{{ iptv_analyzer_database_frontend_username }}"
   user:
-    name: "{{ iptv_analyzer_database_frondend_username }}"
-    groups: "{{ iptv_analyzer_database_frondend_username }}"
+    name: "{{ iptv_analyzer_database_frontend_username }}"
+    groups: "{{ iptv_analyzer_database_frontend_username }}"
     shell: /sbin/nologin
     append: yes
     comment: "IPTV Analyzer frontend user"
@@ -42,19 +42,19 @@
 - name: Clone repo to temp dir
   git:
     repo: "{{ iptv_analyzer_git_repo }}"
-    dest: "/home/{{ iptv_analyzer_database_frondend_username }}/iptv_analyzer"
+    dest: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer"
     update: yes
   become: true
 
 - name: Install NodeJS Webfrontend
   npm:
-    path: "/home/{{ iptv_analyzer_database_frondend_username }}/iptv_analyzer"
+    path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer"
 
 - name: Check if config file exist
-  stat: "path=/home/{{ iptv_analyzer_database_frondend_username }}/iptv_analyzer/nodejs/config.js"
+  stat: "path=/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
   register: frontend_config_stat
 
 - name: Copy config file sample to config
-  command: "cp /home/{{ iptv_analyzer_database_frondend_username }}/iptv_analyzer/nodejs/config.js.sample /home/{{ iptv_analyzer_database_frondend_username }}/iptv_analyzer/nodejs/config.js"
+  command: "cp /home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js.sample /home/{{ iptv_analyzer_database_frondend_username }}/iptv_analyzer/nodejs/config.js"
   when: not frontend_config_stat.stat.exists
   become: true

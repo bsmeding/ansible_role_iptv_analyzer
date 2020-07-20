@@ -22,7 +22,8 @@ iptv_analyzer_database_system_user:     # Database system user
   comment: 'MySQL Server'
 iptv_analyzer_database_root_password: ''    # PLEASE CHANGE!! Root Password for MySQL
 iptv_analyzer_database_install_frontend: false  # When true, node and a node web server will be installed on the database server. default false as we use grafana as frontend
-iptv_analyzer_database_frondend_username: iptv_analyzer_fe
+iptv_analyzer_database_frontend_username: iptv_analyzer_fe
+iptv_analyzer_database_frontend_port: 80
 iptv_analyzer_database_install_packages:
   - mariadb-server
   - mariadb-client
