@@ -1,2 +1,26 @@
 ---
 # tasks file for iptv_analyzer
+# - name: Check if curl is installed
+#   apt:
+#     name: curl
+#     state: present
+#     update_cache: yes
+#   become: true
+
+- name: Get node source script
+  get_url:
+    url: https://deb.nodesource.com/setup_12.x
+    dest: /tmp/node_12_source.sh
+
+- name: Execute node source script
+  shell: node_12_source.sh
+  args:
+    chdir: /tmp
+  become: true
+
+- name: Update apt and install nodejs
+  apt:
+    name: nodejs
+    state: present
+    update_cache: yes
+  become: true
