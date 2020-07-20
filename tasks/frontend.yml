@@ -11,7 +11,7 @@
   get_url:
     url: https://deb.nodesource.com/setup_12.x
     dest: /tmp/node_12_source.sh
-    mode: '0777'
+    mode: a+x
 
 - name: Execute node source script
   shell: ./node_12_source.sh
