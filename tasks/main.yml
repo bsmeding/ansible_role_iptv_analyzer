@@ -2,8 +2,9 @@
 # tasks file for iptv_analyzer
 
 # Install database
-include_tasks: database.yml
-when: iptv_analyzer_install_database|bool
+- name: Incluse database tasks
+  include_tasks: database.yml
+  when: iptv_analyzer_install_database|bool
 
 # install frontend
 
