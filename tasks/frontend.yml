@@ -25,3 +25,15 @@
     state: present
     update_cache: yes
   become: true
+
+- name: Clone repo to temp dir
+  git:
+    repo: "{{ iptv_analyzer_git_repo }}"
+    dest: /opt/iptv_analyzer
+    update: yes
+
+
+
+- name: Install NodeJS Webfrontend
+  npm:
+    path: /opt/iptv_analyzer/nodejs/
