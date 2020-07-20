@@ -36,12 +36,14 @@
 
 ### ROOT USER SETTINGS
 - name: Check if a custom root password is specified
-  debug:
-    msg: >
+  assert:
+    that:
+      - iptv_analyzer_database_root_password != empty
+      - iptv_analyzer_database_root_password|length >6
+    fail_msg: >
       Warning!! the MariaDB root password was left empty. Please set a custom
       password with role variable iptv_analyzer_database_root_password to secure your database
       server!
-  when: not iptv_analyzer_database_root_password
 
 # This command will exit non-zero when the root password was set previously
 - name: Check if root password is unset
