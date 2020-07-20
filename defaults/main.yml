@@ -15,8 +15,8 @@ iptv_analyzer_install_database: false    # When matches with inventory_hostname 
 iptv_analyzer_database_server_ip: ''  # when given, the IP address will be used in config files. Can be used if FQDN cannot be resolved or mysql cluster is used
 iptv_analyzer_database_system_user:     # Database system user
   name: 'mysql'
-  uid: 27
-  gid: 27
+  uid: 28
+  gid: 28
   shell: '/sbin/nologin'
   home: '/var/lib/mysql'
   comment: 'MySQL Server'
