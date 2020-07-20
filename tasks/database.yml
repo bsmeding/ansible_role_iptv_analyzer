@@ -38,7 +38,7 @@
 - name: Check if a custom root password is specified
   assert:
     that:
-      - iptv_analyzer_database_root_password != empty
+      - iptv_analyzer_database_root_password != None
       - iptv_analyzer_database_root_password|length >6
     fail_msg: >
       Warning!! the MariaDB root password was left empty. Please set a custom
