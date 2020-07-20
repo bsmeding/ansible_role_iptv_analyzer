@@ -5,9 +5,8 @@
 # Install mariadb and client
 - name: Update repositories cache and install database packages
   apt:
-    name: "{{ item }}"
+    name: "{{ iptv_analyzer_database_install_packages }}"
     update_cache: yes
-  with_items: "{{ iptv_analyzer_database_install_packages }}"
   become: true
 
 # add user
