@@ -42,17 +42,17 @@
 - name: Clone repo to temp dir
   git:
     repo: "{{ iptv_analyzer_git_repo }}"
-    dest: /tmp/iptv_analyzer
+    dest: "/home/{{ iptv_analyzer_database_frondend_username }}/iptv_analyzer"
     update: yes
 
 - name: Install NodeJS Webfrontend
   npm:
-    path: /tmp/iptv_analyzer/nodejs/
+    path: "/home/{{ iptv_analyzer_database_frondend_username }}/iptv_analyzer"
 
 - name: Check if config file exist
-  stat: path=/tmp/iptv_analyzer/nodejs/config.js
+  stat: "path=/home/{{ iptv_analyzer_database_frondend_username }}/iptv_analyzer/nodejs/config.js"
   register: frontend_config_stat
 
 - name: Copy config file sample to config
-  command: cp /tmp/iptv_analyzer/nodejs/config.js.sample /tmp/iptv_analyzer/nodejs/config.js
+  command: "cp /home/{{ iptv_analyzer_database_frondend_username }}/iptv_analyzer/nodejs/config.js.sample /home/{{ iptv_analyzer_database_frondend_username }}/iptv_analyzer/nodejs/config.js"
   when: not frontend_config_stat.stat.exists
