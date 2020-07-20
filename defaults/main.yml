@@ -9,8 +9,6 @@ grafana_server_install_dashboard: true   # Install IPTV dashboard on grafana ser
 grafana_server_dashboard_path: ''
 
 
-cmd_kerel_version: 'uname -r'      # command to get kernel version of Linux, saved as 'kernel_version' variable
-kernel_package: linux-headers-{{ kernel_version }}
 
 # Database
 iptv_analyzer_install_database: false    # When matches with inventory_hostname the database will be installed and this will be used in config files (of not overwritten with database IP)
@@ -22,6 +20,7 @@ iptv_analyzer_database_system_user:     # Database system user
   shell: '/sbin/nologin'
   home: '/var/lib/mysql'
   comment: 'MySQL Server'
+iptv_analyzer_database_root_password: ''    # PLEASE CHANGE!! Root Password for MySQL
 iptv_analyzer_database_install_local_web_portal: false  # When true, node and a node web server will be installed on the database server. default false as we use grafana as frontend
 iptv_analyzer_database_install_packages:
   - mariadb-server
@@ -32,6 +31,8 @@ iptv_analyzer_database_bind_address: '127.0.0.1'     # Defaults install to local
 
 
 #Collector
+iptv_analyzer_collector_cmd_kerel_version: 'uname -r'      # command to get kernel version of Linux, saved as 'kernel_version' variable
+iptv_analyzer_collector_kernel_package: linux-headers-{{ kernel_version }}
 iptv_analyzer_collector_install_packages:
   - autoconf
   - git
