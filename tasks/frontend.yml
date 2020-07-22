@@ -55,7 +55,7 @@
   npm:
     path: "{{ iptv_analyzer_database_frontend_user.home }}/iptv_analyzer/nodejs"
     global: yes
-    state: present
+    state: latest
   become: true
 
 - name: Install NodeJS Webfrontend forever
