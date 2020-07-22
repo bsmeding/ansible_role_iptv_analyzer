@@ -56,7 +56,19 @@
     state: latest
   become: true
 
+# Logging directory
+- name: Check logging directory /var/log/tvprobe
+  file:
+    path: /var/log/tvprobe
+    state: directory
+  become: true
 
+- name: Create symbolic link for log files
+  file:
+    src: "/var/log/tvprobe"
+    dest: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/"
+    state: link
+    
 - name: Check if config file exist
   stat: "path=/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
   register: frontend_config_stat
