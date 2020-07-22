@@ -37,6 +37,7 @@
     update_cache: yes
   become: true
 
+
 - name: Clone repo to temp dir
   git:
     repo: "{{ iptv_analyzer_git_repo }}"
@@ -120,6 +121,7 @@
   become: true
 
 # Setup auto start of frontend
+## As this script stays in de git repo and changes, maybe better to move out of the repo. Consideration
 - name: Set execute permission to script
   file:
     path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/scripts/tvprobe"
