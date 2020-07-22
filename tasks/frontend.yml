@@ -117,3 +117,24 @@
     regexp: '^config.db_password ='
     line: "config.db_password = '{{ iptv_analyzer_database_password }}';"
   become: true
+
+# Setup auto start of frontend
+- name: Set execute permission to script
+  file:
+    path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/scripts/tvprobe"
+    mode: u=rwx,g=rx,o=rx
+
+- name: Set db username for startup script
+  lineinfile:
+    path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/scripts/tvprobe"
+    regexp: '^DAEMON_PATH='
+    line: 'DAEMON_PATH="/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/"'
+  become: true
+
+- name: Create symbolic link for startup script
+  file:
+    src: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/scripts/tvprobe"
+    dest: "/etc/init.d/tvprobe"
+    state: link
+#    force: true
+  become: true
