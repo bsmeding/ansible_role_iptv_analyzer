@@ -9,7 +9,7 @@
 # install frontend
 - name: Include local database frontend tasks
   include_tasks: frontend.yml
-  when: iptv_analyzer_database_install_frontendv|bool
+  when: iptv_analyzer_database_install_frontend|bool
 
 
 # install collector
