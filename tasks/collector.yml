@@ -54,48 +54,48 @@
 # iptables module (become)
 
 # Prepare IP Tables
-
-# Make iptables persisant
-echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
-echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
-sudo apt-get -y install iptables-persistent
-
-
-
-### ORIGINAL
-From the CLI execute the following commands:
-    sudo apt update
-    sudo apt-get upgrade
-
-    sudo apt-get install -y autoconf git gcc make
-  sudo apt-get install -y linux-headers-`uname -r`
-    sudo apt-get install -y libxtables-dev
-    sudo apt-get install -y libproc-daemon-perl libproc-pid-file-perl libconfig-file-perl libdata-compare-perl liblog-log4perl-perl libnet-snmp-perl liblog-dispatch-perl
-    sudo apt-get install -y mariadb-server mariadb-client
-
-	git clone https://github.com/bsmeding/IPTV-Analyzer
-
-cd IPTV-Analyzer/
-
-./autogen.sh
-
-whereis xtables
-	xtables: /usr/lib/x86_64-linux-gnu/xtables
-
-    	./configure --with-xtlibdir=/usr/lib/x86_64-linux-gnu/xtables
-
-
-    make
-
-    sudo make install
-
-    sudo insmod iptables-module/xt_mpeg2ts.ko
-
-Prepare the iptables:
-    sudo iptables -t mangle -I PREROUTING -i eth0 -p udp -m mpeg2ts --name in_eth0
-
-    sudo iptables -t mangle -I PREROUTING -i ens33 -p udp -m mpeg2ts --name in_ens33
-
-And make them persistant:
-    sudo apt-get -y install iptables-persistent
-(just answer Yes to all questions)
+#
+# # Make iptables persisant
+# echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
+# echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
+# sudo apt-get -y install iptables-persistent
+#
+#
+#
+# ### ORIGINAL
+# From the CLI execute the following commands:
+#     sudo apt update
+#     sudo apt-get upgrade
+#
+#     sudo apt-get install -y autoconf git gcc make
+#   sudo apt-get install -y linux-headers-`uname -r`
+#     sudo apt-get install -y libxtables-dev
+#     sudo apt-get install -y libproc-daemon-perl libproc-pid-file-perl libconfig-file-perl libdata-compare-perl liblog-log4perl-perl libnet-snmp-perl liblog-dispatch-perl
+#     sudo apt-get install -y mariadb-server mariadb-client
+#
+# 	git clone https://github.com/bsmeding/IPTV-Analyzer
+#
+# cd IPTV-Analyzer/
+#
+# ./autogen.sh
+#
+# whereis xtables
+# 	xtables: /usr/lib/x86_64-linux-gnu/xtables
+#
+#     	./configure --with-xtlibdir=/usr/lib/x86_64-linux-gnu/xtables
+#
+#
+#     make
+#
+#     sudo make install
+#
+#     sudo insmod iptables-module/xt_mpeg2ts.ko
+#
+# Prepare the iptables:
+#     sudo iptables -t mangle -I PREROUTING -i eth0 -p udp -m mpeg2ts --name in_eth0
+#
+#     sudo iptables -t mangle -I PREROUTING -i ens33 -p udp -m mpeg2ts --name in_ens33
+#
+# And make them persistant:
+#     sudo apt-get -y install iptables-persistent
+# (just answer Yes to all questions)
