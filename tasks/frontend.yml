@@ -50,6 +50,8 @@
     update: yes
     force: true
   become: true
+  become_method: runas
+  become_user: "{{ iptv_analyzer_database_frontend_user.name }}"
 
 - name: Install NodeJS Webfrontend
   npm:
