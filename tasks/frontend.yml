@@ -92,35 +92,35 @@
 
 - name: Set listening port of frontend
   lineinfile:
-    path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
+    path: "{{ iptv_analyzer_database_frontend_user.home }}/iptv_analyzer/nodejs/config.js"
     regexp: '^config.http_port ='
     line: "config.http_port = {{ iptv_analyzer_database_frontend_port }};"
   become: true
 
 - name: Set username starting frontend
   lineinfile:
-    path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
+    path: "{{ iptv_analyzer_database_frontend_user.home }}/iptv_analyzer/nodejs/config.js"
     regexp: '^config.linux_user ='
-    line: "config.linux_user = '{{ iptv_analyzer_database_frontend_username }}';"
+    line: "config.linux_user = '{{ iptv_analyzer_database_frontend_user.name }}';"
   become: true
 
 - name: Set user group  of frontend
   lineinfile:
-    path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
+    path: "{{ iptv_analyzer_database_frontend_user.home }}/ptv_analyzer/nodejs/config.js"
     regexp: '^config.linux_group ='
-    line: "config.linux_group = '{{ iptv_analyzer_database_frontend_username }}';"
+    line: "config.linux_group = '{{ iptv_analyzer_database_frontend_user.name }}';"
   become: true
 
 - name: Set db username for frontend
   lineinfile:
-    path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
+    path: "{{ iptv_analyzer_database_frontend_user.home }}/iptv_analyzer/nodejs/config.js"
     regexp: '^config.db_user ='
     line: "config.db_user = '{{ iptv_analyzer_database_user }}';"
   become: true
 
 - name: Set db password for frontend
   lineinfile:
-    path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
+    path: "{{ iptv_analyzer_database_frontend_user.home }}/iptv_analyzer/nodejs/config.js"
     regexp: '^config.db_password ='
     line: "config.db_password = '{{ iptv_analyzer_database_password }}';"
   become: true
