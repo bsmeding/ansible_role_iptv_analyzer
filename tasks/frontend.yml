@@ -149,3 +149,4 @@
     name: tvprobe
     enabled: yes
     state: started
+  become: true
