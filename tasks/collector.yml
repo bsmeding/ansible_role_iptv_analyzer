@@ -1,6 +1,39 @@
 ---
 # tasks file for iptv_analyzer
 
+# Add system user for MariaDB
+- name: Create daemon group for collector
+  group:
+    name: "{{ iptv_analyzer_collector_system_user.name }}"
+    gid: "{{ iptv_analyzer_collector_system_user.gid }}"
+    system: true
+    state: present
+  become: true
+
+
+- name: Create daemon user for collector
+  user:
+    name: "{{ iptv_analyzer_collector_system_user.name }}"
+    uid: "{{ iptv_analyzer_collector_system_user.uid }}"
+    system: true
+    group: "{{ iptv_analyzer_collector_system_user.name }}"
+    comment: "{{ iptv_analyzer_collector_system_user.comment }}"
+    home: "{{ iptv_analyzer_collector_system_user.home }}"
+    create_home: true
+    #shell: "{{ iptv_analyzer_database_system_user.shell }}"
+  become: true
+
+
+# Install mariadb and client
+- name: Update repositories cache and install database packages
+  apt:
+    name: "{{ iptv_analyzer_database_install_packages }}"
+    state: present
+    update_cache: yes
+  become: true
+
+
+
 # Install packages
 
 # Clone Git Repo
