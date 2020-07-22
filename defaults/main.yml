@@ -22,7 +22,13 @@ iptv_analyzer_database_system_user:     # Database system user
   comment: 'MySQL Server'
 iptv_analyzer_database_root_password: ''    # PLEASE CHANGE!! Root Password for MySQL
 iptv_analyzer_database_install_frontend: false  # When true, node and a node web server will be installed on the database server. default false as we use grafana as frontend
-iptv_analyzer_database_frontend_username: iptv_analyzer_fe
+iptv_analyzer_database_frontend_user:
+  name: 'tvprobe'
+  password: '$6$iptv_analyzer_pr$5raZ6QjNHCOw..48KU.YU1HewfAfw1S.lxWk0zpJcnGQm2WLzsT6ZZIh9aof4bE5gxGCm3DfIFFbHFZ4l.MXJ1'   # _Please create your own hashed password ansible all -i localhost, -m debug -a "msg={{ 'TVpr0b3' | password_hash('sha512', 'iptv_analyzer_probe') }}"
+  uid: 800
+  gid: 800
+  home: '/home/tvprobe'
+  comment: 'Collector deamon for IPTV analyzer'
 iptv_analyzer_database_frontend_port: 80
 iptv_analyzer_database_install_packages:
   - mariadb-server

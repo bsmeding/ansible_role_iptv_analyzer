@@ -1,21 +1,25 @@
 ---
 ## TODO Move nodejs outside git repo and sync. This because log folder and config modifications!
 
-- name: Create daemon group for Frontend
+- name: Create daemon group for collector
   group:
-    name: "{{ iptv_analyzer_database_frontend_username }}"
+    name: "{{ iptv_analyzer_database_frontend_user.name }}"
+    gid: "{{ iptv_analyzer_database_frontend_user.gid }}"
     system: true
     state: present
   become: true
 
-- name: Create daemon  user "{{ iptv_analyzer_database_frontend_username }}"
+
+- name: Create daemon user for collector
   user:
-    name: "{{ iptv_analyzer_database_frontend_username }}"
-    groups: "{{ iptv_analyzer_database_frontend_username }}"
-    shell: /sbin/nologin
-    append: yes
-    comment: "IPTV Analyzer frontend user"
-    state: present
+    name: "{{ iptv_analyzer_database_frontend_user.name }}"
+    password: "{{ iptv_analyzer_database_frontend_user.password }}"
+    uid: "{{ iptv_analyzer_database_frontend_user.uid }}"
+    system: true
+    group: "{{ iptv_analyzer_database_frontend_user.name }}"
+    comment: "{{ iptv_analyzer_database_frontend_user.comment }}"
+    home: "{{ iptv_analyzer_database_frontend_user.home }}"
+    create_home: true
   become: true
 
 - name: Get node source script
