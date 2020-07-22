@@ -47,6 +47,7 @@
 - name: Install NodeJS Webfrontend
   npm:
     path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer"
+  become: true
 
 - name: Install NodeJS Webfrontend forever
   npm:
@@ -93,26 +94,26 @@
   lineinfile:
     path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
     regexp: '^config.linux_user ='
-    line: "config.linux_user = {{ iptv_analyzer_database_frontend_username }};"
+    line: "config.linux_user = '{{ iptv_analyzer_database_frontend_username }}';"
   become: true
 
 - name: Set user group  of frontend
   lineinfile:
     path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
     regexp: '^config.linux_group ='
-    line: "config.linux_group = {{ iptv_analyzer_database_frontend_username }};"
+    line: "config.linux_group = '{{ iptv_analyzer_database_frontend_username }}';"
   become: true
 
 - name: Set db username for frontend
   lineinfile:
     path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
     regexp: '^config.db_user ='
-    line: "config.db_user = {{ iptv_analyzer_database_user }};"
+    line: "config.db_user = '{{ iptv_analyzer_database_user }}';"
   become: true
 
 - name: Set db password for frontend
   lineinfile:
     path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
     regexp: '^config.db_password ='
-    line: "config.db_password = {{ iptv_analyzer_database_password }};"
+    line: "config.db_password = '{{ iptv_analyzer_database_password }}';"
   become: true
