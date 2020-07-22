@@ -42,6 +42,7 @@
     repo: "{{ iptv_analyzer_git_repo }}"
     dest: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer"
     update: yes
+    force: true
   become: true
 
 - name: Install NodeJS Webfrontend
