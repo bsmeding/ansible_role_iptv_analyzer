@@ -150,3 +150,16 @@
     enabled: yes
     state: started
   become: true
+
+- name: Set execute permission to script for daily maintenance
+  file:
+    path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/scripts/daily_maintenance.sh"
+    mode: u=rwx,g=rx,o=rx
+  become: true
+
+- name: Ensure daily maintenance job runs daily
+  cron:
+    name: "check dirs"
+    minute: "0"
+    hour: "2"
+    job: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/scripts/daily_maintenance.sh > /dev/null 2>&1"
