@@ -46,19 +46,19 @@
 - name: Clone repo to home dir
   git:
     repo: "{{ iptv_analyzer_git_repo }}"
-    dest: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer"
+    dest: "{{ iptv_analyzer_database_frontend_user.home }}/iptv_analyzer"
     update: yes
     force: true
   become: true
 
 - name: Install NodeJS Webfrontend
   npm:
-    path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer"
+    path: "{{ iptv_analyzer_database_frontend_user.home }}/iptv_analyzer"
   become: true
 
 - name: Install NodeJS Webfrontend forever
   npm:
-#    path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer"
+#    path: "/home/{{ iptv_analyzer_database_frontend_user.name }}/iptv_analyzer"
     name: forever
     global: yes
     state: latest
@@ -74,17 +74,17 @@
 - name: Create symbolic link for log files
   file:
     src: "/var/log/tvprobe"
-    dest: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/logs"
+    dest: "{{ iptv_analyzer_database_frontend_user.home }}/iptv_analyzer/nodejs/logs"
     state: link
     force: true
   become: true
 
 - name: Check if config file exist
-  stat: "path=/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
+  stat: "path={{ iptv_analyzer_database_frontend_user.home }}/iptv_analyzer/nodejs/config.js"
   register: frontend_config_stat
 
 - name: Copy config file sample to config
-  command: "cp /home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js.sample /home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
+  command: "cp {{ iptv_analyzer_database_frontend_user.home }}/iptv_analyzer/nodejs/config.js.sample /home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
   when: not frontend_config_stat.stat.exists
   become: true
 
