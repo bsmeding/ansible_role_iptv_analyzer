@@ -129,20 +129,20 @@
 ## As this script stays in de git repo and changes, maybe better to move out of the repo. Consideration
 - name: Set execute permission to script
   file:
-    path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/scripts/tvprobe"
+    path: "{{ iptv_analyzer_database_frontend_user.home }}/iptv_analyzer/nodejs/scripts/tvprobe"
     mode: u=rwx,g=rx,o=rx
   become: true
 
 - name: Set db username for startup script
   lineinfile:
-    path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/scripts/tvprobe"
+    path: "{{ iptv_analyzer_database_frontend_user.home }}/iptv_analyzer/nodejs/scripts/tvprobe"
     regexp: '^DAEMON_PATH='
-    line: 'DAEMON_PATH="/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/"'
+    line: 'DAEMON_PATH="{{ iptv_analyzer_database_frontend_user.home }}iptv_analyzer/nodejs/"'
   become: true
 
 - name: Create symbolic link for startup script
   file:
-    src: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/scripts/tvprobe"
+    src: "{{ iptv_analyzer_database_frontend_user.home }}/iptv_analyzer/nodejs/scripts/tvprobe"
     dest: "/etc/init.d/tvprobe"
     state: link
     mode: u=rwx,g=rx,o=rx
@@ -158,7 +158,7 @@
 
 - name: Set execute permission to script for daily maintenance
   file:
-    path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/scripts/daily_maintenance.sh"
+    path: "{{ iptv_analyzer_database_frontend_user.home }}/iptv_analyzer/nodejs/scripts/daily_maintenance.sh"
     mode: u=rwx,g=rx,o=rx
   become: true
 
@@ -167,4 +167,4 @@
     name: "check dirs"
     minute: "0"
     hour: "2"
-    job: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/scripts/daily_maintenance.sh > /dev/null 2>&1"
+    job: "{{ iptv_analyzer_database_frontend_user.home }}iptv_analyzer/nodejs/scripts/daily_maintenance.sh > /dev/null 2>&1"
