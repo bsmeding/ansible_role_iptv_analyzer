@@ -65,8 +65,8 @@
 
 - name: Create symbolic link for log files
   file:
-    src: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/"
-    dest: "/var/log/tvprobe"
+    src: "/var/log/tvprobe"
+    dest: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/logs"
     state: link
 
 - name: Check if config file exist
