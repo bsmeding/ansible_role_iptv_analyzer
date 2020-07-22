@@ -68,6 +68,8 @@
     src: "/var/log/tvprobe"
     dest: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/logs"
     state: link
+    force: true
+  become: true
 
 - name: Check if config file exist
   stat: "path=/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
