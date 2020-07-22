@@ -38,11 +38,11 @@ iptv_analyzer_database_init_script: 'database-schema-latest.sql'
 #Collector
 iptv_analyzer_install_collector: true
 iptv_analyzer_collector_system_user:     # Database system user
-  name: 'iptv_a_collector'
+  name: 'tvprobe'
+  password: 'TVpr0b3!'
   uid: 800
   gid: 800
-  shell: '/sbin/nologin'
-  home: '/home/iptv_a_collector'
+  home: '/home/tvprobe'
   comment: 'Collector deamon for IPTV analyzer'
 iptv_analyzer_collector_cmd_kerel_version: 'uname -r'      # command to get kernel version of Linux, saved as 'kernel_version' variable
 iptv_analyzer_collector_kernel_package: linux-headers-{{ kernel_version }}

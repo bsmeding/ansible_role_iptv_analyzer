@@ -39,7 +39,7 @@
   become: true
 
 
-- name: Clone repo to temp dir
+- name: Clone repo to home dir
   git:
     repo: "{{ iptv_analyzer_git_repo }}"
     dest: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer"

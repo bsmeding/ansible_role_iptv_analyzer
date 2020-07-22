@@ -14,27 +14,27 @@
 - name: Create daemon user for collector
   user:
     name: "{{ iptv_analyzer_collector_system_user.name }}"
+    password: "{{ iptv_analyzer_collector_system_user.password }}"
     uid: "{{ iptv_analyzer_collector_system_user.uid }}"
     system: true
     group: "{{ iptv_analyzer_collector_system_user.name }}"
     comment: "{{ iptv_analyzer_collector_system_user.comment }}"
     home: "{{ iptv_analyzer_collector_system_user.home }}"
     create_home: true
-    #shell: "{{ iptv_analyzer_database_system_user.shell }}"
   become: true
 
 
-# Install mariadb and client
-- name: Update repositories cache and install database packages
+# Install packages
+- name: Update repositories cache and install collector packages
   apt:
-    name: "{{ iptv_analyzer_database_install_packages }}"
+    name: "{{ iptv_analyzer_collector_install_packages }}"
     state: present
     update_cache: yes
   become: true
 
 
 
-# Install packages
+
 
 # Clone Git Repo
 
