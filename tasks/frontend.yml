@@ -123,6 +123,7 @@
   file:
     path: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/scripts/tvprobe"
     mode: u=rwx,g=rx,o=rx
+  become: true
 
 - name: Set db username for startup script
   lineinfile:
