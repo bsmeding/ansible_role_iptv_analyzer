@@ -143,3 +143,9 @@
     mode: u=rwx,g=rx,o=rx
 #    force: true
   become: true
+
+- name: Update service tvprobe to autostart and start directly
+  service:
+    name: tvprobe
+    enabled: yes
+    state: started
