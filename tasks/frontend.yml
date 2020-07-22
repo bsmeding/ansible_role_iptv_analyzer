@@ -56,7 +56,9 @@
     name: forever
     global: yes
     state: latest
+  become: true
 
+  
 - name: Check if config file exist
   stat: "path=/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
   register: frontend_config_stat
