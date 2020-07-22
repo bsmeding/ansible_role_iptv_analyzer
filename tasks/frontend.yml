@@ -137,5 +137,6 @@
     src: "/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/scripts/tvprobe"
     dest: "/etc/init.d/tvprobe"
     state: link
+    mode: u=rwx,g=rx,o=rx
 #    force: true
   become: true
