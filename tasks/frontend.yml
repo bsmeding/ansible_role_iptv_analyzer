@@ -28,6 +28,7 @@
   args:
     chdir: /tmp
   become: true
+  changed_when: false
 
 - name: Update apt and install nodejs
   apt:
@@ -35,9 +36,6 @@
     state: present
     update_cache: yes
   become: true
-
-
-## TODO Add user, group and clone to seperate user home dir
 
 - name: Clone repo to temp dir
   git:
@@ -58,7 +56,7 @@
     state: latest
   become: true
 
-  
+
 - name: Check if config file exist
   stat: "path=/home/{{ iptv_analyzer_database_frontend_username }}/iptv_analyzer/nodejs/config.js"
   register: frontend_config_stat
