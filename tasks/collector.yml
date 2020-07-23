@@ -45,7 +45,7 @@
 
 # Execute autogen.sh
 - name: Run autogen.sh
-  command: 'autogen.sh'
+  shell: './autogen.sh'
   args:
     chdir: "{{ iptv_analyzer_collector_system_user.home }}/iptv_analyzer"
   become: true
