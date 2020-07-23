@@ -51,7 +51,12 @@
 
 
 # Find xtables
+- name: Find xtables
+  command: 'whereis xtables'
+  register: xtables_location
 
+- debug:
+    var: xtables_location
 
 # Configure with xtables path
 
