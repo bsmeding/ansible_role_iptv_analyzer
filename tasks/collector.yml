@@ -33,6 +33,14 @@
   become: true
 
 
+# Check kernel
+- name: Check kernel
+  command: "{{ iptv_analyzer_collector_cmd_kerel_version }}"
+  register: kernel_version
+
+- debug:
+    msg: "{{ kernel_version }}"
+
 # Clone Git Repo
 # Check if dir exists
 - name: Clone repo to home dir
@@ -70,8 +78,8 @@
 - name: Build the default target for iptv collector
   make:
     chdir: "{{ iptv_analyzer_collector_system_user.home }}/iptv_analyzer"
-  become: yes
-  
+
+
 # Make install (become)
 - name: Run 'install' target as root
   make:
