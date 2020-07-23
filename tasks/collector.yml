@@ -38,8 +38,15 @@
   command: "{{ iptv_analyzer_collector_cmd_kerel_version }}"
   register: kernel_version
 
-- debug:
-    msg: "{{ kernel_version }}"
+# - debug:
+#     msg: "{{ kernel_version }}"
+- name: "Instal linux-headers-{{ kernel_version.stdout }}"
+  apt:
+    name: "linux-headers-{{ kernel_version.stdout }}"
+    state: present
+    update_cache: yes
+  become: true
+
 
 # Clone Git Repo
 # Check if dir exists
