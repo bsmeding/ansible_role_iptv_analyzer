@@ -54,14 +54,16 @@
 - name: Find xtables
   command: 'whereis xtables'
   register: xtables_location
+  changed_when: false
 
 - debug:
     msg: "{{ xtables_location.stdout.split()[1] }}"
 
 # Configure with xtables path
 - name: ./configure
-  command: "./configure --with-xtlibdir={{ xtables_location.stdout.split()[1] }}"
-
+  command: "'./configure --with-xtlibdir={{ xtables_location.stdout.split()[1] }}''"
+  args:
+    chdir: "{{ iptv_analyzer_collector_system_user.home }}/iptv_analyzer"
 
 # Make
 - name: Build the default target for iptv collector
