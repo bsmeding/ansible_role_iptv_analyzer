@@ -60,10 +60,11 @@
     msg: "{{ xtables_location.stdout.split()[1] }}"
 
 # Configure with xtables path
-- name: ./configure
-  command: "'configure --with-xtlibdir={{ xtables_location.stdout.split()[1] }}'"
+- name: Configuring TVprobe source with custom modules path
+  command: "./configure --with-xtlibdir={{ xtables_location.stdout.split()[1] }}"
   args:
     chdir: "{{ iptv_analyzer_collector_system_user.home }}/iptv_analyzer"
+  register: config_collector
 
 # Make
 - name: Build the default target for iptv collector
