@@ -60,7 +60,7 @@
 
 # Configure with xtables path
 - name: Configuring TVprobe source with custom modules path
-  command: "./configure --with-xtlibdir={{ xtables_location.stdout.split()[1] }}"
+  shell: "./configure --with-xtlibdir={{ xtables_location.stdout.split()[1] }}"
   args:
     chdir: "{{ iptv_analyzer_collector_system_user.home }}/iptv_analyzer"
   register: config_collector
