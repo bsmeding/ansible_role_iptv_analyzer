@@ -33,13 +33,21 @@
   become: true
 
 
-
-
-
 # Clone Git Repo
-
+# Check if dir exists
+- name: Clone repo to home dir
+  git:
+    repo: "{{ iptv_analyzer_git_repo }}"
+    dest: "{{ iptv_analyzer_collector_system_user.home }}/iptv_analyzer"
+    update: false
+    force: false
+  become: true
 
 # Execute autogen.sh
+- name: Run autogen.sh
+  command: ./autogen.sh
+  args:
+    chdir: "{{ iptv_analyzer_collector_system_user.home }}/iptv_analyzer"
 
 
 # Find xtables
