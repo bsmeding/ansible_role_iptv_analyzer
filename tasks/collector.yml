@@ -59,10 +59,21 @@
     msg: "{{ xtables_location.stdout.split()[1] }}"
 
 # Configure with xtables path
+- name: ./configure
+  command: "./configure --with-xtlibdir={{ xtables_location.stdout.split()[1] }}"
+
 
 # Make
+- name: Build the default target for iptv collector
+  make:
+    chdir: "{{ iptv_analyzer_collector_system_user.home }}/iptv_analyzer"
 
 # Make install (become)
+- name: Run 'install' target as root
+  make:
+    chdir: "{{ iptv_analyzer_collector_system_user.home }}/iptv_analyzer"
+    target: install
+  become: yes
 
 # iptables module (become)
 
