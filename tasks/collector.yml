@@ -56,7 +56,7 @@
   register: xtables_location
 
 - debug:
-    var: xtables_location.stdout.split()[1]
+    msg: "{{ xtables_location.stdout.split()[1] }}"
 
 # Configure with xtables path
 
