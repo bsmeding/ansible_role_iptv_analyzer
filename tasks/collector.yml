@@ -48,8 +48,7 @@
   command: ./autogen.sh
   args:
     chdir: "{{ iptv_analyzer_collector_system_user.home }}/iptv_analyzer"
-
-
+  become: true
 # Find xtables
 - name: Find xtables
   command: 'whereis xtables'
@@ -65,12 +64,13 @@
   args:
     chdir: "{{ iptv_analyzer_collector_system_user.home }}/iptv_analyzer"
   register: config_collector
+  become: true
 
 # Make
 - name: Build the default target for iptv collector
   make:
     chdir: "{{ iptv_analyzer_collector_system_user.home }}/iptv_analyzer"
-
+  
 # Make install (become)
 - name: Run 'install' target as root
   make:
