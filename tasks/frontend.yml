@@ -62,7 +62,7 @@
 # TODO: Not installing as user, also not working as global: yes. Need to check! Workaround: manually run: npm install in the directory
 - name: Install NodeJS Webfrontend
   npm:
-    path: "{{ iptv_analyzer_git_repo_destination }}"/nodejs"
+    path: "{{ iptv_analyzer_git_repo_destination }}/nodejs"
     global: yes
     state: latest
   become: true
@@ -84,7 +84,7 @@
 - name: Create symbolic link for log files
   file:
     src: "/var/log/tvprobe"
-    dest: "{{ iptv_analyzer_git_repo_destination }}"/nodejs/logs"
+    dest: "{{ iptv_analyzer_git_repo_destination }}/nodejs/logs"
     state: link
     force: true
   become: true
@@ -102,35 +102,35 @@
 
 - name: Set listening port of frontend
   lineinfile:
-    path: "{{ iptv_analyzer_git_repo_destination }}"/nodejs/config.js"
+    path: "{{ iptv_analyzer_git_repo_destination }}/nodejs/config.js"
     regexp: '^config.http_port ='
     line: "config.http_port = {{ iptv_analyzer_database_frontend_port }};"
   become: true
 
 - name: Set username starting frontend
   lineinfile:
-    path: "{{ iptv_analyzer_git_repo_destination }}"/nodejs/config.js"
+    path: "{{ iptv_analyzer_git_repo_destination }}/nodejs/config.js"
     regexp: '^config.linux_user ='
     line: "config.linux_user = '{{ iptv_analyzer_system_user.name }}';"
   become: true
 
 - name: Set user group  of frontend
   lineinfile:
-    path: "{{ iptv_analyzer_git_repo_destination }}"/nodejs/config.js"
+    path: "{{ iptv_analyzer_git_repo_destination }}/nodejs/config.js"
     regexp: '^config.linux_group ='
     line: "config.linux_group = '{{ iptv_analyzer_system_user.name }}';"
   become: true
 
 - name: Set db username for frontend
   lineinfile:
-    path: "{{ iptv_analyzer_git_repo_destination }}"/nodejs/config.js"
+    path: "{{ iptv_analyzer_git_repo_destination }}/nodejs/config.js"
     regexp: '^config.db_user ='
     line: "config.db_user = '{{ iptv_analyzer_database_user }}';"
   become: true
 
 - name: Set db password for frontend
   lineinfile:
-    path: "{{ iptv_analyzer_git_repo_destination }}"/nodejs/config.js"
+    path: "{{ iptv_analyzer_git_repo_destination }}/nodejs/config.js"
     regexp: '^config.db_password ='
     line: "config.db_password = '{{ iptv_analyzer_database_password }}';"
   become: true
@@ -139,20 +139,20 @@
 ## As this script stays in de git repo and changes, maybe better to move out of the repo. Consideration
 - name: Set execute permission to script
   file:
-    path: "{{ iptv_analyzer_git_repo_destination }}"/nodejs/scripts/tvprobe"
+    path: "{{ iptv_analyzer_git_repo_destination }}/nodejs/scripts/tvprobe"
     mode: u=rwx,g=rx,o=rx
   become: true
 
 - name: Set db username for startup script
   lineinfile:
-    path: "{{ iptv_analyzer_git_repo_destination }}"/nodejs/scripts/tvprobe"
+    path: "{{ iptv_analyzer_git_repo_destination }}/nodejs/scripts/tvprobe"
     regexp: '^DAEMON_PATH='
     line: 'DAEMON_PATH="{{ iptv_analyzer_git_repo_destination }}"/nodejs/"'
   become: true
 
 - name: Create symbolic link for startup script
   file:
-    src: "{{ iptv_analyzer_git_repo_destination }}"/nodejs/scripts/tvprobe"
+    src: "{{ iptv_analyzer_git_repo_destination }}/nodejs/scripts/tvprobe"
     dest: "/etc/init.d/tvprobe"
     state: link
     mode: u=rwx,g=rx,o=rx
@@ -168,7 +168,7 @@
 
 - name: Set execute permission to script for daily maintenance
   file:
-    path: "{{ iptv_analyzer_git_repo_destination }}"/nodejs/scripts/daily_maintenance.sh"
+    path: "{{ iptv_analyzer_git_repo_destination }}/nodejs/scripts/daily_maintenance.sh"
     mode: u=rwx,g=rx,o=rx
   become: true
 
@@ -177,4 +177,4 @@
     name: "check dirs"
     minute: "0"
     hour: "2"
-    job: "{{ iptv_analyzer_git_repo_destination }}"/nodejs/scripts/daily_maintenance.sh > /dev/null 2>&1"
+    job: "{{ iptv_analyzer_git_repo_destination }}/nodejs/scripts/daily_maintenance.sh > /dev/null 2>&1"
