@@ -171,7 +171,7 @@
   lineinfile:
     path: "{{ iptv_analyzer_git_repo_destination }}/nodejs/scripts/tvprobe"
     regexp: '^DAEMON_PATH='
-    line: 'DAEMON_PATH="{{ iptv_analyzer_git_repo_destination }}"/nodejs/"'
+    line: 'DAEMON_PATH="{{ iptv_analyzer_git_repo_destination }}/nodejs/"'
   become: true
 
 - name: Create symbolic link for startup script
