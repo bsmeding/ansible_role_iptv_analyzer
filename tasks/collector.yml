@@ -37,6 +37,7 @@
 - name: Check kernel
   command: "{{ iptv_analyzer_collector_cmd_kerel_version }}"
   register: kernel_version
+  changed_when: false
 
 # - debug:
 #     msg: "{{ kernel_version }}"
@@ -135,7 +136,7 @@
     # destination_port: 80
     # jump: REDIRECT
     # to_ports: 8600
-    comment: Add filter for IPTV Analyzer multicast streams
+    # comment: Add filter for IPTV Analyzer multicast streams
   become: yes
 
 - name: Make iptables persistant - add answers
