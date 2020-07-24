@@ -131,7 +131,7 @@
 
 ## Above not working wel, the match with extra paramas are compiled to string (with quotes) that iptables cannot handle
 - name: Check if prerouting entry exist in IPTables
-  shell: "sudo iptables  -L -t mangle | grep 'mpeg2ts'"
+  shell: "iptables  -L -t mangle | grep 'mpeg2ts'"
   become: true
   register: check_iptables_entry
 
