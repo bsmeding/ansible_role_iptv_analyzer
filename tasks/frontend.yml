@@ -77,9 +77,10 @@
   file:
     dest: "{{ iptv_analyzer_git_repo_destination }}"
     owner: "{{ iptv_analyzer_system_user.name }}"
-    group: "{{ iptv_analyzer_system_user.name }}" 
+    group: "{{ iptv_analyzer_system_user.name }}"
     mode: u=rwX,g=rX,o=rX
     recurse: yes
+  become: true
 
 
 # TODO: Not installing as user, also not working as global: yes. Need to check! Workaround: manually run: npm install in the directory
