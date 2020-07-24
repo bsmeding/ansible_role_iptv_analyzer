@@ -157,12 +157,12 @@
   args:
     chdir: "{{ iptv_analyzer_git_repo_destination }}/collector"
   register: perl_makefile
-  become: true
+  #become: true
 
 - name: Build the collector
   make:
     chdir: "{{ iptv_analyzer_git_repo_destination }}/collector"
-  become: true
+  #become: true
 
 # Make install (become)
 - name: Run 'install' target as root
