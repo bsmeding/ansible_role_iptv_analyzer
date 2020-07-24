@@ -184,7 +184,7 @@
   become: true
 
 - name: Update service tvprobe to autostart and start directly
-  systemd:
+  system:
     name: tvprobe
     enabled: yes
     state: started
