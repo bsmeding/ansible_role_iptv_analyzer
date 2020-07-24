@@ -108,6 +108,11 @@
 - debug:
     msg: "{{ insmod_iptables_module }}"
 
+- name: Check if error is valid
+  assert:
+    that:
+      - 'File exists' in insmod_iptables_module.stderr
+  when: insmod_iptables_module is defined and insmod_iptables_module.failed == true
 
 # Prepare IP Tables
 - name: Insmod IPtables module
@@ -119,7 +124,7 @@
   shell: |
     echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
     echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
-    sudo apt-get -y install iptables-persistent
+    apt-get -y install iptables-persistent
   register: prepare_iptables_prerouting
   become: true
 
