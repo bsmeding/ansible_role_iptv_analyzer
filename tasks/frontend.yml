@@ -28,7 +28,7 @@
   register: username_on_the_host
 
 - name: Add current user to deamon group
-  user: name="{{ username_on_the_host }}"
+  user: name="{{ username_on_the_host.stdout }}"
         groups="{{ iptv_analyzer_system_user.name }}"
         append=yes
 
