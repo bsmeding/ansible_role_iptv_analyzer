@@ -131,13 +131,13 @@
 
 ## Above not working wel, the match with extra paramas are compiled to string (with quotes) that iptables cannot handle
 - name: Check if prerouting entry exist in IPTables
-  command: sudo iptables  -L -t mangle | grep 'mpeg2ts'
+  shell: "sudo iptables  -L -t mangle | grep 'mpeg2ts'"
   become: true
   register: check_iptables_entry
 
 - debug:
     msg: "{{ check_iptables_entry }}"
-    
+
 - name: Insmod IPtables module
   shell: "iptables -t mangle -I PREROUTING -i {{ iptv_analyzer_collector_interface }} -p udp -m mpeg2ts --name in_{{ iptv_analyzer_collector_interface }}"
   register: prepare_iptables_prerouting
