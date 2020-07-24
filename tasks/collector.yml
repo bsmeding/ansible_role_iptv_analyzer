@@ -102,14 +102,32 @@
     chdir: "{{ iptv_analyzer_git_repo_destination }}"
   register: insmod_iptables_module
   become: true
+  ignore_errors: true
+
+# Wehn error check that error is file exist, otherwise error
+- debug:
+    msg: "{{ insmod_iptables_module }}"
 
 
 # Prepare IP Tables
+- name: Insmod IPtables module
+  shell: "sudo iptables -t mangle -I PREROUTING -i {{ iptv_analyzer_collector_interface }} -p udp -m mpeg2ts --name in_{{ iptv_analyzer_collector_interface }}"
+  register: prepare_iptables_prerouting
+  become: true
+
+- name: Make iptables persistant - add answers
+  shell: |
+    echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
+    echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
+    sudo apt-get -y install iptables-persistent
+  register: prepare_iptables_prerouting
+  become: true
+
 #
 # # Make iptables persisant
-# echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
-# echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
-# sudo apt-get -y install iptables-persistent
+#
+#
+#
 #
 #
 #
@@ -143,7 +161,7 @@
 #     sudo insmod iptables-module/xt_mpeg2ts.ko
 #
 # Prepare the iptables:
-#     sudo iptables -t mangle -I PREROUTING -i eth0 -p udp -m mpeg2ts --name in_eth0
+#
 #
 #     sudo iptables -t mangle -I PREROUTING -i ens33 -p udp -m mpeg2ts --name in_ens33
 #
