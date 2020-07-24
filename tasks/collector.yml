@@ -112,7 +112,7 @@
   assert:
     that:
       - "'File exists' in insmod_iptables_module.stderr"
-  when: insmod_iptables_module is defined and insmod_iptables_module.failed == true
+  when: insmod_iptables_module is defined and insmod_iptables_module.failed|bool
 
 # Prepare IP Tables
 - name: Insmod IPtables module
