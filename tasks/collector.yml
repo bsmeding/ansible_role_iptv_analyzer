@@ -65,9 +65,6 @@
 #     release_data: "{{ lookup('file', {{ iptv_analyzer_git_repo_destination }}/release.sh) }}"
 # FALLBACK: Check if config file exist
 
-/etc/iptv-analyzer/collector.conf
-
-
 # Execute autogen.sh
 - name: Run autogen.sh
   shell: './autogen.sh'
