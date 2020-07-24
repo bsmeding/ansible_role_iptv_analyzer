@@ -126,6 +126,7 @@
 #   register: prepare_iptables_prerouting
 #   become: true
 
+# sudo iptables -t mangle -I PREROUTING -i eth0 -p udp -m mpeg2ts --name in_eth0
 - name: Prepare the iptables for filtering mpeg2ts streams
   iptables:
     table: mangle
@@ -138,6 +139,8 @@
     # to_ports: 8600
     # comment: Add filter for IPTV Analyzer multicast streams
   become: yes
+# Delete: sudo iptables -t mangle -D PREROUTING 1
+
 
 - name: Make iptables persistant - add answers
   shell: |
