@@ -51,6 +51,7 @@
     modification_time: preserve
     access_time: preserve
     state: directory
+  become: true
 
 - name: Clone repo to repo dir
   git:
