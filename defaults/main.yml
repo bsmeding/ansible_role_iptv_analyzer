@@ -2,6 +2,8 @@
 # defaults file for iptv_analyzer
 
 iptv_analyzer_git_repo: 'https://github.com/bsmeding/IPTV-Analyzer'     # Repo of IPTV analyzer to install and build. Also used on database server to import schema
+iptv_analyzer_git_repo_destination: '/opt/iptv_analyzer'
+iptv_analyzer_git_repo_force_update: false
 
 # Please install Grafana on forehand example: ansible-galaxy install cloudalchemy.grafana
 grafana_server: ''    # Grafana server
@@ -9,6 +11,15 @@ grafana_server_install_dashboard: true   # Install IPTV dashboard on grafana ser
 grafana_server_dashboard_path: ''
 
 
+
+# System user for frontend and/or collector
+iptv_analyzer_system_user:
+  name: 'tvprobe'
+  password: '$6$iptv_analyzer_pr$5raZ6QjNHCOw..48KU.YU1HewfAfw1S.lxWk0zpJcnGQm2WLzsT6ZZIh9aof4bE5gxGCm3DfIFFbHFZ4l.MXJ1'   # _Please create your own hashed password ansible all -i localhost, -m debug -a "msg={{ 'TVpr0b3' | password_hash('sha512', 'iptv_analyzer_probe') }}"
+  uid: 800
+  gid: 800
+  home: '/home/tvprobe'
+  comment: 'Collector deamon for IPTV analyzer'
 
 # Database
 iptv_analyzer_install_database: true    # When matches with inventory_hostname the database will be installed and this will be used in config files (of not overwritten with database IP)
@@ -22,13 +33,6 @@ iptv_analyzer_database_system_user:     # Database system user
   comment: 'MySQL Server'
 iptv_analyzer_database_root_password: ''    # PLEASE CHANGE!! Root Password for MySQL
 iptv_analyzer_database_install_frontend: false  # When true, node and a node web server will be installed on the database server. default false as we use grafana as frontend
-iptv_analyzer_database_frontend_user:
-  name: 'tvprobe'
-  password: '$6$iptv_analyzer_pr$5raZ6QjNHCOw..48KU.YU1HewfAfw1S.lxWk0zpJcnGQm2WLzsT6ZZIh9aof4bE5gxGCm3DfIFFbHFZ4l.MXJ1'   # _Please create your own hashed password ansible all -i localhost, -m debug -a "msg={{ 'TVpr0b3' | password_hash('sha512', 'iptv_analyzer_probe') }}"
-  uid: 800
-  gid: 800
-  home: '/home/tvprobe'
-  comment: 'Collector deamon for IPTV analyzer'
 iptv_analyzer_database_frontend_port: 80
 iptv_analyzer_database_install_packages:
   - mariadb-server
@@ -43,13 +47,6 @@ iptv_analyzer_database_init_script: 'database-schema-latest.sql'
 
 #Collector
 iptv_analyzer_install_collector: true
-iptv_analyzer_collector_system_user:     # Database system user
-  name: 'tvprobe'
-  password: '$6$iptv_analyzer_pr$5raZ6QjNHCOw..48KU.YU1HewfAfw1S.lxWk0zpJcnGQm2WLzsT6ZZIh9aof4bE5gxGCm3DfIFFbHFZ4l.MXJ1'   # _Please create your own hashed password ansible all -i localhost, -m debug -a "msg={{ 'TVpr0b3' | password_hash('sha512', 'iptv_analyzer_probe') }}"
-  uid: 800
-  gid: 800
-  home: '/home/tvprobe'
-  comment: 'Collector deamon for IPTV analyzer'
 iptv_analyzer_collector_cmd_kerel_version: 'uname -r'      # command to get kernel version of Linux, saved as 'kernel_version' variable
 iptv_analyzer_collector_kernel_package: linux-headers-{{ kernel_version }}
 iptv_analyzer_collector_install_packages:

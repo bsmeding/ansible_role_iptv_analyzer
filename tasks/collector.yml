@@ -4,8 +4,8 @@
 # Add system user for MariaDB
 - name: Create daemon group for collector
   group:
-    name: "{{ iptv_analyzer_collector_system_user.name }}"
-    gid: "{{ iptv_analyzer_collector_system_user.gid }}"
+    name: "{{ iptv_analyzer_system_user.name }}"
+    gid: "{{ iptv_analyzer_system_user.gid }}"
     system: true
     state: present
   become: true
@@ -13,13 +13,13 @@
 
 - name: Create daemon user for collector
   user:
-    name: "{{ iptv_analyzer_collector_system_user.name }}"
-    password: "{{ iptv_analyzer_collector_system_user.password }}"
-    uid: "{{ iptv_analyzer_collector_system_user.uid }}"
+    name: "{{ iptv_analyzer_system_user.name }}"
+    password: "{{ iptv_analyzer_system_user.password }}"
+    uid: "{{ iptv_analyzer_system_user.uid }}"
     system: true
-    group: "{{ iptv_analyzer_collector_system_user.name }}"
-    comment: "{{ iptv_analyzer_collector_system_user.comment }}"
-    home: "{{ iptv_analyzer_collector_system_user.home }}"
+    group: "{{ iptv_analyzer_system_user.name }}"
+    comment: "{{ iptv_analyzer_system_user.comment }}"
+    home: "{{ iptv_analyzer_system_user.home }}"
     create_home: true
   become: true
 
@@ -50,19 +50,20 @@
 
 # Clone Git Repo
 # Check if dir exists
-- name: Clone repo to home dir
+- name: Clone repo to repo dir
   git:
     repo: "{{ iptv_analyzer_git_repo }}"
-    dest: "{{ iptv_analyzer_collector_system_user.home }}/iptv_analyzer"
-    update: false
+    dest: "{{ iptv_analyzer_git_repo_destination }}"
+    update: no
     force: false
   become: true
+
 
 # Execute autogen.sh
 - name: Run autogen.sh
   shell: './autogen.sh'
   args:
-    chdir: "{{ iptv_analyzer_collector_system_user.home }}/iptv_analyzer"
+    chdir: "{{ iptv_analyzer_git_repo_destination }}"
   become: true
 # Find xtables
 - name: Find xtables
@@ -77,20 +78,20 @@
 - name: Configuring TVprobe source with custom modules path
   shell: "./configure --with-xtlibdir={{ xtables_location.stdout.split()[1] }}"
   args:
-    chdir: "{{ iptv_analyzer_collector_system_user.home }}/iptv_analyzer"
+    chdir: "{{ iptv_analyzer_git_repo_destination }}"
   register: config_collector
   become: true
 
 # Make
 - name: Build the default target for iptv collector
   make:
-    chdir: "{{ iptv_analyzer_collector_system_user.home }}/iptv_analyzer"
+    chdir: "{{ iptv_analyzer_git_repo_destination }}"
   become: true
 
 # Make install (become)
 - name: Run 'install' target as root
   make:
-    chdir: "{{ iptv_analyzer_collector_system_user.home }}/iptv_analyzer"
+    chdir: "{{ iptv_analyzer_git_repo_destination }}"
     target: install
   become: yes
 

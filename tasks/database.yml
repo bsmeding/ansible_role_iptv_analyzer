@@ -213,4 +213,8 @@
   loop_control:
     label: "{{ item.hostname }} - {{ item.db_user }}"
 
+- name: Remove temporary directory
+  file:
+    path: /tmp/iptv_analyzer
+    state: absent
 ### END ADD USERS
