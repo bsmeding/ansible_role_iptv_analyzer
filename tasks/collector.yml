@@ -106,8 +106,8 @@
   ignore_errors: true
 
 # Wehn error check that error is file exist, otherwise error
-- debug:
-    msg: "{{ insmod_iptables_module }}"
+# - debug:
+#     msg: "{{ insmod_iptables_module }}"
 
 - name: Check if error is valid
   assert:
