@@ -22,6 +22,17 @@
     create_home: true
   become: true
 
+- name: get the username running playbook to add to deamon group
+  become: false
+  local_action: command whoami
+  register: username_on_the_host
+
+- name: Add current user to deamon group
+  user: name="{{ username_on_the_host }}"
+        groups="{{ iptv_analyzer_system_user.name }}"
+        append=yes
+
+
 - name: Get node source script
   get_url:
     url: https://deb.nodesource.com/setup_12.x
