@@ -59,7 +59,7 @@
     path: "{{ iptv_analyzer_git_repo_destination }}"
     owner: "{{ iptv_analyzer_system_user.name }}"
     group: "{{ iptv_analyzer_system_user.name }}"
-    mode: u+rwx,g-rwx,o-rx
+    mode: 0765
     modification_time: preserve
     access_time: preserve
     state: directory
