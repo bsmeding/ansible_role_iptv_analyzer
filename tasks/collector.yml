@@ -96,6 +96,13 @@
   become: yes
 
 # iptables module (become)
+- name: Insmod IPtables module
+  shell: 'insmod iptables-module/xt_mpeg2ts.ko'
+  args:
+    chdir: "{{ iptv_analyzer_git_repo_destination }}"
+  register: insmod_iptables_module
+  become: true
+
 
 # Prepare IP Tables
 #
