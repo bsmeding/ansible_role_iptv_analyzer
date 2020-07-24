@@ -111,7 +111,7 @@
 - name: Check if error is valid
   assert:
     that:
-      - 'File exists' in insmod_iptables_module.stderr
+      - "'File exists' in insmod_iptables_module.stderr"
   when: insmod_iptables_module is defined and insmod_iptables_module.failed == true
 
 # Prepare IP Tables
