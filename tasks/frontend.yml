@@ -26,6 +26,7 @@
   become: false
   local_action: command whoami
   register: username_on_the_host
+  changed_when: false
 
 - name: Add current user to deamon group
   user: name="{{ username_on_the_host.stdout }}"
@@ -81,6 +82,7 @@
     mode: u=rwX,g=rX,o=rX
     recurse: yes
   become: true
+  changed_when: false
 
 
 # TODO: Not installing as user, also not working as global: yes. Need to check! Workaround: manually run: npm install in the directory
