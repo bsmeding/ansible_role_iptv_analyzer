@@ -116,31 +116,32 @@
   when: insmod_iptables_module is defined and insmod_iptables_module.failed|bool
 
 # Prepare IP Tables
-# - name: Check if prerouting entry exist in IPTables
-#   command: sudo iptables  -L -t mangle | grep 'mpeg2ts match name:"in_{{ iptv_analyzer_collector_interface }}"'
-#   become: true
-#   register: check_iptables_entry
-#
-# - name: Insmod IPtables module
-#   shell: "iptables -t mangle -I PREROUTING -i {{ iptv_analyzer_collector_interface }} -p udp -m mpeg2ts --name in_{{ iptv_analyzer_collector_interface }}"
-#   register: prepare_iptables_prerouting
-#   become: true
+
 
 # sudo iptables -t mangle -I PREROUTING -i eth0 -p udp -m mpeg2ts --name in_eth0
-- name: Prepare the iptables for filtering mpeg2ts streams
-  iptables:
-    table: mangle
-    chain: PREROUTING
-    in_interface: "{{ iptv_analyzer_collector_interface }}"
-    protocol: udp
-    match: mpeg2ts --name in_ens33
-    # destination_port: 80
-    # jump: REDIRECT
-    # to_ports: 8600
-    # comment: Add filter for IPTV Analyzer multicast streams
-  become: yes
+# - name: Prepare the iptables for filtering mpeg2ts streams
+#   iptables:
+#     table: mangle
+#     chain: PREROUTING
+#     in_interface: "{{ iptv_analyzer_collector_interface }}"
+#     protocol: udp
+#     match: "mpeg2ts --name in_{{ iptv_analyzer_collector_interface }}"
+#   become: yes
 # Delete: sudo iptables -t mangle -D PREROUTING 1
 
+## Above not working wel, the match with extra paramas are compiled to string (with quotes) that iptables cannot handle
+- name: Check if prerouting entry exist in IPTables
+  command: sudo iptables  -L -t mangle | grep 'mpeg2ts'
+  become: true
+  register: check_iptables_entry
+
+- debug:
+    msg: "{{ check_iptables_entry }}"
+    
+- name: Insmod IPtables module
+  shell: "iptables -t mangle -I PREROUTING -i {{ iptv_analyzer_collector_interface }} -p udp -m mpeg2ts --name in_{{ iptv_analyzer_collector_interface }}"
+  register: prepare_iptables_prerouting
+  become: true
 
 - name: Make iptables persistant - add answers
   shell: |
