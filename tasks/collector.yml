@@ -55,9 +55,17 @@
   git:
     repo: "{{ iptv_analyzer_git_repo }}"
     dest: "{{ iptv_analyzer_git_repo_destination }}"
-    update: no
-    force: false
+    update: "{{ iptv_analyzer_git_repo_update }}"
+    force: "{{ iptv_analyzer_git_repo_force }}"
   become: true
+
+# TODO: Get release date of git repo, compare with installed version
+# - name: Get version of IPTV analyzer from repo
+#   set_fact:
+#     release_data: "{{ lookup('file', {{ iptv_analyzer_git_repo_destination }}/release.sh) }}"
+# FALLBACK: Check if config file exist
+
+/etc/iptv-analyzer/collector.conf
 
 
 # Execute autogen.sh
@@ -151,25 +159,83 @@
   become: true
 
 # Build the perl collector
+- name: Check if config file exist
+  stat: "path=/etc/iptv-analyzer/collector.conf"
+  register: collector_config_stat
+- name: Build and set config for collector
+  block:
+  - name: Build perl collector
+    shell: "perl Makefile.PL"
+    args:
+      chdir: "{{ iptv_analyzer_git_repo_destination }}/collector"
+    register: perl_makefile
 
-- name: Build perl collector
-  shell: "perl Makefile.PL"
-  args:
-    chdir: "{{ iptv_analyzer_git_repo_destination }}/collector"
-  register: perl_makefile
-  #become: true
+  - name: Build the collector
+    make:
+      chdir: "{{ iptv_analyzer_git_repo_destination }}/collector"
 
-- name: Build the collector
-  make:
-    chdir: "{{ iptv_analyzer_git_repo_destination }}/collector"
-  #become: true
+  # Make install
+  - name: Run 'install'
+    make:
+      chdir: "{{ iptv_analyzer_git_repo_destination }}/collector"
+      target: install
 
-# Make install (become)
-- name: Run 'install' target as root
-  make:
-    chdir: "{{ iptv_analyzer_git_repo_destination }}/collector"
-    target: install
-  become: yes
+  - name: Copy collector.conf.sample to collector.conf
+    command: "cp /etc/iptv-analyzer/collector.conf.sample /etc/iptv-analyzer/collector.conf"
+
+  - name: Set collector.conf probe_ip
+    lineinfile:
+      path: "/etc/iptv-analyzer/collector.conf"
+      regexp: '^probe_ip   = '
+      line: "probe_ip   = {{ ansible_default_ipv4.address }}"
+
+  - name: Set collector.conf probe_name
+    lineinfile:
+      path: "/etc/iptv-analyzer/collector.conf"
+      regexp: '^probe_name = '
+      line: "probe_name = {{ inventory_hostname }}"
+
+  - name: Set collector.conf snmptraphost
+    lineinfile:
+      path: "/etc/iptv-analyzer/collector.conf"
+      regexp: '^snmptraphost  ='
+      line: "snmptraphost  = {{ iptv_analyzer_snmptraphost }}"
+
+  - name: Set collector.conf probe_name
+    lineinfile:
+      path: "/etc/iptv-analyzer/collector.conf"
+      regexp: '^snmpcommunity ='
+      line: "snmpcommunity = {{ iptv_analyzer_snmpcommunity }}"
+
+  - name: Set collector.conf procfile
+    lineinfile:
+      path: "/etc/iptv-analyzer/collector.conf"
+      regexp: '^input[rule_in_eth0][procfile]  = '
+      line: "input[rule_in_{{ iptv_analyzer_collector_interface }}][procfile]  = /proc/net/xt_mpeg2ts/rule_in_{{ iptv_analyzer_collector_interface }}"
+
+  - name: Set collector.conf shortloc
+    lineinfile:
+      path: "/etc/iptv-analyzer/collector.conf"
+      regexp: '^input[rule_in_eth0][shortloc]  = '
+      line: "input[rule_in_{{ iptv_analyzer_collector_interface }}][shortloc]  = {{ iptv_analyzer_collector_shortloc }}"
+
+  - name: Set collector.conf switch
+    lineinfile:
+      path: "/etc/iptv-analyzer/collector.conf"
+      regexp: '^input[rule_in_eth0][switch]  = '
+      line: "input[rule_in_{{ iptv_analyzer_collector_interface }}][switch]  = {{ iptv_analyzer_collector_switch }}"
+
+
+
+
+  - name: Copy log4perl.conf.sample to log4perl.conf
+    command: "cp /etc/iptv-analyzer/log4perl.conf.sample  /etc/iptv-analyzer/log4perl.conf"
+    when: not collector_config_stat.stat.exists or iptv_analyzer_install_collector_force_reinstall|bool
+
+
+  #Block when
+  when: not collector_config_stat.stat.exists or iptv_analyzer_install_collector_force_reinstall|bool
+  become: true
 
 
 ## Static joints toevoegen

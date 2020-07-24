@@ -3,14 +3,16 @@
 
 iptv_analyzer_git_repo: 'https://github.com/bsmeding/IPTV-Analyzer'     # Repo of IPTV analyzer to install and build. Also used on database server to import schema
 iptv_analyzer_git_repo_destination: '/opt/iptv_analyzer'
-iptv_analyzer_git_repo_force_update: false
+iptv_analyzer_git_repo_update: false
+iptv_analyzer_git_repo_force: false
 
 # Please install Grafana on forehand example: ansible-galaxy install cloudalchemy.grafana
 grafana_server: ''    # Grafana server
 grafana_server_install_dashboard: true   # Install IPTV dashboard on grafana server
 grafana_server_dashboard_path: ''
 
-
+iptv_analyzer_snmptraphost: 127.0.0.1   # used in /etc/iptv-analyzer/collector.conf
+iptv_analyzer_snmpcommunity: public     # used in /etc/iptv-analyzer/collector.conf
 
 # System user for frontend and/or collector
 iptv_analyzer_system_user:
@@ -47,6 +49,7 @@ iptv_analyzer_database_init_script: 'database-schema-latest.sql'
 
 #Collector
 iptv_analyzer_install_collector: true
+iptv_analyzer_install_collector_force_reinstall: false    # If same version already exist is is not reinstalled, except when true
 iptv_analyzer_collector_cmd_kerel_version: 'uname -r'      # command to get kernel version of Linux, saved as 'kernel_version' variable
 iptv_analyzer_collector_kernel_package: linux-headers-{{ kernel_version }}
 iptv_analyzer_collector_install_packages:
@@ -63,19 +66,17 @@ iptv_analyzer_collector_install_packages:
   - libnet-snmp-perl
   - liblog-dispatch-perl
   - mariadb-client
-iptv_analyzer_collector_interface: 'eth0'
-iptv_analyzer_collectors:
-  - hostname: 'localhost'
-    description: 'localhost test device'
-    ip_address: '127.0.0.1'
-    location: 'local machine'
-    shortloc: 'local'
-    address: 'test street 1'
-    distance: 2
-    switch: 'testswitch1'
-    switchport: 'e1/2'
-    switchtype: 'Genexis'
-    hidden: no
-    interface: eth0       # used for rpbe: input rule_in_eth0 and input_dev and procfile
-    db_user: probe1
-    db_password: password1
+
+# Add host_vars for every collector:
+iptv_analyzer_collector_ip_address: '127.0.0.1'
+iptv_analyzer_collector_location: 'local machine'
+iptv_analyzer_collector_shortloc: 'local'
+iptv_analyzer_collector_address: 'test street 1'
+iptv_analyzer_collector_distance: 1
+iptv_analyzer_collector_switch: 'testswitch1'
+iptv_analyzer_collector_switchport: 'e1/2'
+iptv_analyzer_collector_switchtype: 'Genexis'
+iptv_analyzer_collector_hidden: no
+iptv_analyzer_collector_interface: eth0       # used for rpbe: input rule_in_eth0 and input_dev and procfile
+iptv_analyzer_collector_db_user: probe1
+iptv_analyzer_collector_db_password: password1
