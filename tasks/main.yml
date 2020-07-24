@@ -16,5 +16,3 @@
 - name: Include tasks for collector
   include_tasks: collector.yml
   when: iptv_analyzer_install_collector|bool
-
-# install
