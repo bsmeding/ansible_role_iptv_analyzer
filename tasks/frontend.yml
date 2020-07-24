@@ -31,6 +31,7 @@
   user: name="{{ username_on_the_host.stdout }}"
         groups="{{ iptv_analyzer_system_user.name }}"
         append=yes
+  become: true
 
 
 - name: Get node source script
