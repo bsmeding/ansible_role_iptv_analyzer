@@ -59,7 +59,7 @@
     path: "{{ iptv_analyzer_git_repo_destination }}"
     owner: "{{ iptv_analyzer_system_user.name }}"
     group: "{{ iptv_analyzer_system_user.name }}"
-    mode: 0765
+    mode: 0755
     modification_time: preserve
     access_time: preserve
     state: directory
@@ -72,6 +72,15 @@
     update: no
     force: false
   become: true
+
+- name: Check permission
+  file:
+    dest: "{{ iptv_analyzer_git_repo_destination }}"
+    owner: "{{ iptv_analyzer_system_user.name }}"
+    group: "{{ iptv_analyzer_system_user.name }}" 
+    mode: u=rwX,g=rX,o=rX
+    recurse: yes
+
 
 # TODO: Not installing as user, also not working as global: yes. Need to check! Workaround: manually run: npm install in the directory
 - name: Install NodeJS Webfrontend
