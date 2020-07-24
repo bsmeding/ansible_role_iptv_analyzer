@@ -197,21 +197,23 @@
   no_log: true
   when: iptv_analyzer_database_user is defined and iptv_analyzer_database_user|length>6 and iptv_analyzer_database_password is defined and iptv_analyzer_database_password|length>6
 
-- name: Create the users for collectors
-  mysql_user:
-    name: "{{ item.db_user }}"
-    password: "{{ item.db_password }}"
-    host: "{{ item.hostname|default('localhost') }}"
-    priv: "{{ iptv_analyzer_database_name }}.*:ALL"
-    append_privs: "{{ item.append_privs|default('no') }}"
-    login_user: root
-    login_password: "{{ iptv_analyzer_database_root_password }}"
-    login_unix_socket: "{{ iptv_analyzer_database_mariadb_socket }}"
-    state: present
-  no_log: true
-  with_items: "{{ iptv_analyzer_collectors }}"
-  loop_control:
-    label: "{{ item.hostname }} - {{ item.db_user }}"
+# Users are created by collector tasks
+
+# - name: Create the users for collectors
+#   mysql_user:
+#     name: "{{ item.db_user }}"
+#     password: "{{ item.db_password }}"
+#     host: "{{ item.hostname|default('localhost') }}"
+#     priv: "{{ iptv_analyzer_database_name }}.*:ALL"
+#     append_privs: "{{ item.append_privs|default('no') }}"
+#     login_user: root
+#     login_password: "{{ iptv_analyzer_database_root_password }}"
+#     login_unix_socket: "{{ iptv_analyzer_database_mariadb_socket }}"
+#     state: present
+#   no_log: true
+#   with_items: "{{ iptv_analyzer_collectors }}"
+#   loop_control:
+#     label: "{{ item.hostname }} - {{ item.db_user }}"
 
 - name: Remove temporary directory
   file:

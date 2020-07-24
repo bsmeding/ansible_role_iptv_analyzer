@@ -158,10 +158,25 @@
   register: prepare_iptables_prerouting
   become: true
 
-# Build the perl collector
+# Add mysql user
+- name: Create the users for collector
+  mysql_user:
+    name: "{{ iptv_analyzer_collector_db_password }}"
+    password: "{{ iptv_analyzer_collector_db_user }}"
+    host: "{{ inventory_hostname|default('localhost') }}"
+    priv: "{{ iptv_analyzer_database_name }}.*:ALL"
+    login_user: root
+    login_password: "{{ iptv_analyzer_database_root_password }}"
+    login_unix_socket: "{{ iptv_analyzer_database_mariadb_socket }}"
+    state: present
+#  no_log: true
+  delegate_to: "{{ iptv_analyzer_database_server }}"
+
+# Build the perl collector if no config exist
 - name: Check if config file exist
   stat: "path=/etc/iptv-analyzer/collector.conf"
   register: collector_config_stat
+
 - name: Build and set config for collector
   block:
   - name: Build perl collector

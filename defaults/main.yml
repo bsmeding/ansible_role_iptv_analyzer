@@ -25,7 +25,7 @@ iptv_analyzer_system_user:
 
 # Database
 iptv_analyzer_install_database: true    # When matches with inventory_hostname the database will be installed and this will be used in config files (of not overwritten with database IP)
-iptv_analyzer_database_server_ip: ''  # when given, the IP address will be used in config files. Can be used if FQDN cannot be resolved or mysql cluster is used
+iptv_analyzer_database_server: localhost  # server host to delegate_to when configure collector. Use to add database user
 iptv_analyzer_database_system_user:     # Database system user
   name: 'mysql'
   uid: 28
