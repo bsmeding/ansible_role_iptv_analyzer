@@ -50,6 +50,7 @@
     mode: u+rwx,g-rwx,o-rx
     modification_time: preserve
     access_time: preserve
+    state: directory
 
 - name: Clone repo to repo dir
   git:
