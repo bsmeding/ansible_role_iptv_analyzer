@@ -60,6 +60,17 @@
   become: true
 
 # TODO: Get release date of git repo, compare with installed version
+- name: extract password from file
+  slurp:
+    src: "{{ iptv_analyzer_git_repo_destination }}/release.sh"
+  register: release_info
+
+- name: Get Git version
+  set_fact:
+    git_version: "{{ release_info['content'] | b64decode | regex_findall('VERSION=\"(.+)\"') | first }}"
+
+- debug:
+    var: git_version
 # - name: Get version of IPTV analyzer from repo
 #   set_fact:
 #     release_data: "{{ lookup('file', {{ iptv_analyzer_git_repo_destination }}/release.sh) }}"
