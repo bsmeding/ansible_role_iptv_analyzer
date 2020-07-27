@@ -60,31 +60,19 @@
   become: true
 
 # TODO: Get release date of git repo, compare with installed version
-- name: extract version from git releas.sh file
-  slurp:
-    src: "{{ iptv_analyzer_git_repo_destination }}/release.sh"
-  register: release_info
+# - name: extract version from git releas.sh file
+#   slurp:
+#     src: "{{ iptv_analyzer_git_repo_destination }}/release.sh"
+#   register: release_info
+- name: Get version of repo (release.sh)
+  shell: "grep -i 'VERSION=' /opt/iptv_analyzer/release.sh" 
+  become: true
+  register: git_version
 
 - debug:
-    msg: "{{ release_info['content'] | b64decode }}"
+    var: git_version.stdout[0]
 
-- debug:
-    #msg: "{{ release_info['content'] | b64decode | regex_findall('/VERSION="(.+)\s/g"')}}"
-    msg: "{{ release_info['content'] | b64decode | regex_search('VERSION='(.+) | string )}}"
 
-# - name: Get Git version
-#   set_fact:
-#     git_version: "{{ release_info['content'] | b64decode | regex_findall('VERSION=\"(.+)\"') | first }}"
-
-# - name: Ensure SELinux is set to enforcing mode
-#   lineinfile:
-#     path: "{{ iptv_analyzer_git_repo_destination }}/release.sh"
-#     regexp: '^VERSION='
-#     line: SELINUX=enforcing
-#
-#
-# - debug:
-#     var: git_version
 # # - name: Get version of IPTV analyzer from repo
 # #   set_fact:
 # #     release_data: "{{ lookup('file', {{ iptv_analyzer_git_repo_destination }}/release.sh) }}"
