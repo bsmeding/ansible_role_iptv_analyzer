@@ -160,7 +160,7 @@
     repo: "{{ iptv_analyzer_git_repo }}"
     dest: /tmp/iptv_analyzer
     update: yes
-  when: db_creation.changed and iptv_analyzer_database_init_script is defined and iptv_analyzer_database_init_script|length>2
+  when: (db_creation.changed and iptv_analyzer_database_init_script is defined and iptv_analyzer_database_init_script|length>2) or iptv_analyzer_database_force_init_script|bool
 
 - name: Initialise databases
   mysql_db:  # noqa 503
