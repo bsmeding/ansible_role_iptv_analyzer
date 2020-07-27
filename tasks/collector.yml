@@ -59,209 +59,220 @@
     force: "{{ iptv_analyzer_git_repo_force }}"
   become: true
 
-# TODO: Get release date of git repo, compare with installed version
+
+
 # - name: extract version from git releas.sh file
 #   slurp:
 #     src: "{{ iptv_analyzer_git_repo_destination }}/release.sh"
 #   register: release_info
 - name: Get version of repo (release.sh)
-  shell: "grep -i 'VERSION=' /opt/iptv_analyzer/release.sh" 
+  shell: "grep -i 'VERSION=' /opt/iptv_analyzer/release.sh"
   become: true
   register: git_version
 
 - debug:
-    var: git_version.stdout[0]
+    var: git_version.stdout_lines[0]
+
+- name: Check if a version is installed
+  stat: "path=/etc/iptv-analyzer/version"
+  register: collector_version_stat
+
+- name: Get installed version
+  shell: "grep -i 'version=' /etc/iptv-analyzer/version"
+  become: true
+  register: installed_version
+
+- debug:
+    var: installed_version.stdout_lines[0]
+
+- name: Build collector
+  block:
+  # Execute autogen.sh
+  - name: Run autogen.sh
+    shell: './autogen.sh'
+    args:
+      chdir: "{{ iptv_analyzer_git_repo_destination }}"
+    become: true
+  # Find xtables
+  - name: Find xtables
+    command: 'whereis xtables'
+    register: xtables_location
+    changed_when: false
+
+  - debug:
+      msg: "{{ xtables_location.stdout.split()[1] }}"
+
+  # Configure with xtables path
+  - name: Configuring TVprobe source with custom modules path
+    shell: "./configure --with-xtlibdir={{ xtables_location.stdout.split()[1] }}"
+    args:
+      chdir: "{{ iptv_analyzer_git_repo_destination }}"
+    register: config_collector
+    become: true
+
+  # Make
+  - name: Build the default target for iptv collector
+    make:
+      chdir: "{{ iptv_analyzer_git_repo_destination }}"
+    become: true
+
+  # Make install (become)
+  - name: Run 'install' target as root
+    make:
+      chdir: "{{ iptv_analyzer_git_repo_destination }}"
+      target: install
+    become: yes
+
+  # iptables module (become)
+  - name: Insmod IPtables module
+    shell: 'insmod iptables-module/xt_mpeg2ts.ko'
+    args:
+      chdir: "{{ iptv_analyzer_git_repo_destination }}"
+    register: insmod_iptables_module
+    become: true
+    ignore_errors: true
+
+  # Wehn error check that error is file exist, otherwise error
+  # - debug:
+  #     msg: "{{ insmod_iptables_module }}"
+
+  - name: Check if error is valid
+    assert:
+      that:
+        - "'File exists' in insmod_iptables_module.stderr"
+    when: insmod_iptables_module is defined and insmod_iptables_module.failed|bool
+
+  # Prepare IP Tables
 
 
-# # - name: Get version of IPTV analyzer from repo
-# #   set_fact:
-# #     release_data: "{{ lookup('file', {{ iptv_analyzer_git_repo_destination }}/release.sh) }}"
-# # FALLBACK: Check if config file exist
-#
-# # Execute autogen.sh
-# - name: Run autogen.sh
-#   shell: './autogen.sh'
-#   args:
-#     chdir: "{{ iptv_analyzer_git_repo_destination }}"
-#   become: true
-# # Find xtables
-# - name: Find xtables
-#   command: 'whereis xtables'
-#   register: xtables_location
-#   changed_when: false
-#
-# - debug:
-#     msg: "{{ xtables_location.stdout.split()[1] }}"
-#
-# # Configure with xtables path
-# - name: Configuring TVprobe source with custom modules path
-#   shell: "./configure --with-xtlibdir={{ xtables_location.stdout.split()[1] }}"
-#   args:
-#     chdir: "{{ iptv_analyzer_git_repo_destination }}"
-#   register: config_collector
-#   become: true
-#
-# # Make
-# - name: Build the default target for iptv collector
-#   make:
-#     chdir: "{{ iptv_analyzer_git_repo_destination }}"
-#   become: true
-#
-# # Make install (become)
-# - name: Run 'install' target as root
-#   make:
-#     chdir: "{{ iptv_analyzer_git_repo_destination }}"
-#     target: install
-#   become: yes
-#
-# # iptables module (become)
-# - name: Insmod IPtables module
-#   shell: 'insmod iptables-module/xt_mpeg2ts.ko'
-#   args:
-#     chdir: "{{ iptv_analyzer_git_repo_destination }}"
-#   register: insmod_iptables_module
-#   become: true
-#   ignore_errors: true
-#
-# # Wehn error check that error is file exist, otherwise error
-# # - debug:
-# #     msg: "{{ insmod_iptables_module }}"
-#
-# - name: Check if error is valid
-#   assert:
-#     that:
-#       - "'File exists' in insmod_iptables_module.stderr"
-#   when: insmod_iptables_module is defined and insmod_iptables_module.failed|bool
-#
-# # Prepare IP Tables
-#
-#
-# # sudo iptables -t mangle -I PREROUTING -i eth0 -p udp -m mpeg2ts --name in_eth0
-# # - name: Prepare the iptables for filtering mpeg2ts streams
-# #   iptables:
-# #     table: mangle
-# #     chain: PREROUTING
-# #     in_interface: "{{ iptv_analyzer_collector_interface }}"
-# #     protocol: udp
-# #     match: "mpeg2ts --name in_{{ iptv_analyzer_collector_interface }}"
-# #   become: yes
-# # Delete: sudo iptables -t mangle -D PREROUTING 1
-#
-# ## Above not working wel, the match with extra paramas are compiled to string (with quotes) that iptables cannot handle
-# - name: Insmod IPtables module
-#   shell: "iptables -t mangle -I PREROUTING -i {{ iptv_analyzer_collector_interface }} -p udp -m mpeg2ts --name in_{{ iptv_analyzer_collector_interface }}"
-#   register: prepare_iptables_prerouting
-#   become: true
-#   ignore_errors: true
-# # if error check if this is because already in place, check (assert) this and go further or error
-# - name: Check if error is valid
-#   assert:
-#     that:
-#       - "'RULE_INSERT failed (Cannot allocate memory): rule in chain PREROUTING' in prepare_iptables_prerouting.stderr"
-#   when: prepare_iptables_prerouting is defined and prepare_iptables_prerouting.failed|bool
-#
-# - name: Make iptables persistant - add answers
-#   shell: |
-#     echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
-#     echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
-#     apt-get -y install iptables-persistent
-#   register: prepare_iptables_prerouting
-#   become: true
-#
-# # Add mysql user
-# - name: Create the users for collector
-#   mysql_user:
-#     name: "{{ iptv_analyzer_collector_db_password }}"
-#     password: "{{ iptv_analyzer_collector_db_user }}"
-#     host: "{{ inventory_hostname|default('localhost') }}"
-#     priv: "{{ iptv_analyzer_database_name }}.*:ALL"
-#     login_user: root
-#     login_password: "{{ iptv_analyzer_database_root_password }}"
-#     login_unix_socket: "{{ iptv_analyzer_database_mariadb_socket }}"
-#     state: present
-# #  no_log: true
-#   delegate_to: "{{ iptv_analyzer_database_server }}"
-#
-# # Build the perl collector if no config exist
-# - name: Check if config file exist
-#   stat: "path=/etc/iptv-analyzer/collector.conf"
-#   register: collector_config_stat
-#
-# - name: Build and set config for collector
-#   block:
-#   - name: Build perl collector
-#     shell: "perl Makefile.PL"
-#     args:
-#       chdir: "{{ iptv_analyzer_git_repo_destination }}/collector"
-#     register: perl_makefile
-#
-#   - name: Build the collector
-#     make:
-#       chdir: "{{ iptv_analyzer_git_repo_destination }}/collector"
-#
-#   # Make install
-#   - name: Run 'install'
-#     make:
-#       chdir: "{{ iptv_analyzer_git_repo_destination }}/collector"
-#       target: install
-#
-#   - name: Copy collector.conf.sample to collector.conf
-#     command: "cp /etc/iptv-analyzer/collector.conf.sample /etc/iptv-analyzer/collector.conf"
-#
-#   - name: Set collector.conf probe_ip
-#     lineinfile:
-#       path: "/etc/iptv-analyzer/collector.conf"
-#       regexp: '^probe_ip   = '
-#       line: "probe_ip   = {{ ansible_default_ipv4.address }}"
-#
-#   - name: Set collector.conf probe_name
-#     lineinfile:
-#       path: "/etc/iptv-analyzer/collector.conf"
-#       regexp: '^probe_name = '
-#       line: "probe_name = {{ inventory_hostname }}"
-#
-#   - name: Set collector.conf snmptraphost
-#     lineinfile:
-#       path: "/etc/iptv-analyzer/collector.conf"
-#       regexp: '^snmptraphost  ='
-#       line: "snmptraphost  = {{ iptv_analyzer_snmptraphost }}"
-#
-#   - name: Set collector.conf probe_name
-#     lineinfile:
-#       path: "/etc/iptv-analyzer/collector.conf"
-#       regexp: '^snmpcommunity ='
-#       line: "snmpcommunity = {{ iptv_analyzer_snmpcommunity }}"
-#
-#   - name: Set collector.conf procfile
-#     lineinfile:
-#       path: "/etc/iptv-analyzer/collector.conf"
-#       regexp: '^input[rule_in_eth0][procfile]  = '
-#       line: "input[rule_in_{{ iptv_analyzer_collector_interface }}][procfile]  = /proc/net/xt_mpeg2ts/rule_in_{{ iptv_analyzer_collector_interface }}"
-#
-#   - name: Set collector.conf shortloc
-#     lineinfile:
-#       path: "/etc/iptv-analyzer/collector.conf"
-#       regexp: '^input[rule_in_eth0][shortloc]  = '
-#       line: "input[rule_in_{{ iptv_analyzer_collector_interface }}][shortloc]  = {{ iptv_analyzer_collector_shortloc }}"
-#
-#   - name: Set collector.conf switch
-#     lineinfile:
-#       path: "/etc/iptv-analyzer/collector.conf"
-#       regexp: '^input[rule_in_eth0][switch]  = '
-#       line: "input[rule_in_{{ iptv_analyzer_collector_interface }}][switch]  = {{ iptv_analyzer_collector_switch }}"
-#
-#
-#
-#
-#   - name: Copy log4perl.conf.sample to log4perl.conf
-#     command: "cp /etc/iptv-analyzer/log4perl.conf.sample  /etc/iptv-analyzer/log4perl.conf"
-#     when: not collector_config_stat.stat.exists or iptv_analyzer_install_collector_force_reinstall|bool
-#
-#
-#   #Block when
-#   when: not collector_config_stat.stat.exists or iptv_analyzer_install_collector_force_reinstall|bool
-#   become: true
-#
+  # sudo iptables -t mangle -I PREROUTING -i eth0 -p udp -m mpeg2ts --name in_eth0
+  # - name: Prepare the iptables for filtering mpeg2ts streams
+  #   iptables:
+  #     table: mangle
+  #     chain: PREROUTING
+  #     in_interface: "{{ iptv_analyzer_collector_interface }}"
+  #     protocol: udp
+  #     match: "mpeg2ts --name in_{{ iptv_analyzer_collector_interface }}"
+  #   become: yes
+  # Delete: sudo iptables -t mangle -D PREROUTING 1
+
+  ## Above not working wel, the match with extra paramas are compiled to string (with quotes) that iptables cannot handle
+  - name: Insmod IPtables module
+    shell: "iptables -t mangle -I PREROUTING -i {{ iptv_analyzer_collector_interface }} -p udp -m mpeg2ts --name in_{{ iptv_analyzer_collector_interface }}"
+    register: prepare_iptables_prerouting
+    become: true
+    ignore_errors: true
+  # if error check if this is because already in place, check (assert) this and go further or error
+  - name: Check if error is valid
+    assert:
+      that:
+        - "'RULE_INSERT failed (Cannot allocate memory): rule in chain PREROUTING' in prepare_iptables_prerouting.stderr"
+    when: prepare_iptables_prerouting is defined and prepare_iptables_prerouting.failed|bool
+
+  - name: Make iptables persistant - add answers
+    shell: |
+      echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
+      echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
+      apt-get -y install iptables-persistent
+    register: prepare_iptables_prerouting
+    become: true
+
+  # Add mysql user
+  - name: Create the users for collector
+    mysql_user:
+      name: "{{ iptv_analyzer_collector_db_password }}"
+      password: "{{ iptv_analyzer_collector_db_user }}"
+      host: "{{ inventory_hostname|default('localhost') }}"
+      priv: "{{ iptv_analyzer_database_name }}.*:ALL"
+      login_user: root
+      login_password: "{{ iptv_analyzer_database_root_password }}"
+      login_unix_socket: "{{ iptv_analyzer_database_mariadb_socket }}"
+      state: present
+  #  no_log: true
+    delegate_to: "{{ iptv_analyzer_database_server }}"
+
+  # Build the perl collector if no config exist
+  - name: Check if config file exist
+    stat: "path=/etc/iptv-analyzer/collector.conf"
+    register: collector_config_stat
+
+  - name: Build and set config for collector
+    block:
+    - name: Build perl collector
+      shell: "perl Makefile.PL"
+      args:
+        chdir: "{{ iptv_analyzer_git_repo_destination }}/collector"
+      register: perl_makefile
+
+    - name: Build the collector
+      make:
+        chdir: "{{ iptv_analyzer_git_repo_destination }}/collector"
+
+    # Make install
+    - name: Run 'install'
+      make:
+        chdir: "{{ iptv_analyzer_git_repo_destination }}/collector"
+        target: install
+
+    - name: Copy collector.conf.sample to collector.conf
+      command: "cp /etc/iptv-analyzer/collector.conf.sample /etc/iptv-analyzer/collector.conf"
+
+    - name: Set collector.conf probe_ip
+      lineinfile:
+        path: "/etc/iptv-analyzer/collector.conf"
+        regexp: '^probe_ip   = '
+        line: "probe_ip   = {{ ansible_default_ipv4.address }}"
+
+    - name: Set collector.conf probe_name
+      lineinfile:
+        path: "/etc/iptv-analyzer/collector.conf"
+        regexp: '^probe_name = '
+        line: "probe_name = {{ inventory_hostname }}"
+
+    - name: Set collector.conf snmptraphost
+      lineinfile:
+        path: "/etc/iptv-analyzer/collector.conf"
+        regexp: '^snmptraphost  ='
+        line: "snmptraphost  = {{ iptv_analyzer_snmptraphost }}"
+
+    - name: Set collector.conf probe_name
+      lineinfile:
+        path: "/etc/iptv-analyzer/collector.conf"
+        regexp: '^snmpcommunity ='
+        line: "snmpcommunity = {{ iptv_analyzer_snmpcommunity }}"
+
+    - name: Set collector.conf procfile
+      lineinfile:
+        path: "/etc/iptv-analyzer/collector.conf"
+        regexp: '^input[rule_in_eth0][procfile]  = '
+        line: "input[rule_in_{{ iptv_analyzer_collector_interface }}][procfile]  = /proc/net/xt_mpeg2ts/rule_in_{{ iptv_analyzer_collector_interface }}"
+
+    - name: Set collector.conf shortloc
+      lineinfile:
+        path: "/etc/iptv-analyzer/collector.conf"
+        regexp: '^input[rule_in_eth0][shortloc]  = '
+        line: "input[rule_in_{{ iptv_analyzer_collector_interface }}][shortloc]  = {{ iptv_analyzer_collector_shortloc }}"
+
+    - name: Set collector.conf switch
+      lineinfile:
+        path: "/etc/iptv-analyzer/collector.conf"
+        regexp: '^input[rule_in_eth0][switch]  = '
+        line: "input[rule_in_{{ iptv_analyzer_collector_interface }}][switch]  = {{ iptv_analyzer_collector_switch }}"
+
+
+
+
+    - name: Copy log4perl.conf.sample to log4perl.conf
+      command: "cp /etc/iptv-analyzer/log4perl.conf.sample  /etc/iptv-analyzer/log4perl.conf"
+      when: not collector_config_stat.stat.exists or iptv_analyzer_install_collector_force_reinstall|bool
+
+
+    #Block  Build and set config for collector
+    when: not collector_config_stat.stat.exists or iptv_analyzer_install_collector_force_reinstall|bool
+    become: true
+  # Block only new version install or force reinstall
+  when: not collector_config_stat.stat.exists or iptv_analyzer_install_collector_force_reinstall|bool
+  become: true
 # # make collector start at boot
 #
 # - name: Create symbolic link for startup script
