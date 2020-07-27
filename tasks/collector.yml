@@ -69,7 +69,7 @@
     msg: "{{ release_info['content'] | b64decode }}"
 
 - debug:
-    msg: "{{ release_info['content'] | b64decode | regex_findall('bVERSIONb')}}"
+    msg: "{{ release_info['content'] | b64decode | regex_findall('\nVERSION=\"(.+)\"\n')}}"
 
 
 # - name: Get Git version
