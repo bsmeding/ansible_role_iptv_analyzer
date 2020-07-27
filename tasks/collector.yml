@@ -276,13 +276,9 @@
         regexp: '^input[rule_in_eth0][switch]  = '
         line: "input[rule_in_{{ iptv_analyzer_collector_interface }}][switch]  = {{ iptv_analyzer_collector_switch }}"
 
-
-
-
     - name: Copy log4perl.conf.sample to log4perl.conf
       command: "cp /etc/iptv-analyzer/log4perl.conf.sample  /etc/iptv-analyzer/log4perl.conf"
       when: not collector_config_stat.stat.exists or iptv_analyzer_install_collector_force_reinstall|bool
-
 
     #Block  Build and set config for collector
     when: not collector_config_stat.stat.exists or iptv_analyzer_install_collector_force_reinstall|bool
@@ -292,21 +288,21 @@
   become: true
 # # make collector start at boot
 #
-# - name: Create symbolic link for startup script
-#   file:
-#     src: "{{ iptv_analyzer_git_repo_destination }}/collector/scripts/iptv-collector"
-#     dest: "/etc/init.d/iptv-collector"
-#     state: link
-#     force: true
-#     mode: u=rwx,g=rx,o=rx
-#   become: true
-#
-# - name: Update service tvprobe to autostart and start directly
-#   systemd:
-#     name: iptv-collector
-#     enabled: yes
-#     state: started
-#   become: true
+- name: Create symbolic link for startup script
+  file:
+    src: "{{ iptv_analyzer_git_repo_destination }}/collector/scripts/iptv-collector"
+    dest: "/etc/init.d/iptv-collector"
+    state: link
+    force: true
+    mode: u=rwx,g=rx,o=rx
+  become: true
+
+- name: Update service tvprobe to autostart and start directly
+  systemd:
+    name: iptv-collector
+    enabled: yes
+    state: started
+  become: true
 #
 # ## Static joints toevoegen
 # # [08:15] Silvio van Leeuwen
