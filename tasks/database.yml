@@ -170,7 +170,7 @@
     login_user: root
     login_password: "{{ iptv_analyzer_database_root_password }}"
     login_unix_socket: "{{ iptv_analyzer_database_mariadb_socket }}"
-  when: db_creation.changed and iptv_analyzer_database_init_script is defined and iptv_analyzer_database_init_script|length>2
+  when: (db_creation.changed and iptv_analyzer_database_init_script is defined and iptv_analyzer_database_init_script|length>2) or iptv_analyzer_database_force_init_script|bool
 
 # - name: Delete init scripts from the server
 #   file:  # noqa 503

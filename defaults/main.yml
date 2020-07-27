@@ -1,6 +1,7 @@
 ---
 # defaults file for iptv_analyzer
 show_debug: false     # Show debug output
+iptv_analyzer_collector_log_email: ''
 
 iptv_analyzer_git_repo: 'https://github.com/bsmeding/IPTV-Analyzer'     # Repo of IPTV analyzer to install and build. Also used on database server to import schema
 iptv_analyzer_git_repo_destination: '/opt/iptv_analyzer'
@@ -47,6 +48,7 @@ iptv_analyzer_database_password: 'tvprobepasswd'    # default user Min 6 charact
 iptv_analyzer_database_bind_address: '127.0.0.1'    # Defaults install to localhost 127.0.0.1.
 iptv_analyzer_database_name: 'tvprobe'
 iptv_analyzer_database_init_script: 'database-schema-latest.sql'
+iptv_analyzer_database_force_init_script: false     # Force the import of init script
 
 #Collector
 iptv_analyzer_install_collector: true
