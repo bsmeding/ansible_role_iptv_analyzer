@@ -81,7 +81,7 @@
   shell: "grep -i 'version=' /etc/iptv-analyzer/version"
   become: true
   register: installed_version
-  when: collector_version_stat.stat.exist
+  when: collector_version_stat.stat.exists
 
 - debug:
     var: installed_version.stdout_lines[0]
