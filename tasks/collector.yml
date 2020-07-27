@@ -293,7 +293,7 @@
     - name: Set capture interface
       replace:
         path: "/etc/iptv-analyzer/collector.conf"
-        regexp: '(\s+)eth0(\s+.*)?$'
+        regexp: '(_eth0)'
         #replace: '\1new.host.name\2'
         replace: "{{ iptv_analyzer_collector_interface }}"
 
