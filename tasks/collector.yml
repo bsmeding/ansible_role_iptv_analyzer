@@ -10,7 +10,6 @@
     state: present
   become: true
 
-
 - name: Create daemon user for collector
   user:
     name: "{{ iptv_analyzer_system_user.name }}"
@@ -23,7 +22,6 @@
     create_home: true
   become: true
 
-
 # Install packages
 - name: Update repositories cache and install collector packages
   apt:
@@ -32,22 +30,22 @@
     update_cache: yes
   become: true
 
-
 # Check kernel
 - name: Check kernel
   command: "{{ iptv_analyzer_collector_cmd_kerel_version }}"
   register: kernel_version
   changed_when: false
 
-# - debug:
-#     msg: "{{ kernel_version }}"
+- debug:
+    msg: "Kernel version {{ kernel_version }}"
+  when: show_debug|bool
+
 - name: "Instal linux-headers-{{ kernel_version.stdout }}"
   apt:
     name: "linux-headers-{{ kernel_version.stdout }}"
     state: present
     update_cache: yes
   become: true
-
 
 # Clone Git Repo
 # Check if dir exists
@@ -72,6 +70,7 @@
 
 - debug:
     var: git_version.stdout_lines[0]
+  when: show_debug|bool
 
 - name: Check if a version is installed
   stat: "path=/etc/iptv-analyzer/version"
@@ -85,6 +84,7 @@
 
 - debug:
     var: installed_version.stdout_lines[0]
+  when: show_debug|bool
 
 - name: save version
   set_fact:
@@ -92,11 +92,12 @@
     new_version: "{{ git_version.stdout_lines[0] | replace('VERSION=','') | default('0.0.0') }}"
 
 - debug:
-    msg: "{{ current_version }} {{ new_version }}"
+    msg: "current {{ current_version }} ==> new {{ new_version }}"
+  when: show_debug|bool
+
 - debug:
     msg: "Will install (new) version of collector, currently installed {{ current_version }} new version {{ new_version }}"
   when: (current_version != new_version)
-
 - debug:
     msg: "Will reinstall collector version {{ new_version }}"
   when: (current_version == new_version) and iptv_analyzer_install_collector_force_reinstall == true
@@ -118,6 +119,7 @@
 
   - debug:
       msg: "{{ xtables_location.stdout.split()[1] }}"
+    when: show_debug|bool
 
   # Configure with xtables path
   - name: Configuring TVprobe source with custom modules path
@@ -150,8 +152,9 @@
     ignore_errors: true
 
   # Wehn error check that error is file exist, otherwise error
-  # - debug:
-  #     msg: "{{ insmod_iptables_module }}"
+  - debug:
+      msg: "{{ insmod_iptables_module }}"
+    when: show_debug|bool
 
   - name: Check if error is valid
     assert:
