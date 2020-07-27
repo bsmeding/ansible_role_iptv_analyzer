@@ -288,7 +288,7 @@
     when: not collector_config_stat.stat.exists or iptv_analyzer_install_collector_force_reinstall|bool
     become: true
   # Block only new version install or force reinstall
-  when: (current_version != new_version) iptv_analyzer_install_collector_force_reinstall|bool
+  when: (current_version != new_version) or iptv_analyzer_install_collector_force_reinstall|bool
   become: true
 # # make collector start at boot
 #
