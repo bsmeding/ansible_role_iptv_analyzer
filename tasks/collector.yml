@@ -68,9 +68,20 @@
 - debug:
     msg: "{{ release_info['content'] | b64decode }}"
 
-- name: Get Git version
-  set_fact:
-    git_version: "{{ release_info['content'] | b64decode | regex_findall('VERSION=\"(.+)\"') | first }}"
+- debug:
+    msg: "{{ release_info['content'] | b64decode | regex_findall('VERSION=\"(.+)\"') | first }}"
+
+
+# - name: Get Git version
+#   set_fact:
+#     git_version: "{{ release_info['content'] | b64decode | regex_findall('VERSION=\"(.+)\"') | first }}"
+
+# - name: Ensure SELinux is set to enforcing mode
+#   lineinfile:
+#     path: "{{ iptv_analyzer_git_repo_destination }}/release.sh"
+#     regexp: '^VERSION='
+#     line: SELINUX=enforcing
+
 
 - debug:
     var: git_version
