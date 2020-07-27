@@ -67,6 +67,7 @@
   shell: "grep -i 'VERSION=' /opt/iptv_analyzer/release.sh"
   become: true
   register: git_version
+  changed_when: false
 
 - debug:
     var: git_version.stdout_lines[0]
@@ -75,12 +76,14 @@
 - name: Check if a version is installed
   stat: "path=/etc/iptv-analyzer/version"
   register: collector_version_stat
+  changed_when: false
 
 - name: Get installed version
   shell: "grep -i 'version=' /etc/iptv-analyzer/version"
   become: true
   register: installed_version
   when: collector_version_stat.stat.exists
+  changed_when: false
 
 - debug:
     var: installed_version.stdout_lines[0]
@@ -90,6 +93,7 @@
   set_fact:
     current_version: "{{ installed_version.stdout_lines[0] | replace('version=','') | default('0.0.0') }}"
     new_version: "{{ git_version.stdout_lines[0] | replace('VERSION=','') | default('0.0.0') }}"
+  changed_when: false
 
 - debug:
     msg: "current {{ current_version }} ==> new {{ new_version }}"
@@ -243,6 +247,31 @@
         regexp: '^probe_ip   = '
         line: "probe_ip   = {{ ansible_default_ipv4.address }}"
 
+
+    - name: Set collector.conf dbhost =
+      lineinfile:
+        path: "/etc/iptv-analyzer/collector.conf"
+        regexp: '^dbhost = '
+        line: "dbhost = {{ iptv_analyzer_database_server }}"
+
+    - name: Set collector.conf dbname =
+      lineinfile:
+        path: "/etc/iptv-analyzer/collector.conf"
+        regexp: '^dbname = '
+        line: "dbname = {{ iptv_analyzer_database_server }}"
+
+    - name: Set collector.conf dbuser =
+      lineinfile:
+        path: "/etc/iptv-analyzer/collector.conf"
+        regexp: '^dbuser = '
+        line: "dbuser = {{ iptv_analyzer_collector_db_user }}"
+
+    - name: Set collector.conf dbpass =
+      lineinfile:
+        path: "/etc/iptv-analyzer/collector.conf"
+        regexp: '^dbpass = '
+        line: "dbpass = {{ iptv_analyzer_collector_db_password }}"
+
     - name: Set collector.conf probe_name
       lineinfile:
         path: "/etc/iptv-analyzer/collector.conf"
@@ -264,19 +293,19 @@
     - name: Set collector.conf procfile
       lineinfile:
         path: "/etc/iptv-analyzer/collector.conf"
-        regexp: '^input[rule_in_eth0][procfile]  = '
+        regexp: '^input[rule_in_eth0][procfile] = '
         line: "input[rule_in_{{ iptv_analyzer_collector_interface }}][procfile]  = /proc/net/xt_mpeg2ts/rule_in_{{ iptv_analyzer_collector_interface }}"
 
     - name: Set collector.conf shortloc
       lineinfile:
         path: "/etc/iptv-analyzer/collector.conf"
-        regexp: '^input[rule_in_eth0][shortloc]  = '
+        regexp: '^input[rule_in_eth0][shortloc] = '
         line: "input[rule_in_{{ iptv_analyzer_collector_interface }}][shortloc]  = {{ iptv_analyzer_collector_shortloc }}"
 
     - name: Set collector.conf switch
       lineinfile:
         path: "/etc/iptv-analyzer/collector.conf"
-        regexp: '^input[rule_in_eth0][switch]  = '
+        regexp: '^input[rule_in_eth0][switch] = '
         line: "input[rule_in_{{ iptv_analyzer_collector_interface }}][switch]  = {{ iptv_analyzer_collector_switch }}"
 
     - name: Copy log4perl.conf.sample to log4perl.conf

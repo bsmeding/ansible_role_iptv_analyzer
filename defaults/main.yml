@@ -1,5 +1,6 @@
 ---
 # defaults file for iptv_analyzer
+show_debug: false     # Show debug output
 
 iptv_analyzer_git_repo: 'https://github.com/bsmeding/IPTV-Analyzer'     # Repo of IPTV analyzer to install and build. Also used on database server to import schema
 iptv_analyzer_git_repo_destination: '/opt/iptv_analyzer'

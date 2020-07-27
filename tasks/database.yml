@@ -25,7 +25,6 @@
     shell: "{{ iptv_analyzer_database_system_user.shell }}"
   become: true
 
-
 # Install mariadb and client
 - name: Update repositories cache and install database packages
   apt:
@@ -33,8 +32,6 @@
     state: present
     update_cache: yes
   become: true
-
-
 
 ### ROOT USER SETTINGS
 - name: Check if a custom root password is specified
