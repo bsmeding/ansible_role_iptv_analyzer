@@ -70,7 +70,7 @@
 
 - name: Get Git version
   set_fact:
-    git_version: "{{ release_info['content'] | b64decode | regex_findall('VERSION=\"(.+)\"') | first }}"
+    git_version: "{{ release_info['content'] | b64decode | regex_findall('VERSION=\"(.+)\"') | first }}
 
 - debug:
     var: git_version
