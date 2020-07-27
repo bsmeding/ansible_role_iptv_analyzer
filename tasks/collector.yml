@@ -66,8 +66,8 @@
   register: release_info
 
 - debug:
-    msg: "{{ release_info }}"
-    
+    msg: "{{ release_info['content'] | b64decode }}"
+
 - name: Get Git version
   set_fact:
     git_version: "{{ release_info['content'] | b64decode | regex_findall('VERSION=\"(.+)\"') | first }}"
