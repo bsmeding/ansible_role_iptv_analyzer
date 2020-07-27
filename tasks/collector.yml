@@ -81,9 +81,24 @@
   shell: "grep -i 'version=' /etc/iptv-analyzer/version"
   become: true
   register: installed_version
+  when: collector_version_stat.stat.exist
 
 - debug:
     var: installed_version.stdout_lines[0]
+
+- name: save version
+  set_fact:
+    current_version: "{{ installed_version.stdout_lines[0] | replace('version=','') | default('0.0.0') }}"
+    new_version: "{{ git_version.stdout_lines[0] | replace('VERSION=','') }}"
+
+- debug:
+    msg: "Will install (new) version of collector, currently installed {{ current_version }} new version {{ new_version }}"
+  when: (current_version != new_version)
+
+- debug:
+    msg: "Will reinstall collector version {{ new_version }}"
+  when: (current_version == new_version) and iptv_analyzer_install_collector_force_reinstall == true
+
 
 - name: Build collector
   block:
@@ -271,7 +286,7 @@
     when: not collector_config_stat.stat.exists or iptv_analyzer_install_collector_force_reinstall|bool
     become: true
   # Block only new version install or force reinstall
-  when: not collector_config_stat.stat.exists or iptv_analyzer_install_collector_force_reinstall|bool
+  when: (current_version != new_version) iptv_analyzer_install_collector_force_reinstall|bool
   become: true
 # # make collector start at boot
 #
