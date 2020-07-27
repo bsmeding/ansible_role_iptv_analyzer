@@ -89,7 +89,7 @@
 - name: save version
   set_fact:
     current_version: "{{ installed_version.stdout_lines[0] | replace('version=','') | default('0.0.0') }}"
-    new_version: "{{ git_version.stdout_lines[0] | replace('VERSION=','') }}"
+    new_version: "{{ git_version.stdout_lines[0] | replace('VERSION=','') | default('0.0.0') }}"
 
 - debug:
     msg: "{{ current_version }} {{ new_version }}"
