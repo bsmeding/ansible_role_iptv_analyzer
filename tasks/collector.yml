@@ -97,7 +97,7 @@
   when: collector_version_stat.stat.exists
 
 - debug:
-    msg: "current {{ current_version }} ==> new {{ new_version }}"
+    msg: "current {{ current_version }} ==> new {{ new_version|default('0.0.0') }}"
   when: show_debug|bool
 
 - debug:
