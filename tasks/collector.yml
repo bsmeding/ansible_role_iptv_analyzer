@@ -97,15 +97,15 @@
   when: collector_version_stat.stat.exists
 
 - debug:
-    msg: "current {{ current_version }} ==> new {{ new_version|default('0.0.0') }}"
-  when: show_debug|bool
+    msg: "current {{ current_version }} ==> new {{ new_version }}"
+  when: show_debug|bool and collector_version_stat.stat.exists
 
 - debug:
     msg: "Will install (new) version of collector, currently installed {{ current_version }} new version {{ new_version }}"
-  when: (current_version != new_version)
+  when: (current_version != new_version) and collector_version_stat.stat.exists
 - debug:
     msg: "Will reinstall collector version {{ new_version }}"
-  when: (current_version == new_version) and iptv_analyzer_install_collector_force_reinstall == true
+  when: (current_version == new_version) and iptv_analyzer_install_collector_force_reinstall == true and collector_version_stat.stat.exists
 
 
 - name: Build collector
