@@ -33,9 +33,10 @@
     update_cache: yes
   become: true
 
-- name: install python module
-- pip:
+- name: install python module 
+  pip:
     name: pymysql
+  delegate_to: localhost
 
 ### ROOT USER SETTINGS
 - name: Check if a custom root password is specified
