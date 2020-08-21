@@ -351,14 +351,3 @@
     enabled: yes
     state: started
   become: true
-#
-# ## Static joints toevoegen
-# # [08:15] Silvio van Leeuwen
-# #     echo "2" > /proc/sys/net/ipv4/conf/eth0/force_igmp_version
-# # ​[08:15] Silvio van Leeuwen
-# #     Nu NPO1 en RTL4 static er in staan
-# # ​[08:15] Silvio van Leeuwen
-# #     ip addr add 239.192.100.238/32 dev eth0 autojoin
-# # ip addr add 239.192.100.247/32 dev eth0 autojoin
-# # ​[08:15] Silvio van Leeuwen
-# #     even kijken of hij ze ook tergelijk kan meten.
