@@ -94,6 +94,7 @@
     current_version: "{{ installed_version.stdout_lines[0] | replace('version=','') | default('0.0.0') }}"
     new_version: "{{ git_version.stdout_lines[0] | replace('VERSION=','') | default('0.0.0') }}"
   changed_when: false
+  when: collector_version_stat.stat.exists
 
 - debug:
     msg: "current {{ current_version }} ==> new {{ new_version }}"
