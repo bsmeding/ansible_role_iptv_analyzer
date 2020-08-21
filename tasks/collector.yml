@@ -93,19 +93,26 @@
   set_fact:
     current_version: "{{ installed_version.stdout_lines[0] | replace('version=','') | default('0.0.0') }}"
     new_version: "{{ git_version.stdout_lines[0] | replace('VERSION=','') | default('0.0.0') }}"
+  when: installed_version.stdout_lines[0] is defined
   changed_when: false
-  when: collector_version_stat.stat.exists
+
+- name: save version
+  set_fact:
+    current_version: '0.0.0'
+    new_version: "{{ git_version.stdout_lines[0] | replace('VERSION=','') | default('0.0.0') }}"
+  changed_when: false
+  when: installed_version.stdout_lines[0] is undefined
 
 - debug:
     msg: "current {{ current_version }} ==> new {{ new_version }}"
-  when: show_debug|bool and collector_version_stat.stat.exists
+  when: show_debug|bool
 
 - debug:
     msg: "Will install (new) version of collector, currently installed {{ current_version }} new version {{ new_version }}"
-  when: (current_version != new_version) and collector_version_stat.stat.exists
+  when: (current_version != new_version)
 - debug:
     msg: "Will reinstall collector version {{ new_version }}"
-  when: (current_version == new_version) and iptv_analyzer_install_collector_force_reinstall == true and collector_version_stat.stat.exists
+  when: (current_version == new_version) and iptv_analyzer_install_collector_force_reinstall == true
 
 
 - name: Build collector
