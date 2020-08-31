@@ -8,8 +8,8 @@
     regexp: 'ENV_PATH=(["]*)((?!.*?{{ item }}).*?)(["]*)$'
     line: "ENV_PATH=\1\2:{{ item }}\3"
   with_items:
-    - /usr/sbin
-    - /sbin
+    - '/usr/sbin'
+    - '/sbin'
 
 - name: add extra items to ENV_SUPATH
   lineinfile:
@@ -19,8 +19,8 @@
     regexp: 'ENV_SUPATH=(["]*)((?!.*?{{ item }}).*?)(["]*)$'
     line: "ENV_SUPATH=\1\2:{{ item }}\3"
    with_items:
-    - /usr/sbin
-    - /sbin
+    - '/usr/sbin'
+    - '/sbin'
 
 
 # Add system user for MariaDB
