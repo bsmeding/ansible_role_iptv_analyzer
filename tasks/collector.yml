@@ -5,7 +5,7 @@
     path: "{{ path_env_file }}"
     state: present
     backrefs: yes
-    regexp: 'ENV_PATH=(["]*)((?!.*?{{ item }}).*?)(["]*)$'
+    regexp: "ENV_PATH=(["]*)((?!.*?{{ item }}).*?)(["]*)$"
     line: "ENV_PATH=\1\2:{{ item }}\3"
   with_items:
     - '/usr/sbin'
