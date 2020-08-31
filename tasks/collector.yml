@@ -2,7 +2,7 @@
 # tasks file for iptv_analyzer collector
 - name: add extra items to ENV_PATH
   lineinfile:
-    dest: "{{ path_env_file }}"
+    path: "{{ path_env_file }}"
     state: present
     backrefs: yes
     regexp: 'ENV_PATH=(["]*)((?!.*?{{ item }}).*?)(["]*)$'
@@ -13,7 +13,7 @@
 
 - name: add extra items to ENV_SUPATH
   lineinfile:
-    dest: "{{ path_env_file }}"
+    path: "{{ path_env_file }}"
     state: present
     backrefs: yes
     regexp: 'ENV_SUPATH=(["]*)((?!.*?{{ item }}).*?)(["]*)$'
