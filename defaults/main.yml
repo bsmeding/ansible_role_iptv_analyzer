@@ -38,37 +38,21 @@ iptv_analyzer_database_system_user:     # Database system user
 iptv_analyzer_database_root_password: ''    # PLEASE CHANGE!! Root Password for MySQL
 iptv_analyzer_database_install_frontend: false  # When true, node and a node web server will be installed on the database server. default false as we use grafana as frontend
 iptv_analyzer_database_frontend_port: 80
-iptv_analyzer_database_install_packages:
-  - mariadb-server
-  - mariadb-client
-  - python3-pymysql
-iptv_analyzer_database_mariadb_socket: /var/run/mysqld/mysqld.sock
 iptv_analyzer_database_user: 'tvprobe'              # default user Min 6 characters!, please use seperate accounts, see iptv_analyzer_collectors.
 iptv_analyzer_database_password: 'tvprobepasswd'    # default user Min 6 characters!, please use seperate accounts, see iptv_analyzer_collectors
 iptv_analyzer_database_bind_address: '127.0.0.1'    # Defaults install to localhost 127.0.0.1.
 iptv_analyzer_database_name: 'tvprobe'
 iptv_analyzer_database_init_script: 'database-schema-latest.sql'
 iptv_analyzer_database_force_init_script: false     # Force the import of init script
+# -> see more variables in de vars directory of the role
+
 
 #Collector
 iptv_analyzer_install_collector: true
 iptv_analyzer_install_collector_force_reinstall: false    # If same version already exist is is not reinstalled, except when true
-iptv_analyzer_collector_cmd_kerel_version: 'uname -r'      # command to get kernel version of Linux, saved as 'kernel_version' variable
-iptv_analyzer_collector_kernel_package: linux-headers-{{ kernel_version }}
-iptv_analyzer_collector_install_packages:
-  - autoconf
-  - git
-  - gcc
-  - make
-  - libxtables-dev
-  - libproc-daemon-perl
-  - libproc-pid-file-perl
-  - libconfig-file-perl
-  - libdata-compare-perl
-  - liblog-log4perl-perl
-  - libnet-snmp-perl
-  - liblog-dispatch-perl
-  - mariadb-client
+# -> see more variables in de vars directory of the role
+
+
 
 # Add host_vars for every collector:
 iptv_analyzer_collector_ip_address: '127.0.0.1'

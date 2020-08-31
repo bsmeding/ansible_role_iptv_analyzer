@@ -1,4 +1,31 @@
 ---
 
+path_env_file: /etc/login.defs
 
-mariadb_socket: /var/run/mysqld/mysqld.sock
+
+
+# IPTV ANALYZER DATABASE
+iptv_analyzer_database_install_packages:
+  - mariadb-server
+  - mariadb-client
+  - python3-pymysql
+iptv_analyzer_database_mariadb_socket: /var/run/mysqld/mysqld.sock
+
+
+# IPTV ANALYZER COLLECTOR
+iptv_analyzer_collector_cmd_kerel_version: 'uname -r'      # command to get kernel version of Linux, saved as 'kernel_version' variable
+iptv_analyzer_collector_kernel_package: linux-headers-{{ kernel_version }}
+iptv_analyzer_collector_install_packages:
+  - autoconf
+  - git
+  - gcc
+  - make
+  - libxtables-dev
+  - libproc-daemon-perl
+  - libproc-pid-file-perl
+  - libconfig-file-perl
+  - libdata-compare-perl
+  - liblog-log4perl-perl
+  - libnet-snmp-perl
+  - liblog-dispatch-perl
+  - mariadb-client

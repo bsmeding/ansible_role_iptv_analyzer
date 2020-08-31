@@ -1,2 +1,5 @@
 ---
 # vars file for iptv_analyzer
+
+path_env_file: /etc/environment
+mariadb_socket: /var/run/mysqld/mysqld.sock
