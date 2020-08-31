@@ -1,12 +1,15 @@
 ---
 # tasks file for iptv_analyzer collector
-- name: add {{env_file_vars}} to path
+- name: add items to path
   lineinfile: >
    dest="{{ path_env_file }}"
    state=present
    backrefs=yes
-   regexp='ENV_PATH=(["]*)((?!.*?{{env_file_vars}}).*?)(["]*)$'
-   line="ENV_PATH=\1\2:{{env_file_vars}}\3"
+   regexp='ENV_PATH=(["]*)((?!.*?{{ item }}).*?)(["]*)$'
+   line="ENV_PATH=\1\2:{{ item }}\3"
+  with_items:
+    - '/usr/sbin'
+    - '/sbin'
 #
 # - name: add extra items to ENV_PATH
 #   lineinfile:
