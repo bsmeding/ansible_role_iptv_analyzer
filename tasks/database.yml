@@ -33,7 +33,7 @@
     update_cache: yes
   become: true
 
-- name: install python module 
+- name: install python module
   pip:
     name: pymysql
   delegate_to: localhost
@@ -198,6 +198,17 @@
     state: present
   no_log: true
   when: iptv_analyzer_database_user is defined and iptv_analyzer_database_user|length>6 and iptv_analyzer_database_password is defined and iptv_analyzer_database_password|length>6
+
+
+## TODO: ADD USER FOR Grafana
+# Database User Permissions (Important!)
+#
+# The database user you specify when you add the data source should only be granted SELECT permissions on the specified database and tables you want to query. Grafana does not validate that the query is safe. The query could include any SQL statement. For example, statements like USE otherdb; and DROP TABLE user; would be executed. To protect against this we Highly recommend you create a specific mysql user with restricted permissions.
+#
+# Example:
+#
+#  CREATE USER 'grafanaReader' IDENTIFIED BY 'password';
+#  GRANT SELECT ON mydatabase.mytable TO 'grafanaReader';
 
 # Users are created by collector tasks
 
