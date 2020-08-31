@@ -1,6 +1,6 @@
 ---
 
-path_env_file: /etc/profile
+path_env_file: /etc/login.defs
 path_env_file_profile: /etc/profile
 env_file_path_vars:
   - '/usr/sbin'
