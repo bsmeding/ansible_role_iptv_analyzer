@@ -2,11 +2,11 @@
 # tasks file for iptv_analyzer collector
 - name: add {{env_file_vars}} to path
    lineinfile: >
-   dest=/etc/environment
+   dest="{{ path_env_file }}"
    state=present
    backrefs=yes
-   regexp='PATH=(["]*)((?!.*?{{env_file_vars}}).*?)(["]*)$'
-   line="PATH=\1\2:{{env_file_vars}}\3"
+   regexp='ENV_PATH=(["]*)((?!.*?{{env_file_vars}}).*?)(["]*)$'
+   line="ENV_PATH=\1\2:{{env_file_vars}}\3"
 
 - name: add extra items to ENV_PATH
   lineinfile:
