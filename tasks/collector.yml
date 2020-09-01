@@ -17,8 +17,8 @@
    dest="{{ path_env_file }}"
    state=present
    backrefs=yes
-   regexp='ENV_PATH	PATH=((?!.*?{{ item }}).*?)$'
-   line='ENV_PATH	PATH=\1:{{ item }}'
+   regexp='ENV_PATH	PATH=(["]*)((?!.*?{{ item }}).*?)(["]*)$'
+   line='ENV_PATH	PATH=\1\2:{{ item }}\3'
   with_items: "{{ env_file_path_vars }}"
   become: true
 
@@ -39,10 +39,16 @@
    dest="{{ interface_naming_file }}"
    state=present
    backrefs=yes
-   regexp='{{ interface_naming_variable }}=(["]*)((?!.*?{{ interface_naming_varibale_setting }}).*?)(["]*)$'
-   line='{{ interface_naming_variable }}=\1\2:{{ interface_naming_varibale_setting }}\3'
+   regexp='^{{ interface_naming_variable }}='
+   line='{{ interface_naming_variable }}="{{ interface_naming_varibale_setting }}"'
   become: true
-
+  register: interface_naming_variabale
+# when changed interface naming, update grub
+#
+# - name: Update grub settings
+#   shell: "{{ interface_naming_commit_command }}"
+#   become: true
+#   when: interface_naming_variabale.changed
 
 # Add system user for MariaDB
 - name: Create daemon group for collector
