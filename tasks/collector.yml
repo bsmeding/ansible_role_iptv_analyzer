@@ -17,8 +17,8 @@
    dest="{{ path_env_file }}"
    state=present
    backrefs=yes
-   regexp='ENV_PATH	PATH=(["]*)((?!.*?{{ item }}).*?)(["]*)$'
-   line='ENV_PATH	PATH=\1\2:{{ item }}\3'
+   regexp='ENV_PATH	PATH=((?!.*?{{ item }}).*?)$'
+   line='ENV_PATH	PATH=\1:{{ item }}'
   with_items: "{{ env_file_path_vars }}"
   become: true
 
