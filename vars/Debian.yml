@@ -24,6 +24,7 @@ iptv_analyzer_database_mariadb_socket: /var/run/mysqld/mysqld.sock
 iptv_analyzer_collector_cmd_kerel_version: 'uname -r'      # command to get kernel version of Linux, saved as 'kernel_version' variable
 iptv_analyzer_collector_kernel_package: linux-headers-{{ kernel_version }}
 iptv_analyzer_collector_install_packages:
+  - sudo
   - autoconf
   - git
   - gcc
@@ -36,4 +37,6 @@ iptv_analyzer_collector_install_packages:
   - liblog-log4perl-perl
   - libnet-snmp-perl
   - liblog-dispatch-perl
+  - net-tools     # For trunks
+  - vlan          # For trunks
   - mariadb-client

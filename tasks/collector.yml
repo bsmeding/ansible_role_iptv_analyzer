@@ -44,11 +44,10 @@
   become: true
   register: interface_naming_variabale
 # when changed interface naming, update grub
-#
-# - name: Update grub settings
-#   shell: "{{ interface_naming_commit_command }}"
-#   become: true
-#   when: interface_naming_variabale.changed
+- name: Update grub settings
+  shell: "{{ interface_naming_commit_command }}"
+  become: true
+  when: interface_naming_variabale.changed or iptv_analyzer_install_collector_force_reinstall == true
 
 # Add system user for MariaDB
 - name: Create daemon group for collector
