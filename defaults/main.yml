@@ -66,7 +66,9 @@ iptv_analyzer_collector_switchtype: 'Genexis'
 iptv_analyzer_collector_hidden: no
 iptv_analyzer_collector_interface: eth0       # used for rpbe: input rule_in_eth0 and input_dev and procfile
 iptv_analyzer_collector_interface_ipv4: ''    # if given, thant IPv4 will be set in /etc/interfaces.d/{{ file }}.cfg, otherwise DHCP will be used
-iptv_analyzer_collector_interface_vlans: []   # dict for subinterfaces with vlans
-
+iptv_analyzer_collector_interface_vlans: {}   # dict for subinterfaces with vlans
+  # 100:
+  #   name: internet    # name if sub interface
+  #   ipv4_cidr: dhcp   # use IPv4 cidr as 192.168.1.10/24 or use dhcp
 iptv_analyzer_collector_db_user: probe1
 iptv_analyzer_collector_db_password: password1
