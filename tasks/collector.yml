@@ -53,11 +53,13 @@
 - name: Set inteface config for {{ iptv_analyzer_collector_interface }}
   template:
     src: interface_config.j2
-    dest: /etc/interfaces.d/{{ iptv_analyzer_collector_interface }}.conf
+    dest: /etc/network/interfaces.d/{{ iptv_analyzer_collector_interface }}.conf
     owner: root
     group: root
     mode: '0644'
   become: true
+
+## REBOOT?
 
 # Add system user for MariaDB
 - name: Create daemon group for collector
