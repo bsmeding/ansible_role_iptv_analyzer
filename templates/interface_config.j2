@@ -1,0 +1,11 @@
+# Ansible Managed!
+allow-hotplug {{ iptv_analyzer_collector_interface }}
+{% if iptv_analyzer_collector_interface_ipv4 is defined and iptv_analyzer_collector_interface_ipv4|length>6 %}
+iface {{ iptv_analyzer_collector_interface }} inet static
+    address   {{ iptv_analyzer_collector_interface | ipaddr('address') }}
+    network   {{ iptv_analyzer_collector_interface | ipaddr('network') }}
+    netmask   {{ iptv_analyzer_collector_interface | ipaddr('netmask') }}
+    broadcast {{ iptv_analyzer_collector_interface | ipaddr('broadcast') }}
+{% else %}
+iface {{ iptv_analyzer_collector_interface }} inet dhcp
+{% endif %}
