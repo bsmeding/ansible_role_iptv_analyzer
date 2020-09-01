@@ -40,7 +40,7 @@
    state=present
    backrefs=yes
    regexp='{{ interface_naming_variable }}=(["]*)((?!.*?{{ interface_naming_varibale_setting }}).*?)(["]*)$'
-   line="{{ interface_naming_variable }}=\1\2:{{ interface_naming_varibale_setting }}\3"
+   line='{{ interface_naming_variable }}=\1\2:{{ interface_naming_varibale_setting }}\3'
   become: true
 
 
