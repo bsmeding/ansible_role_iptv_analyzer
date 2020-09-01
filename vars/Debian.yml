@@ -6,6 +6,11 @@ env_file_path_vars:
   - '/usr/sbin'
   - '/sbin'
 
+# Interface naming, grub
+interface_naming_file: '/etc/default/grub'
+interface_naming_variable: 'GRUB_CMDLINE_LINUX'
+interface_naming_varibale_setting: 'net.ifnames=0 biosdevname=0'
+interface_naming_commit_command: '/usr/sbin/grub-mkconfig -o /boot/grub/grub.cfg'
 
 # IPTV ANALYZER DATABASE
 iptv_analyzer_database_install_packages:

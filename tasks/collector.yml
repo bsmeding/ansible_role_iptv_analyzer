@@ -1,5 +1,7 @@
 ---
 # tasks file for iptv_analyzer collector
+
+## Set PATH ENVIRONMENT
 - name: add path to "{{ path_env_file }}" ENV_SUPATH
   lineinfile: >
    dest="{{ path_env_file }}"
@@ -29,6 +31,18 @@
    line="PATH=\1\2:{{ item }}\3"
   with_items: "{{ env_file_path_vars }}"
   become: true
+## END Set PATH ENVIRONMENT
+
+## SET INTERFACE NAMING (to eth)
+- name: set interface naming in {{ interface_naming_varibale_setting }}
+  lineinfile: >
+   dest="{{ interface_naming_file }}"
+   state=present
+   backrefs=yes
+   regexp='{{ interface_naming_variable }}=(["]*)((?!.*?{{ interface_naming_varibale_setting }}).*?)(["]*)$'
+   line="{{ interface_naming_variable }}=\1\2:{{ interface_naming_varibale_setting }}\3"
+  become: true
+
 
 # Add system user for MariaDB
 - name: Create daemon group for collector
