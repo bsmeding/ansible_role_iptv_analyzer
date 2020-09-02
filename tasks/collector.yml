@@ -80,6 +80,7 @@
     sysctl_set: yes
     state: present
     reload: yes
+  become: true
 
 # IGMPv2 for static joints
 - name: Check IGMPv2 for static joints
