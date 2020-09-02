@@ -1,2 +1,6 @@
 ---
 # handlers file for iptv_analyzer
+- name: Restart service networking
+  service:
+    name: networking
+    state: restarted
