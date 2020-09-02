@@ -84,13 +84,7 @@
 
 # IGMPv2 for static joints
 - name: Check IGMPv2 for static joints
-  lineinfile: >
-   dest=/proc/sys/net/ipv4/conf/eth0/force_igmp_version
-   state=present
-   backrefs=no
-   regexp='[0-9]'
-   line='2'
-  become: true
+  copy: content=2 dest="/proc/sys/net/ipv4/conf/eth0/force_igmp_version" unsafe_writes=true
 
 # Add system user for MariaDB
 - name: Create daemon group for collector
