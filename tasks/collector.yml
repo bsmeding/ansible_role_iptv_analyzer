@@ -133,8 +133,8 @@
 - name: set NTP fallback servers in {{ ntp_file }}
   replace:
     path: "{{ ntp_file }}"
-    regexp: '^#FallbackNTP=(+.*)?$'
-    replace: 'FallbackNTP=\1'
+    regexp: '^#(.*FallbackNTP=.*)'
+    replace: '\1'
   become: true
 
 # Add system user for MariaDB
