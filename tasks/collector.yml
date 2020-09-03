@@ -115,9 +115,9 @@
     name: "{{ iptv_analyzer_collector_locale | default('en_GB.UTF-8') }}"
     state: present
 
-- name: Set timezone to {{ iptv_analyzer_collector_timezone | default('Europe/Amsterdam') }}
+- name: "Set timezone to {{ iptv_analyzer_collector_timezone | default('Europe/Amsterdam') }}"
   timezone:
-    name: {{ iptv_analyzer_collector_timezone | default('Europe/Amsterdam') }}
+    name: "{{ iptv_analyzer_collector_timezone | default('Europe/Amsterdam') }}"
 
 
 
