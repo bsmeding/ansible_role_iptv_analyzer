@@ -149,7 +149,6 @@
    backrefs=yes
    regexp='^NTP='
    line='NTP={% if iptv_analyzer_collector_ntp_server is defined and iptv_analyzer_collector_ntp_server|lengt>2 %}{{ iptv_analyzer_collector_ntp_server }}{% else %}pool.ntp.org{% endif %}'
-  with_items: "{{ env_file_path_vars }}"
   become: true
 
 
