@@ -146,7 +146,7 @@
    backrefs=true
    regexp='(.*supersede domain-name-servers .*);'
    line='supersede domain-name-servers 62.45.45.45;'
-   insertafter:'(.*supersede domain-name.*)'
+   insertafter='(.*supersede domain-name.*)'
   become: true
   when: iptv_analyzer_collector_interface_dns_server is defined and iptv_analyzer_collector_interface_dns_server|length>6
 
