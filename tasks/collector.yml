@@ -152,6 +152,14 @@
    line='NTP={% if iptv_analyzer_collector_ntp_server is defined and iptv_analyzer_collector_ntp_server|length>2 %}{{ iptv_analyzer_collector_ntp_server }}{% else %}pool.ntp.org{% endif %}'
   become: true
 
+- name: set NTP fallback servers in {{ ntp_file }}
+  lineinfile: >
+   dest="{{ ntp_file }}"
+   state=present
+   backrefs=false
+   regexp='#FallbackNTP=(*)$'
+   line='FallbackNTP=/1'
+  become: true
 
 # Install packages
 - name: Update repositories cache and install collector packages
