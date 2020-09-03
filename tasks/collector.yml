@@ -121,6 +121,23 @@
     name: "{{ iptv_analyzer_collector_timezone | default('Europe/Amsterdam') }}"
   become: true
 
+- name: set NTP server in {{ ntp_file }}
+  lineinfile: >
+   dest="{{ ntp_file }}"
+   state=present
+   backrefs=false
+   regexp='^[#]NTP='
+   line='NTP={% if iptv_analyzer_collector_ntp_server is defined and iptv_analyzer_collector_ntp_server|length>2 %}{{ iptv_analyzer_collector_ntp_server }}{% else %}pool.ntp.org{% endif %}'
+  become: true
+
+- name: set NTP fallback servers in {{ ntp_file }}
+  lineinfile: >
+   dest="{{ ntp_file }}"
+   state=present
+   backrefs=false
+   regexp='^#FallbackNTP=(*)$'
+   line='FallbackNTP=\1'
+  become: true
 
 # Add system user for MariaDB
 - name: Create daemon group for collector
@@ -141,24 +158,6 @@
     comment: "{{ iptv_analyzer_system_user.comment }}"
     home: "{{ iptv_analyzer_system_user.home }}"
     create_home: true
-  become: true
-
-- name: set NTP server in {{ ntp_file }}
-  lineinfile: >
-   dest="{{ ntp_file }}"
-   state=present
-   backrefs=false
-   regexp='^[#]NTP='
-   line='NTP={% if iptv_analyzer_collector_ntp_server is defined and iptv_analyzer_collector_ntp_server|length>2 %}{{ iptv_analyzer_collector_ntp_server }}{% else %}pool.ntp.org{% endif %}'
-  become: true
-
-- name: set NTP fallback servers in {{ ntp_file }}
-  lineinfile: >
-   dest="{{ ntp_file }}"
-   state=present
-   backrefs=false
-   regexp='^#FallbackNTP=(*)'
-   line='FallbackNTP=\1'
   become: true
 
 # Install packages
