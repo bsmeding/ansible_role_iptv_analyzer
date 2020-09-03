@@ -147,7 +147,7 @@
   lineinfile: >
    dest="{{ ntp_file }}"
    state=present
-   backrefs=yes
+   backrefs=false
    regexp='^NTP='
    line='NTP={% if iptv_analyzer_collector_ntp_server is defined and iptv_analyzer_collector_ntp_server|length>2 %}{{ iptv_analyzer_collector_ntp_server }}{% else %}pool.ntp.org{% endif %}'
   become: true
