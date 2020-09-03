@@ -157,7 +157,7 @@
    dest="{{ ntp_file }}"
    state=present
    backrefs=false
-   regexp='^#FallbackNTP=(.*)'
+   regexp='^#FallbackNTP=(*)'
    line='FallbackNTP=\1'
   become: true
 
