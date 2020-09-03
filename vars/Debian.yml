@@ -40,3 +40,6 @@ iptv_analyzer_collector_install_packages:
   - net-tools     # For trunks
   - vlan          # For trunks
   - mariadb-client
+
+# For NTP time sync
+ntp_file: '/etc/systemd/timesyncd.conf'

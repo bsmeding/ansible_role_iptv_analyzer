@@ -87,6 +87,40 @@
   copy: content=2 dest="/proc/sys/net/ipv4/conf/eth0/force_igmp_version" unsafe_writes=true
   become: true
 
+## Firewall
+# ==========================================================================================
+# Firewall (as root) /// komt later pas als de analyzer goed werkt !!!
+#
+# update-alternatives --set iptables /usr/sbin/iptables-legacy
+#
+# vi /etc/firewall.conf
+#
+# Config zie firewall.conf
+#
+# vi /etc/init.d/iptables
+#
+# Config zie iptables
+#
+# chmod 755 /etc/init.d/iptables
+# chmod 600 /etc/firewall.conf
+# chown root:root /etc/firewall.conf
+#
+#
+# update-rc.d iptables defaults
+
+
+# Set NTP and locale for correct timestamps
+- name: Ensure a locale exists
+  locale_gen:
+    name: "{{ iptv_analyzer_collector_locale | default('en_GB.UTF-8') }}"
+    state: present
+
+- name: Set timezone to {{ iptv_analyzer_collector_timezone | default('Europe/Amsterdam') }}
+  timezone:
+    name: {{ iptv_analyzer_collector_timezone | default('Europe/Amsterdam') }}
+
+
+
 # Add system user for MariaDB
 - name: Create daemon group for collector
   group:
@@ -107,6 +141,17 @@
     home: "{{ iptv_analyzer_system_user.home }}"
     create_home: true
   become: true
+
+- name: set NTP server in {{ ntp_file }}
+  lineinfile: >
+   dest="{{ ntp_file }}"
+   state=present
+   backrefs=yes
+   regexp='^NTP='
+   line='NTP={% if iptv_analyzer_collector_ntp_server is defined and iptv_analyzer_collector_ntp_server|lengt>2 %}{{ iptv_analyzer_collector_ntp_server }}{% else %}pool.ntp.org{% endif %}'
+  with_items: "{{ env_file_path_vars }}"
+  become: true
+
 
 # Install packages
 - name: Update repositories cache and install collector packages

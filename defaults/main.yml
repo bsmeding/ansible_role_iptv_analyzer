@@ -55,6 +55,9 @@ iptv_analyzer_install_collector_force_reinstall: false    # If same version alre
 
 
 # Add host_vars for every collector:
+iptv_analyzer_collector_locale: en_GB.UTF-8
+iptv_analyzer_collector_timezone: Europe/Amsterdam
+iptv_analyzer_collector_ntp_server: ''
 iptv_analyzer_collector_ip_address: '127.0.0.1'
 iptv_analyzer_collector_location: 'local machine'
 iptv_analyzer_collector_shortloc: 'local'
