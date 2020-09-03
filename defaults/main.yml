@@ -59,6 +59,7 @@ iptv_analyzer_collector_locale: en_GB.UTF-8
 iptv_analyzer_collector_timezone: Europe/Amsterdam
 iptv_analyzer_collector_ntp_server: ''
 iptv_analyzer_collector_ip_address: '127.0.0.1'
+iptv_analyzer_collector_extra_startup_script: ''  # When defined, a custom startup script will be added, can be in files directory of role (not recommended as git will change) or in files directory on playbook dir
 iptv_analyzer_collector_location: 'local machine'
 iptv_analyzer_collector_shortloc: 'local'
 iptv_analyzer_collector_address: 'test street 1'
