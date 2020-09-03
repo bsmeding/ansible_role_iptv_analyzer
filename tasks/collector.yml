@@ -114,11 +114,12 @@
   locale_gen:
     name: "{{ iptv_analyzer_collector_locale | default('en_GB.UTF-8') }}"
     state: present
+  become: true
 
 - name: "Set timezone to {{ iptv_analyzer_collector_timezone | default('Europe/Amsterdam') }}"
   timezone:
     name: "{{ iptv_analyzer_collector_timezone | default('Europe/Amsterdam') }}"
-
+  become: true
 
 
 # Add system user for MariaDB
