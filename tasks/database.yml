@@ -201,6 +201,19 @@
   no_log: true
   when: iptv_analyzer_database_user is defined and iptv_analyzer_database_user|length>6 and iptv_analyzer_database_password is defined and iptv_analyzer_database_password|length>6
 
+- name: Add  user for Grafana
+  mysql_user:
+    name: "{{ iptv_analyzer_database_grafana_user | default('grafana') }}"
+    password: "{{ iptv_analyzer_database_grafana_password }}"
+    host: localhost
+    priv: "{{ iptv_analyzer_database_name }}.*:SELECT"
+    append_privs: "{{ item.append_privs|default('no') }}"
+    login_user: root
+    login_password: "{{ iptv_analyzer_database_root_password }}"
+    login_unix_socket: "{{ iptv_analyzer_database_mariadb_socket }}"
+    state: present
+  no_log: true
+  when: iptv_analyzer_database_user is defined and iptv_analyzer_database_user|length>6 and iptv_analyzer_database_password is defined and iptv_analyzer_database_password|length>6
 
 ## TODO: ADD USER FOR Grafana
 # Database User Permissions (Important!)

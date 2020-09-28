@@ -41,6 +41,8 @@ iptv_analyzer_database_frontend_port: 80
 iptv_analyzer_database_user: 'tvprobe'              # default user Min 6 characters!, please use seperate accounts, see iptv_analyzer_collectors.
 iptv_analyzer_database_password: 'tvprobepasswd'    # default user Min 6 characters!, please use seperate accounts, see iptv_analyzer_collectors
 iptv_analyzer_database_bind_address: '127.0.0.1'    # Defaults install to localhost 127.0.0.1.
+iptv_analyzer_database_grafana_user: 'grafana'
+iptv_analyzer_database_grafana_password: 'grafana'
 iptv_analyzer_database_name: 'tvprobe'
 iptv_analyzer_database_init_script: 'database-schema-latest.sql'
 iptv_analyzer_database_force_init_script: false     # Force the import of init script
