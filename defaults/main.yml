@@ -9,9 +9,9 @@ iptv_analyzer_git_repo_update: false
 iptv_analyzer_git_repo_force: false
 
 # Please install Grafana on forehand example: ansible-galaxy install cloudalchemy.grafana
-grafana_server: ''    # Grafana server
-grafana_server_install_dashboard: true   # Install IPTV dashboard on grafana server
-grafana_server_dashboard_path: ''
+# grafana_server: ''    # Grafana server
+# grafana_server_install_dashboard: true   # Install IPTV dashboard on grafana server
+# grafana_server_dashboard_path: ''
 
 iptv_analyzer_snmptraphost: 127.0.0.1   # used in /etc/iptv-analyzer/collector.conf
 iptv_analyzer_snmpcommunity: public     # used in /etc/iptv-analyzer/collector.conf
