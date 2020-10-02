@@ -71,6 +71,7 @@ iptv_analyzer_collector_switchport: 'e1/2'
 iptv_analyzer_collector_switchtype: 'Genexis'
 iptv_analyzer_collector_hidden: no
 iptv_analyzer_collector_interface: eth0       # used for rpbe: input rule_in_eth0 and input_dev and procfile
+iptv_analyzer_collector_interface_configure: False # When true, the main interface will be configured with IP below or DHCP when empty, use with precoution as this can result in connection loss if only one interface is used!
 iptv_analyzer_collector_interface_ipv4: ''    # if given, thant IPv4 will be set in /etc/interfaces.d/{{ file }}.cfg, otherwise DHCP will be used
 iptv_analyzer_collector_interface_dns_server: ''  # If Given this DNS IP will be used in /etc/dhcp/dhclient.conf otherwise use DNS from DHCP request
 iptv_analyzer_collector_interface_vlans: {}   # dict for subinterfaces with vlans
