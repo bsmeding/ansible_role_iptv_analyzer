@@ -494,7 +494,7 @@
           input[rule_in_ens33][input_ip]   = 192.168.16.42
           input[rule_in_ens33][input_dev]  = eth42
           /n
-        marker_end: '# Remember: Change to use complete path as the daemon chdir's to "/"'
+        marker_end: '# Remember: Change to use complete path as the daemon chdir''s to "/"'
         state: present
 
     - name: Copy log4perl.conf.sample to log4perl.conf
