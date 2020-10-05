@@ -478,8 +478,8 @@
       blockinfile:
         path: "/etc/iptv-analyzer/collector.conf"
         marker: "{mark}"
-        marker_begin: "# REQUIRED OPTIONS that identifies this input"
-        marker_end: "# Remember: Change to use complete path as the daemon chdir's to "/""
+        marker_begin: '# REQUIRED OPTIONS that identifies this input'
+
         block: |-
           input[rule_in_ens33][shortloc]  = {{ iptv_analyzer_collector_shortloc }}
           input[rule_in_ens33][switch]    = {{ iptv_analyzer_collector_switch }}
@@ -494,7 +494,7 @@
           input[rule_in_ens33][input_ip]   = 192.168.16.42
           input[rule_in_ens33][input_dev]  = eth42
           /n
-        marker_end: "# Remember: Change to use complete path as the daemon chdir's to "/""
+        marker_end: '# Remember: Change to use complete path as the daemon chdir's to "/"'
         state: present
 
     - name: Copy log4perl.conf.sample to log4perl.conf
