@@ -362,8 +362,8 @@
   # Add mysql user
   - name: Create the users for collector
     mysql_user:
-      name: "{{ iptv_analyzer_collector_db_password }}"
-      password: "{{ iptv_analyzer_collector_db_user }}"
+      name: "{{ iptv_analyzer_database_root_password }}"
+      password: "{{ iptv_analyzer_collector_db_password }}"
       host: "{{ inventory_hostname|default('localhost') }}"
       priv: "{{ iptv_analyzer_database_name }}.*:ALL"
       login_user: root
