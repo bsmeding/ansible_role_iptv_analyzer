@@ -456,11 +456,11 @@
         replace: "_{{ iptv_analyzer_collector_interface }}"
       when: iptv_analyzer_collector_interface != 'eth0'
 
-    # - name: Set collector.conf procfile
-    #   lineinfile:
-    #     path: "/etc/iptv-analyzer/collector.conf"
-    #     regexp: '^input[rule_in_eth0][procfile] = '
-    #     line: "input[rule_in_{{ iptv_analyzer_collector_interface }}][procfile]  = /proc/net/xt_mpeg2ts/rule_in_{{ iptv_analyzer_collector_interface }}"
+    - name: Set collector.conf procfile
+      lineinfile:
+        path: "/etc/iptv-analyzer/collector.conf"
+        regexp: '^input[rule_in_{{ iptv_analyzer_collector_interface }}][procfile] = '
+        line: "input[rule_in_{{ iptv_analyzer_collector_interface }}][procfile]  = /proc/net/xt_mpeg2ts/rule_in_{{ iptv_analyzer_collector_interface }}"
     #
     # - name: Set collector.conf shortloc
     #   lineinfile:
