@@ -485,15 +485,15 @@
           input[rule_in_ens33][switch]    = {{ iptv_analyzer_collector_switch }}
           #
           # Optional update-able config settings
-          input[rule_in_ens33][description]= Main signal
-          input[rule_in_ens33][distance]   = 2
-          input[rule_in_ens33][location]   = Serverrum A
-          input[rule_in_ens33][address]    = Herstedvang 42, 2620 Albertslund
-          input[rule_in_ens33][switchport] = e1/4
-          input[rule_in_ens33][switchtype] = HP9300
+          input[rule_in_ens33][description]= {{ iptv_analyzer_collector_description }}
+          input[rule_in_ens33][distance]   = {{ iptv_analyzer_collector_distance }}
+          input[rule_in_ens33][location]   = {{ iptv_analyzer_collector_location }}
+          input[rule_in_ens33][address]    = {{ iptv_analyzer_collector_address }}
+          input[rule_in_ens33][switchport] = {{ iptv_analyzer_collector_switchport }}
+          input[rule_in_ens33][switchtype] = {{ iptv_analyzer_collector_switchtype }}
           input[rule_in_ens33][input_ip]   = 192.168.16.42
           input[rule_in_ens33][input_dev]  = eth42
-          /n
+          ''
         marker_end: '# Remember: Change to use complete path as the daemon chdir''s to "/"'
         state: present
 
