@@ -467,30 +467,36 @@
     #     path: "/etc/iptv-analyzer/collector.conf"
     #     regexp: '^input[rule_in_{{ iptv_analyzer_collector_interface }}][shortloc]  ='
     #     line: "input[rule_in_{{ iptv_analyzer_collector_interface }}][shortloc]  = {{ iptv_analyzer_collector_shortloc }}"
-    #
+    - name: Set collector.conf shortloc
+      community.general.ini_file:
+        path: "/etc/iptv-analyzer/collector.conf"
+        option: "input[rule_in_{{ iptv_analyzer_collector_interface }}][shortloc]"
+        value: "{{ iptv_analyzer_collector_shortloc }}"
+        backup: yes
+
     # - name: Set collector.conf switch
     #   lineinfile:
     #     path: "/etc/iptv-analyzer/collector.conf"
     #     regexp: '^input[rule_in_{{ iptv_analyzer_collector_interface }}][switch]    ='
     #     line: "input[rule_in_{{ iptv_analyzer_collector_interface }}][switch]    = {{ iptv_analyzer_collector_switch }}"
 
-    - name: Set location
-      blockinfile:
-        path: "/etc/iptv-analyzer/collector.conf"
-        insertafter: "# REQUIRED OPTIONS that identifies this input"
-        block:
-          input[rule_in_ens33][shortloc]  = {{ iptv_analyzer_collector_shortloc }}
-          input[rule_in_ens33][switch]    = {{ iptv_analyzer_collector_switch }}
-          #
-          # Optional update-able config settings
-          input[rule_in_ens33][description]= Main signal
-          input[rule_in_ens33][distance]   = 2
-          input[rule_in_ens33][location]   = Serverrum A
-          input[rule_in_ens33][address]    = Herstedvang 42, 2620 Albertslund
-          input[rule_in_ens33][switchport] = e1/4
-          input[rule_in_ens33][switchtype] = HP9300
-          input[rule_in_ens33][input_ip]   = 192.168.16.42
-          input[rule_in_ens33][input_dev]  = eth42
+    # - name: Set location
+    #   blockinfile:
+    #     path: "/etc/iptv-analyzer/collector.conf"
+    #     insertafter: "# REQUIRED OPTIONS that identifies this input"
+    #     block:
+    #       input[rule_in_ens33][shortloc]  = {{ iptv_analyzer_collector_shortloc }}
+    #       input[rule_in_ens33][switch]    = {{ iptv_analyzer_collector_switch }}
+    #       #
+    #       # Optional update-able config settings
+    #       input[rule_in_ens33][description]= Main signal
+    #       input[rule_in_ens33][distance]   = 2
+    #       input[rule_in_ens33][location]   = Serverrum A
+    #       input[rule_in_ens33][address]    = Herstedvang 42, 2620 Albertslund
+    #       input[rule_in_ens33][switchport] = e1/4
+    #       input[rule_in_ens33][switchtype] = HP9300
+    #       input[rule_in_ens33][input_ip]   = 192.168.16.42
+    #       input[rule_in_ens33][input_dev]  = eth42
     - name: Copy log4perl.conf.sample to log4perl.conf
       command: "cp /etc/iptv-analyzer/log4perl.conf.sample  /etc/iptv-analyzer/log4perl.conf"
       when: not collector_config_stat.stat.exists or iptv_analyzer_install_collector_force_reinstall|bool
