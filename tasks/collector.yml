@@ -85,7 +85,7 @@
 
 # IGMPv2 for static joints
 - name: Check IGMPv2 for static joints
-  copy: content=2 dest="/proc/sys/net/ipv4/conf/eth0/force_igmp_version" unsafe_writes=true
+  copy: content=2 dest="/proc/sys/net/ipv4/conf/{{ iptv_analyzer_collector_interface }}/force_igmp_version" unsafe_writes=true
   become: true
 
 ## Firewall
