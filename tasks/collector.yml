@@ -436,6 +436,12 @@
         regexp: '^probe_name = '
         line: "probe_name = {{ inventory_hostname }}"
 
+    - name: Set collector.conf probe_ip
+      lineinfile:
+        path: "/etc/iptv-analyzer/collector.conf"
+        regexp: '^probe_ip = '
+        line: "probe_ip = {{ iptv_analyzer_collector_probe_ip  }}"
+
     - name: Set collector.conf snmptraphost
       lineinfile:
         path: "/etc/iptv-analyzer/collector.conf"
@@ -461,18 +467,6 @@
         path: "/etc/iptv-analyzer/collector.conf"
         regexp: '^input[rule_in_{{ iptv_analyzer_collector_interface }}][procfile] = '
         line: "input[rule_in_{{ iptv_analyzer_collector_interface }}][procfile]  = /proc/net/xt_mpeg2ts/rule_in_{{ iptv_analyzer_collector_interface }}"
-
-    # - name: Set collector.conf shortloc
-    #   lineinfile:
-    #     path: "/etc/iptv-analyzer/collector.conf"
-    #     regexp: '^input[rule_in_{{ iptv_analyzer_collector_interface }}][shortloc]  ='
-    #     line: "input[rule_in_{{ iptv_analyzer_collector_interface }}][shortloc]  = {{ iptv_analyzer_collector_shortloc }}"
-    #
-    # - name: Set collector.conf switch
-    #   lineinfile:
-    #     path: "/etc/iptv-analyzer/collector.conf"
-    #     regexp: '^input[rule_in_{{ iptv_analyzer_collector_interface }}][switch]    ='
-    #     line: "input[rule_in_{{ iptv_analyzer_collector_interface }}][switch]    = {{ iptv_analyzer_collector_switch }}"
 
     - name: Set location
       blockinfile:
