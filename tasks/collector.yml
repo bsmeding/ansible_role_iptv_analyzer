@@ -461,18 +461,18 @@
         path: "/etc/iptv-analyzer/collector.conf"
         regexp: '^input[rule_in_{{ iptv_analyzer_collector_interface }}][procfile] = '
         line: "input[rule_in_{{ iptv_analyzer_collector_interface }}][procfile]  = /proc/net/xt_mpeg2ts/rule_in_{{ iptv_analyzer_collector_interface }}"
-    #
-    # - name: Set collector.conf shortloc
-    #   lineinfile:
-    #     path: "/etc/iptv-analyzer/collector.conf"
-    #     regexp: '^input[rule_in_eth0][shortloc] = '
-    #     line: "input[rule_in_{{ iptv_analyzer_collector_interface }}][shortloc]  = {{ iptv_analyzer_collector_shortloc }}"
-    #
-    # - name: Set collector.conf switch
-    #   lineinfile:
-    #     path: "/etc/iptv-analyzer/collector.conf"
-    #     regexp: '^input[rule_in_eth0][switch] = '
-    #     line: "input[rule_in_{{ iptv_analyzer_collector_interface }}][switch]  = {{ iptv_analyzer_collector_switch }}"
+
+    - name: Set collector.conf shortloc
+      lineinfile:
+        path: "/etc/iptv-analyzer/collector.conf"
+        regexp: '^input[rule_in_{{ iptv_analyzer_collector_interface }}][shortloc]  = '
+        line: "input[rule_in_{{ iptv_analyzer_collector_interface }}][shortloc]  = {{ iptv_analyzer_collector_shortloc }}"
+
+    - name: Set collector.conf switch
+      lineinfile:
+        path: "/etc/iptv-analyzer/collector.conf"
+        regexp: '^input[rule_in_{{ iptv_analyzer_collector_interface }}][switch]    = '
+        line: "input[rule_in_{{ iptv_analyzer_collector_interface }}][switch]    = {{ iptv_analyzer_collector_switch }}"
 
     - name: Copy log4perl.conf.sample to log4perl.conf
       command: "cp /etc/iptv-analyzer/log4perl.conf.sample  /etc/iptv-analyzer/log4perl.conf"
