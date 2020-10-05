@@ -493,7 +493,7 @@
     force: true
     mode: u=rwx,g=rx,o=rx
   become: true
-  when: iptv_analyzer_collector_extra_startup_script is definded and iptv_analyzer_collector_extra_startup_script|length>6
+  when: iptv_analyzer_collector_extra_startup_script is defined and iptv_analyzer_collector_extra_startup_script|length>6
 
 - name: "Update service to autostart script {{ iptv_analyzer_collector_extra_startup_script }}"
   systemd:
