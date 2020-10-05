@@ -403,7 +403,7 @@
       lineinfile:
         path: "/etc/iptv-analyzer/collector.conf"
         regexp: '^probe_ip   = '
-        line: "probe_ip   = {{ ansible_default_ipv4.address }}"
+        line: "probe_ip   = {{ iptv_analyzer_collector_probe_ip }}"
 
 
     - name: Set collector.conf dbhost =
@@ -435,12 +435,6 @@
         path: "/etc/iptv-analyzer/collector.conf"
         regexp: '^probe_name = '
         line: "probe_name = {{ inventory_hostname }}"
-
-    - name: Set collector.conf probe_ip
-      lineinfile:
-        path: "/etc/iptv-analyzer/collector.conf"
-        regexp: '^probe_ip = '
-        line: "probe_ip = {{ iptv_analyzer_collector_probe_ip  }}"
 
     - name: Set collector.conf snmptraphost
       lineinfile:
