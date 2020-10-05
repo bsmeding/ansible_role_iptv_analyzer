@@ -410,7 +410,7 @@
       lineinfile:
         path: "/etc/iptv-analyzer/collector.conf"
         regexp: '^dbhost = '
-        line: "dbhost = {{ iptv_analyzer_database_server }}"
+        line: "dbhost = {{ iptv_analyzer_database_server_ip | default(iptv_analyzer_database_server[hostvars].default_ipv4.address) }}"
 
     - name: Set collector.conf dbname =
       lineinfile:
