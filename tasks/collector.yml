@@ -362,7 +362,7 @@
   # Add mysql user
   - name: Create the users for collector
     mysql_user:
-      name: "{{ iptv_analyzer_database_root_password }}"
+      name: "{{ iptv_analyzer_collector_db_user }}"
       password: "{{ iptv_analyzer_collector_db_password }}"
       host: "{{ inventory_hostname|default('localhost') }}"
       priv: "{{ iptv_analyzer_database_name }}.*:ALL"
@@ -372,6 +372,12 @@
       state: present
   #  no_log: true
     delegate_to: "{{ iptv_analyzer_database_server }}"
+    ignore_errors: true
+    register: add_db_user_to_central_server
+
+  - debug:
+      msg: "Could not add user to central server, please add user manually: {{ iptv_analyzer_collector_db_user }}, password: {{ iptv_analyzer_collector_db_password }} "
+    when: add_db_user_to_central_server.failed
 
   # Build the perl collector if no config exist
   - name: Check if config file exist
