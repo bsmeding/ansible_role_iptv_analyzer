@@ -33,7 +33,7 @@
   become: true
 ## END Set PATH ENVIRONMENT
 
-## SET INTERFACE NAMING (to eth)
+## SET INTERFACE NAMING (to eth)  !! TODO -> ens0 naar eth0 in /etc/network/interface
 - name: set interface naming in {{ interface_naming_varibale_setting }}
   lineinfile: >
    dest="{{ interface_naming_file }}"
@@ -81,6 +81,12 @@
     sysctl_set: yes
     state: present
     reload: yes
+  become: true
+
+- name: Check if interface directory exists
+  file:
+    path: "/proc/sys/net/ipv4/conf/{{ iptv_analyzer_collector_interface }}"
+    state: directory
   become: true
 
 # IGMPv2 for static joints
