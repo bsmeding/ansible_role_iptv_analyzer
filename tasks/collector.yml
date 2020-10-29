@@ -86,6 +86,7 @@
 - name: Check if interface directory exists
   file:
     path: "/proc/sys/net/ipv4/conf/{{ iptv_analyzer_collector_interface }}"
+    recurse: true
     state: directory
   become: true
 
