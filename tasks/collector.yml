@@ -381,6 +381,7 @@
       state: present
   #  no_log: true
     delegate_to: "{{ iptv_analyzer_database_server }}"
+    become: true
     failed_when: false
     register: add_db_user_to_central_server
 
