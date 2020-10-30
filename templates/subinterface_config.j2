@@ -1,5 +1,5 @@
 # Ansible Managed!
-allow-hotplug {{ iptv_analyzer_collector_interface }}.{{ item.key }}
+auto  {{ iptv_analyzer_collector_interface }}.{{ item.key }}
 {% if item.value.ipv4_cidr == 'dhcp' %}
 iface {{ iptv_analyzer_collector_interface }}.{{ item.key }} inet dhcp
 {% else %}

@@ -49,7 +49,6 @@
   become: true
   when: interface_naming_variabale.changed or iptv_analyzer_install_collector_force_reinstall == true
 
-
 - name: Set inteface config for {{ iptv_analyzer_collector_interface }}
   template:
     src: interface_config.j2
@@ -58,7 +57,7 @@
     group: root
     mode: '0644'
   become: true
-  when: iptv_analyzer_collector_interface_configure is defined and iptv_analyzer_collector_interface_configure|bool
+  when: iptv_analyzer_collector_interface_configure is defined and (iptv_analyzer_collector_interface != ansible_facts.default_ipv4.interface)
 ## REBOOT?
 
 ## Subinterfaces?
@@ -83,12 +82,13 @@
     reload: yes
   become: true
 
-- name: Check if interface directory exists
-  file:
-    path: "/proc/sys/net/ipv4/conf/{{ iptv_analyzer_collector_interface }}"
-    recurse: true
-    state: directory
-  become: true
+
+# - name: Check if interface directory exists
+#   file:
+#     path: "/proc/sys/net/ipv4/conf/{{ iptv_analyzer_collector_interface }}"
+#     recurse: true
+#     state: directory
+#   become: true
 
 # IGMPv2 for static joints
 - name: Check IGMPv2 for static joints

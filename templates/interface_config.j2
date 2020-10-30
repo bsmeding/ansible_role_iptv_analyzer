@@ -1,4 +1,14 @@
 # Ansible Managed!
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+source /etc/network/interfaces.d/*
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
 allow-hotplug {{ iptv_analyzer_collector_interface }}
 {% if iptv_analyzer_collector_interface_ipv4 is defined and iptv_analyzer_collector_interface_ipv4|length>6 %}
 iface {{ iptv_analyzer_collector_interface }} inet static
@@ -9,3 +19,5 @@ iface {{ iptv_analyzer_collector_interface }} inet static
 {% else %}
 iface {{ iptv_analyzer_collector_interface }} inet dhcp
 {% endif %}
+# This is an autoconfigured IPv6 interface
+#iface eno1 inet6 auto
