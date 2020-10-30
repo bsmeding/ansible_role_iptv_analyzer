@@ -376,13 +376,14 @@
       host: "{{ inventory_hostname|default('localhost') }}"
       priv: "{{ iptv_analyzer_database_name }}.*:ALL"
       login_user: root
+      login_host: "{{ iptv_analyzer_database_server }}"
       login_password: "{{ iptv_analyzer_database_root_password }}"
       login_unix_socket: "{{ iptv_analyzer_database_mariadb_socket }}"
       state: present
   #  no_log: true
-    delegate_to: "{{ iptv_analyzer_database_server }}"
+    delegate_to: localhost
     become: true
-    failed_when: false
+    #failed_when: false
     register: add_db_user_to_central_server
 
   - debug:
