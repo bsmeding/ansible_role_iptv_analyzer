@@ -468,7 +468,7 @@
         regexp: '(_eth0)'
         #replace: '\1new.host.name\2'
         replace: "_{{ iptv_analyzer_collector_interface }}"
-      when: iptv_analyzer_collector_interface != 'eth0'
+      #when: iptv_analyzer_collector_interface != 'eth0'
 
     - name: Set collector.conf procfile
       lineinfile:
