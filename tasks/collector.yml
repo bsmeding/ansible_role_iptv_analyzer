@@ -485,7 +485,7 @@
 
         block: |-
           input[rule_in_{{ iptv_analyzer_collector_interface }}][shortloc]  = {{ iptv_analyzer_collector_shortloc }}
-          input[rule_in_ens33][switch]    = {{ iptv_analyzer_collector_switch }}
+          input[rule_in_{{ iptv_analyzer_collector_interface }}][switch]    = {{ iptv_analyzer_collector_switch }}
           #
           # Optional update-able config settings
           input[rule_in_{{ iptv_analyzer_collector_interface }}][description]= {{ iptv_analyzer_collector_description }}
