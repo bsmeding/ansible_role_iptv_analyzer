@@ -348,10 +348,11 @@
 
   ## Above not working wel, the match with extra paramas are compiled to string (with quotes) that iptables cannot handle
   - name: Insmod IPtables module
-    shell: "iptables -t mangle -I PREROUTING -i {{ iptv_analyzer_collector_interface }} -p udp -m mpeg2ts --name in_{{ iptv_analyzer_collector_interface }}"
+    shell: "iptables -t mangle -I PREROUTING -i {{ iptv_analyzer_collector_interface_prerouting }} -p udp -m mpeg2ts --name in_{{ iptv_analyzer_collector_interface }}"
     register: prepare_iptables_prerouting
     become: true
     ignore_errors: true
+
   # if error check if this is because already in place, check (assert) this and go further or error
   - name: Check if error is valid
     assert:

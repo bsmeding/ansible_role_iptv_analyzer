@@ -79,6 +79,7 @@ iptv_analyzer_collector_input_dev: "{{ ansible_facts.default_ipv4.interface }}"
 iptv_analyzer_collector_interface: "{{ ansible_facts.default_ipv4.interface }}"     # used for rpbe: input rule_in_eth0 and input_dev and procfile
 iptv_analyzer_collector_interface_ipv4: ''    # if given, thant IPv4 will be set in /etc/interfaces.d/{{ file }}.cfg, otherwise DHCP will be used
 iptv_analyzer_collector_interface_dns_server: ''  # If Given this DNS IP will be used in /etc/dhcp/dhclient.conf otherwise use DNS from DHCP request
+iptv_analyzer_collector_interface_prerouting: "{{ iptv_analyzer_collector_interface }}"  # Used for prerouting mangele, defaults to interface but can be set to subinterface when needed
 iptv_analyzer_collector_interface_vlans: {}   # dict for subinterfaces with vlans
   # 100:
   #   name: internet    # name if sub interface
