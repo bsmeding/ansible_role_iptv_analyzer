@@ -52,13 +52,13 @@
 - name: Set inteface config for {{ iptv_analyzer_collector_interface }}
   template:
     src: interface_config.j2
-    dest: /etc/network/interfaces.d/{{ iptv_analyzer_collector_interface }}.conf
+    dest: /etc/network/interfaces
     owner: root
     group: root
     mode: '0644'
   become: true
   when: iptv_analyzer_collector_interface_configure is defined and (iptv_analyzer_collector_interface != ansible_facts.default_ipv4.interface)
-## REBOOT?
+
 
 ## Subinterfaces?
 - name: Set subinterface inteface config for {{ iptv_analyzer_collector_interface }}
@@ -72,6 +72,7 @@
   with_dict: "{{ iptv_analyzer_collector_interface_vlans }}"
   when: iptv_analyzer_collector_interface_vlans is defined and iptv_analyzer_collector_interface_vlans|length>0
   notify: Restart service networking
+## REBOOT?
 
 # Disbale IPv6
 - sysctl:
