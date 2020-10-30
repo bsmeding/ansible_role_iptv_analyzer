@@ -62,6 +62,7 @@ iptv_analyzer_install_collector_force_reinstall: false    # If same version alre
 iptv_analyzer_collector_locale: en_GB.UTF-8
 iptv_analyzer_collector_timezone: Europe/Amsterdam
 iptv_analyzer_collector_ntp_server: ''
+iptv_analyzer_collector_log4perl: false     # install log4perl config
 # IPTV Collector configuration /etc/iptv-analyzer/collector.conf
 iptv_analyzer_collector_probe_ip: "{{ ansible_facts.default_ipv4.address }}"
 iptv_analyzer_collector_extra_startup_script: ''  # When defined, a custom startup script will be added, can be in files directory of role (not recommended as git will change) or in files directory on playbook dir

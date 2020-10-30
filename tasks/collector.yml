@@ -502,7 +502,7 @@
 
     - name: Copy log4perl.conf.sample to log4perl.conf
       command: "cp /etc/iptv-analyzer/log4perl.conf.sample  /etc/iptv-analyzer/log4perl.conf"
-      when: not collector_config_stat.stat.exists or iptv_analyzer_install_collector_force_reinstall|bool
+      when: (not collector_config_stat.stat.exists or iptv_analyzer_install_collector_force_reinstall|bool) and iptv_analyzer_collector_log4perl|bool
 
     #Block  Build and set config for collector
     when: not collector_config_stat.stat.exists or iptv_analyzer_install_collector_force_reinstall|bool
