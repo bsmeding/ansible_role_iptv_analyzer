@@ -466,9 +466,9 @@
     - name: Set capture interface
       replace:
         path: "/etc/iptv-analyzer/collector.conf"
-        regexp: '(_eth0)'
+        regexp: '\[rule_in_[^]]*'
         #replace: '\1new.host.name\2'
-        replace: "_{{ iptv_analyzer_collector_interface }}"
+        replace: "[rule_in_{{ iptv_analyzer_collector_interface }}"
       #when: iptv_analyzer_collector_interface != 'eth0'
 
     - name: Set collector.conf procfile
