@@ -55,9 +55,6 @@ iptv_analyzer_database_force_init_script: false     # Force the import of init s
 iptv_analyzer_install_collector: true
 iptv_analyzer_install_collector_force_reinstall: false    # If same version already exist is is not reinstalled, except when true
 # -> see more variables in de vars directory of the role
-
-
-
 # Add host_vars for every collector:
 iptv_analyzer_collector_locale: en_GB.UTF-8
 iptv_analyzer_collector_timezone: Europe/Amsterdam
@@ -87,3 +84,7 @@ iptv_analyzer_collector_interface_vlans: {}   # dict for subinterfaces with vlan
   #   ipv4_cidr: dhcp   # use IPv4 cidr as 192.168.1.10/24 or use dhcp
 iptv_analyzer_collector_db_user: probe1
 iptv_analyzer_collector_db_password: password1
+
+
+# USe SMC Route to join multicast streams. Use package smcroute: https://github.com/troglobit/smcroute
+iptv_analyzer_collector_install_smcroute: false

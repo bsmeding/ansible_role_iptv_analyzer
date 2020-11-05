@@ -1,0 +1,42 @@
+---
+# Install  SMCRoute to join channels
+
+
+#iptv_analyzer_collector_install_smcroute
+- name: install smcroute
+  package:
+    name: smcroute
+    state: present
+  become: true
+
+- name: Check that VPN IP address is active
+  assert:
+    that: ansible_wg0.ipv4.address is defined
+
+# - name: Check if smcroute.conf.j2 exists
+#   stat:
+#     path: "{{ playbook_dir }}/templates/etc/smcroute.conf.j2"
+#   register: stat_result_snmd_conf
+#   delegate_to: localhost
+
+- name: Copy template to device
+  template:
+    src: etc/smcroute.conf.j2"
+    dest: /etc/smcroute.conf
+  register: template_changed
+  become: true
+# Copy template to device
+
+- name: Restart smcroute service
+  service:
+    name: smcroute
+    state: restarted
+  when: template_changed.changed
+  become: true
+
+- name: Start snmpd service
+  service:
+    name: smcroute
+    state: started
+  when: not template_changed.changed
+  become: true

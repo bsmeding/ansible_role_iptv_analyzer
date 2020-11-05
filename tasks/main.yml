@@ -9,7 +9,7 @@
     - "{{ ansible_distribution }}.yml"
     - "{{ ansible_os_family }}.yml"
     - "default.yml"
-    
+
 # Install database
 - name: Include database tasks
   include_tasks: database.yml
@@ -25,3 +25,7 @@
 - name: Include tasks for collector
   include_tasks: collector.yml
   when: iptv_analyzer_install_collector|bool
+
+- name: Include tasks for collector snmcroute
+  include_tasks: collector_smcroute.yml
+  when: iptv_analyzer_collector_install_smcroute|bool
