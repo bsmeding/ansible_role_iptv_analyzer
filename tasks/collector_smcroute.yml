@@ -21,10 +21,13 @@
 
 - name: Copy template to device
   template:
-    src: etc/smcroute.conf.j2"
+    src: etc/smcroute.conf.j2
     dest: /etc/smcroute.conf
-  register: template_changed
+    owner: root
+    group: root
+    mode: '0644'
   become: true
+  register: template_changed
 # Copy template to device
 
 - name: Restart smcroute service
