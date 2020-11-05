@@ -373,7 +373,8 @@
     mysql_user:
       name: "{{ iptv_analyzer_collector_db_user }}"
       password: "{{ iptv_analyzer_collector_db_password }}"
-      host: "{{ ansible_facts.ansible_wg0.ipv4.address|default(inventory_hostname) }}"
+      #host: "{{ ansible_facts.ansible_wg0.ipv4.address|default(inventory_hostname) }}"
+      host: "{{ ansible_facts.ansible_wg0.ipv4.address }}"
       priv: "{{ iptv_analyzer_database_name }}.*:ALL"
       login_user: root
       login_host: "{{ iptv_analyzer_database_server }}"
