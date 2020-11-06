@@ -40,7 +40,7 @@
     mode: '0644'
   become: true
   register: template_changed
-  when: channel_to_join_smcroute is defined and channel_to_join_smcroute.rowcount>0
+  when: channel_to_join_smcroute is defined and (channel_to_join_smcroute.rowcount | int) >0
 # Copy template to device
 
 - name: Restart smcroute service
