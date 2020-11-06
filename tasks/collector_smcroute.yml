@@ -18,6 +18,17 @@
 #     path: "{{ playbook_dir }}/templates/etc/smcroute.conf.j2"
 #   register: stat_result_snmd_conf
 #   delegate_to: localhost
+- name: Create the users for collector
+  community.mysql.mysql_query:
+    login_user: root
+    login_host: "{{ iptv_analyzer_database_server }}"
+    login_password: "{{ iptv_analyzer_database_root_password }}"
+    login_unix_socket: "{{ iptv_analyzer_database_mariadb_socket }}"
+    query: "{{ iptv_analyzer_collector_mysql_query }}"
+#  no_log: true
+  delegate_to: localhost
+  become: true
+  register: add_db_user_to_central_server
 
 - name: Copy template to device
   template:

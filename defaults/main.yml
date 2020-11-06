@@ -88,3 +88,4 @@ iptv_analyzer_collector_db_password: password1
 
 # USe SMC Route to join multicast streams. Use package smcroute: https://github.com/troglobit/smcroute
 iptv_analyzer_collector_install_smcroute: false
+iptv_analyzer_collector_mysql_query: "SELECT * FROM channels WHERE monitor='1' AND channel_proto = 'udp';"
