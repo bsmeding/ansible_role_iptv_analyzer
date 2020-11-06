@@ -28,8 +28,8 @@
   become: true
   register: channel_to_join_smcroute
 
-- debug:
-    var: channel_to_join_smcroute
+# - debug:
+#     var: channel_to_join_smcroute
 
 - name: Copy template to device
   template:
