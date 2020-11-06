@@ -50,7 +50,9 @@
 ## mgroup from eth0                     group 225.1.2.3
 ## mroute from eth0 source 192.168.1.42 group 225.1.2.3 to eth1 eth2
 #mgroup from eth0 group 225.1.2.3
-
+{% for channel in channel_to_join_smcroute.query_result[0] %}
+mgroup from {{ iptv_analyzer_collector_interface_prerouting | default(iptv_analyzer_collector_interface) }} group {{ channel.channel_ip }}
+{% endfor %}
 
 # Similar example, but using source-specific group join
 ## mgroup from virbr0 source 192.168.123.110 group 225.1.2.4

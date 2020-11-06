@@ -13,6 +13,8 @@
 #   assert:
 #     that: ansible_wg0.ipv4.address is defined
 
+# AND CHECK DB SETTINGS AVAILABLE!
+
 - name: Get channels to join
   community.mysql.mysql_query:
     login_user: root
@@ -38,6 +40,7 @@
     mode: '0644'
   become: true
   register: template_changed
+  when: channel_to_join_smcroute is defined and channel_to_join_smcroute.rowcount>0
 # Copy template to device
 
 - name: Restart smcroute service
