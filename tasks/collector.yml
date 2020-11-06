@@ -370,7 +370,7 @@
 
   # Add mysql user
   - name: Create the users for collector
-    community.mysql.mysql_query:
+    community.mysql.mysql_user:
       name: "{{ iptv_analyzer_collector_db_user }}"
       password: "{{ iptv_analyzer_collector_db_password }}"
       host: "{{ ansible_wg0.ipv4.address|default(inventory_hostname) }}"
@@ -380,7 +380,7 @@
       login_password: "{{ iptv_analyzer_database_root_password }}"
       login_unix_socket: "{{ iptv_analyzer_database_mariadb_socket }}"
       state: present
-  #  no_log: true
+    no_log: true
     delegate_to: localhost
     become: true
     #failed_when: false
