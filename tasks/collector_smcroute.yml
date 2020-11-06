@@ -9,16 +9,11 @@
     state: present
   become: true
 
-- name: Check that VPN IP address is active
-  assert:
-    that: ansible_wg0.ipv4.address is defined
+# - name: Check that VPN IP address is active
+#   assert:
+#     that: ansible_wg0.ipv4.address is defined
 
-# - name: Check if smcroute.conf.j2 exists
-#   stat:
-#     path: "{{ playbook_dir }}/templates/etc/smcroute.conf.j2"
-#   register: stat_result_snmd_conf
-#   delegate_to: localhost
-- name: Create the users for collector
+- name: Get channels to join
   community.mysql.mysql_query:
     login_user: root
     login_host: "{{ iptv_analyzer_database_server }}"
@@ -28,7 +23,10 @@
 #  no_log: true
   delegate_to: localhost
   become: true
-  register: add_db_user_to_central_server
+  register: channel_to_join_smcroute
+
+- debug:
+    var: channel_to_join_smcroute
 
 - name: Copy template to device
   template:
