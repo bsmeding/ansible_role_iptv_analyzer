@@ -17,6 +17,7 @@
   community.mysql.mysql_query:
     login_user: root
     login_host: "{{ iptv_analyzer_database_server }}"
+    login_db: "{{ iptv_analyzer_collector_mysql_query_database }}"
     login_password: "{{ iptv_analyzer_database_root_password }}"
     login_unix_socket: "{{ iptv_analyzer_database_mariadb_socket }}"
     query: "{{ iptv_analyzer_collector_mysql_query }}"
