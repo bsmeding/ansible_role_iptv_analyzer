@@ -2,12 +2,12 @@
 auto  {{ iptv_analyzer_collector_interface }}.{{ item.key }}
 {% if item.value.ipv4_cidr == 'dhcp' %}
 iface {{ iptv_analyzer_collector_interface }}.{{ item.key }} inet dhcp
-{% if item.metric is defined %}    metric: {{ item.metric }}{% endif %}
+{% if item.value.metric is defined %}    metric: {{ item.value.metric }}{% endif %}
 {% else %}
 iface {{ iptv_analyzer_collector_interface }}.{{ item.key }} inet static
     address   {{ item.value.ipv4_cidr | ipaddr('address') }}
     network   {{ item.value.ipv4_cidr | ipaddr('network') }}
     netmask   {{ item.value.ipv4_cidr | ipaddr('netmask') }}
     broadcast {{ item.value.ipv4_cidr | ipaddr('broadcast') }}
-    {% if item.metric is defined %}metric: {{ item.metric }}{% endif %}
+    {% if item.value.metric is defined %}    metric: {{ item.value.metric }}{% endif %}
 {% endif %}
