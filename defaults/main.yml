@@ -82,6 +82,7 @@ iptv_analyzer_collector_interface_vlans: {}   # dict for subinterfaces with vlan
   # 100:
   #   name: internet    # name if sub interface
   #   ipv4_cidr: dhcp   # use IPv4 cidr as 192.168.1.10/24 or use dhcp
+  #   metric: 100       # optional give metric
 iptv_analyzer_collector_db_user: probe1
 iptv_analyzer_collector_db_password: password1
 
