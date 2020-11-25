@@ -2,7 +2,7 @@
 auto  {{ iptv_analyzer_collector_interface }}.{{ item.key }}
 {% if item.value.ipv4_cidr == 'dhcp' %}
 iface {{ iptv_analyzer_collector_interface }}.{{ item.key }} inet dhcp
-{% if item.value.metric is defined %}    metric: {{ item.value.metric }}{% endif %}
+{% if item.value.metric is defined %}    metric {{ item.value.metric }}{% endif %}
 {% else %}
 iface {{ iptv_analyzer_collector_interface }}.{{ item.key }} inet static
     address   {{ item.value.ipv4_cidr | ipaddr('address') }}
