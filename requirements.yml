@@ -2,4 +2,4 @@ src: cloudalchemy.grafana
 
 collections:
   - name: community.grafana
-    version: v0.1.0
+    version: 2.3.0
